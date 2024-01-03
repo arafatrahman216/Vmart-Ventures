@@ -9,6 +9,7 @@ router.use(cors());
 app.use(cors());
 app.options('*', cors());
 app.set('view engine', 'ejs');
+app.set('views', '');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(router);
@@ -73,7 +74,7 @@ app.get('/employee/all/:id', async (req, res) => {
         }
     }
     );
-    if (result) res.status(200).json(new_result)
+    if (result) res.render('index.ejs', {result: new_result});
     else res.status(404).send(`<h1> Employee with id ${id} not found </h1>`);
     // res.status(200).sendFile(filePath);
     // res.send();
