@@ -1,0 +1,232 @@
+
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="icon" type="image/x-icon" href="/images/login.png">
+    <link rel="stylesheet" href="public/login.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="whole">
+        <!-- <header>
+            <div>
+                <img src="images/vmart_ventures_main_black_poster.jpeg" style="width: 100%; height: 150px; position: sticky; top: 0px;" alt="logo" >
+            </div>
+        </header> -->
+    <div class="container">
+        <div >
+            <img  src="images/vmart_ventures_main_black_poster.jpeg"  class="logo" alt="logo" >
+        </div>
+        <hr>
+        <br>
+        <div>
+            <table id="buttontable">
+                <tr>
+                    <td style="width: 50%; "><button type="button" onclick="onCustclick()" id="Customer"  onmouseover="RedButton(Customer)" onmouseout="BlueButton(Customer)" > Customer </button></td>
+                    <td style="width: 50%;"><button type="button" onclick="onSellerclick()" id="Seller"  onmouseover="RedButton(Seller)" onmouseout="BlueButton(Seller)" > Seller </button></td>
+                </tr>
+
+            </table>
+        </div>
+        <div >
+            
+            
+            <img  src="images/login.png" class="images"  width="100px" alt="Avatar" >
+        </div>
+        <form  name="myForm" id = "myForm" action="/employee/result" method="post" enctype="multipart/form-data" >
+            <h2>Customer</h2>
+            <label for="Email" >Email id :</label>
+            <br>
+            <img src="images/email.png" id="eye" alt="eye" class="icon" >
+
+            <% result.forEach(function(data){ %>
+                <p><%= data.EMAIL %></p>
+            <% }) %>
+
+            <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            <label for="password">Password:</label>
+            <br>
+            <img src="images/password.png" id="eye" alt="eye" class="icon" >
+            <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <div id="showInfo" > <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a> </div>
+            <div id="button-container">
+            <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
+            <button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button>
+            </div>
+        </form>
+        <form  name="myForm2" style="display: none;"  id = "myForm2" action="/employee/result" method="post" enctype="multipart/form-data" >
+            <h2>Seller</h2>
+            <label for="Email" >Email id :</label>
+            <br>
+            <img src="images/email.png" id="eye" alt="eye" class="icon" >
+            <input type="email" style="color: #ffffff; " id="username2" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            <label for="password">Password:</label>
+            <br>
+            <img src="images/password.png" id="eye" alt="eye" class="icon" >
+            <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> </div>
+            <div id="button-container">
+            <button type="submit" id="login2" onmouseover="mouseover(login2)" onmouseout="mouseout(login2)" onclick="getinfo()" >Login</button>
+            <button type="button" id="button2" onmouseover="mouseover(button2)" onmouseout="mouseout(button2)" onclick="showInfos(showInfo2)">Sign-Up</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <hr>
+        <div>
+            <table id="foot" style="float: right;">
+                <th style=" text-align: center; color: #ffffff; font-family:monospace; font-size: large;">VMart Ventures</th>
+                <tr class="tableheader">
+                    <td style="width: 250px; " >Customer Care</td>
+                    <td style="width: 250px;">Vmart Ventures</td>
+                    <td style="width: 250px;">About Us</td>
+                </tr>
+                
+                <tr class="tablerow">
+                    <td style="width: 250px; " >Help Center</td>
+                    <td style="width: 250px;">About Vmart Ventures</td>
+                    <td style="width: 250px;"><a target="_blank" class="fblink" id="arafatfb" onmouseover="linkHover(arafatfb)" onmouseout="linkHoverOut(arafatfb)"  href="https://www.facebook.com/arafat.rahman.160216">Arafat Rahman
+                        <img id="hoveringImg"  src="images/user.png" alt="facebook" class="profile" >
+                    </a></td>
+                    
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >How to Buy</td>
+                    <td class="tabledata" >Digital payments</td>
+                    <td class="tabledata" ><a id="omifb" class="fblink" onmouseover="linkHover(omifb)" onmouseout="linkHoverOut(omifb)" target="_blank" href="https://www.facebook.com/tahmidulislam.omi">Tahmidul Islam Omi</a></td>
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >Terms and Conditions</td>
+                    <td class="tabledata" >Privacy Policy</td>
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >Your Orders</td>
+                    <td class="tabledata" >Your Account</td>
+                    <td class="tabledata" ></td>
+                </tr>
+            </table>
+        </div>              
+            <p style="font-family:'Times New Roman', Times, serif; font-size: medium;">Contact us :</p>
+            <a href="https://www.facebook.com/"><img src="images/facebook.png" alt="facebook" class="icon" ></a>
+            <a href="https://www.instagram.com/"><img src="images/instagram.png" alt="instagram" class="icon" ></a>
+            <a href="mailto: arafatrahman219@gmail.com"><img src="images/gmail.png" alt="mailto Arafat" class="icon" >Arafat</a>
+            <a href="mailto: tahmidulislamomi09@gmail.com"><img src="images/gmail.png" alt="mailto Omi" class="icon" >Omi</a>
+            <a href="https://github.com/Tahmidul-Islam-Omi/Vmart-Ventures"><img src="images/github.png" alt="github" class="icon" ></a>
+            <p style="font-family:'Times New Roman', Times, serif; font-size: small;">&copy2024 Vmart Ventures. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
+<script>
+    const mouseover= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "red";
+        // butt.style.width="45%"
+        // butt.style.height="40px"
+    }
+    const mouseout= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+        // butt.style.width="40%"
+        // butt.style.height="35px"
+    }
+    const onCustclick= ()=>
+    {
+        document.getElementById("myForm").style.display="block";
+        document.getElementById("myForm2").style.display="none";
+        var s=document.getElementById("myForm").style.display;
+        // document.getElementById("username").innerText= s;
+
+    }
+    const onSellerclick= ()=>
+    {
+        document.getElementById("myForm2").style.display="block";
+        document.getElementById("myForm").style.display="none";
+    }
+
+
+    const RedButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "red";
+        
+        
+    }
+    const BlueButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+    }
+
+    // const {db_query} = require('./index.js');
+
+    const getinfo= async()=>
+    {
+        const options ={
+            method: 'GET'
+        };
+        const url= "http://localhost:5000/employee/login"
+        const response= await fetch(url,options)
+        const data= await response.json()
+        console.log(data);
+        const show= document.getElementById("showInfo")
+        const username= document.getElementById("username").value
+        const password= document.getElementById("password").value
+        if (username!=="") showInfo.innerText= username
+        if (password!=="") var para= document.createElement("p")
+        para.innerText= password
+        showInfo.appendChild(para)
+
+    }
+    const  showInfos= async(showInfo)=>
+    {
+        // const showInfo= document.getElementById(showInfo2)
+        const username= document.getElementById("username").value
+        if (username!=="") showInfo.innerText= username+", Please contact your admin to reset your password"
+        else showInfo.innerText= "Please contact your admin to sign up"
+        const password= document.getElementById("password").value
+        if (username!=="") showInfo.innerText= username
+        if (password!=="") var para= document.createElement("p")
+        para.innerText= password
+        showInfo.appendChild(para)
+        const options ={
+            method: 'GET'
+        };
+        const url= "http://localhost:5000/employee/login"
+        const response= await fetch(url,options)
+        const myjson= await response.json()
+        var ppp=document.createElement("p")
+        ppp.innerText= 'All Employees'
+        showInfo.appendChild(ppp)
+    }
+
+    const linkHover=(links)=>
+    {
+        var img= document.getElementById("hoveringImg");
+        var yy= document.getElementById("username");
+        img.style.display= "inline-block";    
+        yy.value= links.innerText;
+        if (links.innerText==="Arafat Rahman") {
+            yy.value= "arafatrahman219@gmail.com";
+            img.src= "images/arafatFB.jpg";
+        }
+        else if (links.innerText==="Tahmidul Islam Omi") {
+            yy.value= "tahmidulislamomi09@gmail.com";
+            img.src= "images/omiFB.jpg";
+        }
+        links.style.color= "blue";
+    }
+    const linkHoverOut=(links)=>
+    {
+        var img= document.getElementById("hoveringImg");
+        img.style.display= "none";
+        links.style.color= "#a8fa05f3";
+    }
+
+</script>
