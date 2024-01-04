@@ -7,16 +7,20 @@
     background-size: 100%;
     background-attachment:fixed;
     background-position: center;
+    
 }
 body {
     font-family: Arial, sans-serif;
     background-color: #5a336b;
+    margin: 0 0;
+    padding: 0;
 }
 h1 {
     color: rgb(96, 232, 51);
     font-weight: bold;
     text-align: center  ;
     text-rendering: auto;
+    
 }
 input::placeholder {
     font-weight: normal;
@@ -99,6 +103,7 @@ input[type="password"] {
 
 button {
     background-color: #4CAF50;
+    /* background-color: grey; */
     color: white;
     padding: 10px 10px;
     margin-top: auto;
