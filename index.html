@@ -36,37 +36,47 @@
             <img  src="images/login.png" class="images"  width="100px" alt="Avatar" >
         </div>
         <form  name="myForm" id = "myForm" action="/employee/result" method="post" enctype="multipart/form-data" >
-            <h2>Customer</h2>
+            <h2>Login as a Customer</h2>
             <label for="Email" >Email id :</label>
             <br>
             <div id="InBox" >
             <img src="images/email.png" id="eye" alt="eye" class="icon" >
             <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
             </div>
-            <label for="password">Password:</label>
+                <label for="password">Password:</label>
             <br>
             <div id="InBox"  >
-            <img src="images/password.png" id="eye" alt="eye" class="icon" >
-            <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                <img src="images/password.png" id="eye" alt="eye" class="icon" >
+                <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
             </div>
             <br>
-            <div id="showInfo" > <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a> </div>
+            <div id="showInfo" >
+                 <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a>
+                <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
+            </div>
             <div id="button-container">
-            <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
-            <button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button>
+                <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
+                <button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button>
             </div>
         </form>
         <form  name="myForm2" style="display: none;"  id = "myForm2" action="/employee/result" method="post" enctype="multipart/form-data" >
-            <h2>Seller</h2>
+            <h2>Login as a Seller</h2>
             <label for="Email" >Email id :</label>
             <br>
-            <img src="images/email.png" id="eye" alt="eye" class="icon" >
-            <input type="email" style="color: #ffffff; " id="username2" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            <div id="InBox"  >
+                <img src="images/email.png"  id="eye" alt="eye" class="icon" >
+                <input type="email" style="color: #ffffff; " id="username2" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            </div>
             <label for="password">Password:</label>
             <br>
-            <img src="images/password.png" id="eye" alt="eye" class="icon" >
-            <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
-            <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> </div>
+            <div id="InBox"  >
+                <img src="images/password.png" id="eye" alt="eye" class="icon" >
+                <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+            <br>
+            <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> 
+            <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
+            </div>
             <div id="button-container">
             <button type="submit" id="login2" onmouseover="mouseover(login2)" onmouseout="mouseout(login2)" onclick="getinfo()" >Login</button>
             <button type="button" id="button2" onmouseover="mouseover(button2)" onmouseout="mouseout(button2)" onclick="showInfos(showInfo2)">Sign-Up</button>
@@ -140,7 +150,9 @@
     {
         document.getElementById("myForm").style.display="block";
         document.getElementById("myForm2").style.display="none";
-        var s=document.getElementById("myForm").style.display;
+        document.getElementById("Customer").style.border="2px solid #ffffff";
+        document.getElementById("Seller").style.border="none";
+
         // document.getElementById("username").innerText= s;
 
     }
@@ -148,6 +160,8 @@
     {
         document.getElementById("myForm2").style.display="block";
         document.getElementById("myForm").style.display="none";
+        document.getElementById("Seller").style.border="2px solid #ffffff";
+        document.getElementById("Customer").style.border="none";
     }
 
 
@@ -184,12 +198,23 @@
         showInfo.appendChild(para)
 
     }
+
     const  showInfos= async(showInfo)=>
     {
         // const showInfo= document.getElementById(showInfo2)
         const username= document.getElementById("username").value
-        if (username!=="") showInfo.innerText= username+", Please contact your admin to reset your password"
-        else showInfo.innerText= "Please contact your admin to sign up"
+        if (username!=="") 
+        {
+            var paragraph= document.createElement("p")
+            paragraph.innerText= username+", Please contact your admin to reset your password"
+            showInfo.appendChild(paragraph)
+        }
+        else 
+        {
+            var paragraph= document.createElement("p")
+            paragraph.innerText= "Please contact your admin to sign up"
+            showInfo.appendChild(paragraph)
+        }
         const password= document.getElementById("password").value
         if (username!=="") showInfo.innerText= username
         if (password!=="") var para= document.createElement("p")
