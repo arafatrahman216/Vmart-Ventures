@@ -4,7 +4,7 @@ const app = express();
 // const router= require('express-promise-router')();
 const router= express.Router();
 const cors = require('cors'); 
-router.use(express.static('images'));
+app.use(express.static('images'));
 router.use(cors());
 app.use(cors());
 app.options('*', cors());
@@ -14,6 +14,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(router);
 app.use(express.static('public'));  
+app.use(express.urlencoded({ extended: false }));
 
 
 const db_query= require('./database/connection');
