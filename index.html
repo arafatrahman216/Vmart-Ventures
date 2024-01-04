@@ -39,12 +39,17 @@
             <h2>Customer</h2>
             <label for="Email" >Email id :</label>
             <br>
+            <div id="InBox" >
             <img src="images/email.png" id="eye" alt="eye" class="icon" >
             <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            </div>
             <label for="password">Password:</label>
             <br>
+            <div id="InBox"  >
             <img src="images/password.png" id="eye" alt="eye" class="icon" >
             <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+            <br>
             <div id="showInfo" > <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a> </div>
             <div id="button-container">
             <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
