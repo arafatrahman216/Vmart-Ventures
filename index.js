@@ -66,7 +66,7 @@ app.get('/employee/all/:id', async (req, res) => {
     const new_result=result.map((item)=>{
         return {
             "EMPLOYEE_ID": item.EMPLOYEE_ID,
-            "FULL NAME": item.FIRST_NAME+" "+item.LAST_NAME,
+            "FULL_NAME": item.FIRST_NAME+" "+item.LAST_NAME,
             "EMAIL": lowerCase(item.EMAIL)+"@gmail.com",
             "PHONE_NUMBER": item.PHONE_NUMBER,
             "DEPARTMENT_ID": item.DEPARTMENT_ID

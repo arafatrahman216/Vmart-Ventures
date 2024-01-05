@@ -27,17 +27,17 @@ var user_name="";
 const authorize= async (email, password)=>{
     
     if (email==="" || password==="") return false;
-    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE EMAIL=\"${email}\" AND PASSWORD=\"${password}\"`;
+    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE\'${password}\'`;
     const params=[];
-    const result= await db_query(query,params);
+    const result= await db_query(query,params); 
     if(result){
-        var {NAME}= result[0];
+        var {NAME}= result.row[0];
         user_name=NAME;
-        authorized=2;
+        authorized=2;//authorized
         return true;
     }
     else{
-        authorized=1;
+        authorized=1; //unauthorized
         console.log(Date.now());
         console.log(user_name);
         console.log(password);
@@ -68,7 +68,7 @@ app.get('/employee/all/:id', async (req, res) => {
     const new_result=result.map((item)=>{
         return {
             "EMPLOYEE_ID": item.EMPLOYEE_ID,
-            "FULL NAME": item.FIRST_NAME+" "+item.LAST_NAME,
+            "FULL_NAME": item.FIRST_NAME+" "+item.LAST_NAME,
             "EMAIL": lowerCase(item.EMAIL)+"@gmail.com",
             "PHONE_NUMBER": item.PHONE_NUMBER,
             "DEPARTMENT_ID": item.DEPARTMENT_ID
@@ -82,18 +82,18 @@ app.get('/employee/all/:id', async (req, res) => {
     console.log(result);
 });
 app.get('/employee/login', async (req, res) => {
-
-
         const filePath = path.join(__dirname, 'index.html');
         // console.log(req.body);
         console.log(req.query);
-        res.sendFile(filePath);
+        // res.sendFile(filePath);
+        res.render('index', { title: 'Hey', message: 'Hello there!' })
         if (req.query.username==null || req.query.password==null) {
             console.log("null");
             return;
         }
-        if (req.query.username==="" || req.query.password==="") return;
-        // authorize(req.query.username,req.query.password);
+        // if (req.query.username==="" || req.query.password==="") return;
+        authorize(req.query.username,req.query.password);
+        console.log(authorized);
         console.log('hi');
     }
 );
