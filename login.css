@@ -52,7 +52,7 @@ a{
     border-radius: 30px;
     box-shadow:3px 3px 10px rgba(0, 0, 0, 0.1);
     visibility:visible;
-    animation: glowing 10s ease-in-out infinite ;
+    /* animation: glowing 10s ease-in-out infinite ; */
     /* animation-iteration-count: infinite; */
 
 }

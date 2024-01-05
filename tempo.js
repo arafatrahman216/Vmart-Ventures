@@ -13,7 +13,7 @@ app.set('views', '');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(router);
-app.use(express.static('public'));  
+// app.use(express.static('public'));  
 app.use(express.urlencoded({ extended: false }));
 
 
@@ -75,7 +75,7 @@ app.get('/employee/all/:id', async (req, res) => {
         }
     }
     );
-    if (result) res.render('index.ejs', {result: new_result});
+    if (result) res.send({result: new_result});
     else res.status(404).send(`<h1> Employee with id ${id} not found </h1>`);
     // res.status(200).sendFile(filePath);
     // res.send();
