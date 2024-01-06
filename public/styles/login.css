@@ -2,7 +2,7 @@
 
 .whole{
     background-color: #5a336b;
-    background-image: url("images/homeBG.jpg");
+    background-image: url("../images/login/homeBG.jpg");
     background-repeat: no-repeat;
     background-size: 100%;
     background-attachment:fixed;
