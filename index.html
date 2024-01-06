@@ -4,6 +4,7 @@
     <title>Login Page</title>
     <link rel="icon" type="image/x-icon" href="/images/login.png">
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
@@ -48,6 +49,8 @@
             <div id="InBox"  >
                 <img src="images/password.png" id="eye" alt="eye" class="icon" >
                 <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                <!-- eye icon for password showing -->
+                <i class="far fa-eye" id="togglePassword" style=" cursor: pointer;"></i>
             </div>
             <br>
             <div id="showInfo" >
@@ -133,6 +136,21 @@
 
 
 <script>
+
+    //this code is for the eye icon on and off for password (bootstrap)
+    const togglePassword = document.querySelector('#togglePassword');
+    let password = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+        
+
+    });
+
     const mouseover= (butt)=>
     {
         // var butt= document.getElementById("login");

@@ -84,8 +84,8 @@ h2 {
 }
 
 input[type="email"],
-input[type="password"] {
-    width: 85%;
+input[type="password"],input[type="text"] {
+    width: 78%;
     padding-left: 0;
     padding-right: 0;
     font-family: sans-serif;
