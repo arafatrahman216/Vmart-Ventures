@@ -4,15 +4,15 @@ const app = express();
 // const router= require('express-promise-router')();
 const router= express.Router();
 const cors = require('cors'); 
-app.use(express.static('images'));
+app.use(express.static('public'));
 router.use(cors());
 app.use(cors());
 app.options('*', cors());
 app.set('view engine', 'ejs');
-app.set('views', '');
+app.set('views', 'public/pages');
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(router);
+app.use('/',router);
 // app.use(express.static('public'));  
 app.use(express.urlencoded({ extended: false }));
 

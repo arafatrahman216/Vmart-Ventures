@@ -1,8 +1,10 @@
 <html>
 <head>
     <title>Login Page</title>
-    <link rel="icon" type="image/x-icon" href="/images/login.png">
-    <link rel="stylesheet" href="login.css">
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="../images/login/login.png">
+    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
@@ -14,11 +16,11 @@
                 <img src="images/vmart_ventures_main_black_poster.jpeg" style="width: 100%; height: 150px; position: sticky; top: 0px;" alt="logo" >
             </div>
         </header> -->
-        
     <div class="container">
         <div >
-            <img  src="images/vmart_ventures_main_black_poster.jpeg"  class="logo" alt="logo" >
+            <img  src="../images/login/vmart_ventures_main_black_poster.jpeg"  class="logo" alt="logo" >
         </div>
+        <!-- <label for="logo" style=" text-align: center; font-family: 'Teko', sans-serif; font-size: medium; color: #ffffff; ">Safe, Fast and Secure Shopping</label> -->
         <hr>
         <br>
         <div>
@@ -33,30 +35,28 @@
         <div >
             
             
-            <img  src="images/login.png" class="images"  width="100px" alt="Avatar" >
+            <img  src="../images/login/login.png" class="images"  width="100px" alt="Avatar" >
         </div>
-        <form  name="myForm" id = "myForm" action="/employee/result" method="post" enctype="multipart/form-data" >
+        <form  name="myForm" id = "myForm" action="/employee/all/100" method="post" enctype="multipart/form-data" >
             <h2>Login as a Customer</h2>
-            <label for="Email" >Email :</label>
+            <label for="Email" >Email id :</label>
             <br>
             <div id="InBox" >
-            <img src="images/email.png" id="eye" alt="eye" class="icon" >
+            <img src="../images/login/email.png" id="eye" alt="eye" class="icon" >
             <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
             </div>
-            <label for="password">Password:</label>
+                <label for="password">Password:</label>
             <br>
             <div id="InBox"  >
-                <img src="images/password.png" id="eye" alt="eye" class="icon" >
+                <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
                 <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                <!-- eye icon for password showing -->
+                <i class="far fa-eye" id="togglePassword" style=" cursor: pointer;"></i>
             </div>
             <br>
             <div id="showInfo" >
-                <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a>
+                 <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a>
                 <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
-                
-                    <p><%= title %></p>
-                    <p><%= message %></p>
-                  
             </div>
             <div id="button-container">
                 <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
@@ -64,17 +64,17 @@
             </div>
         </form>
         <form  name="myForm2" style="display: none;"  id = "myForm2" action="/employee/result" method="post" enctype="multipart/form-data" >
-
+            <h2>Login as a Seller</h2>
             <label for="Email" >Email id :</label>
             <br>
             <div id="InBox"  >
-                <img src="images/email.png"  id="eye" alt="eye" class="icon" >
+                <img src="../images/login/email.png"  id="eye" alt="eye" class="icon" >
                 <input type="email" style="color: #ffffff; " id="username2" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
             </div>
             <label for="password">Password:</label>
             <br>
             <div id="InBox"  >
-                <img src="images/password.png" id="eye" alt="eye" class="icon" >
+                <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
                 <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
             </div>
             <br>
@@ -89,9 +89,10 @@
     </div>
     <footer>
         <hr>
+        <h2 style="color: #ffffff;"> Vmart-Ventures</h2>
         <div>
             <table id="foot" style="float: right;">
-                <th style=" text-align: left; color: #ffffff; font-family:monospace; font-size: large;">VMart Ventures</th>
+                <!-- <th style=" text-align: center; color: #ffffff; font-family:monospace; font-size: large;">VMart Ventures</th> -->
                 <tr class="tableheader">
                     <td style="width: 250px; " >Customer Care</td>
                     <td style="width: 250px;">Vmart Ventures</td>
@@ -102,7 +103,7 @@
                     <td style="width: 250px; " >Help Center</td>
                     <td style="width: 250px;">About Vmart Ventures</td>
                     <td style="width: 250px;"><a target="_blank" class="fblink" id="arafatfb" onmouseover="linkHover(arafatfb)" onmouseout="linkHoverOut(arafatfb)"  href="https://www.facebook.com/arafat.rahman.160216">Arafat Rahman
-                        <img id="hoveringImg"  src="images/user.png" alt="facebook" class="profile" >
+                        <img id="hoveringImg"  src="public/images/login/user.png" alt="facebook" class="profile" >
                     </a></td>
                     
                 </tr>
@@ -123,11 +124,11 @@
             </table>
         </div>              
             <p style="font-family:'Times New Roman', Times, serif; font-size: medium;">Contact us :</p>
-            <a href="https://www.facebook.com/"><img src="images/facebook.png" alt="facebook" class="icon" ></a>
-            <a href="https://www.instagram.com/"><img src="images/instagram.png" alt="instagram" class="icon" ></a>
-            <a href="mailto: arafatrahman219@gmail.com"><img src="images/gmail.png" alt="mailto Arafat" class="icon" >Arafat</a>
-            <a href="mailto: tahmidulislamomi09@gmail.com"><img src="images/gmail.png" alt="mailto Omi" class="icon" >Omi</a>
-            <a href="https://github.com/Tahmidul-Islam-Omi/Vmart-Ventures"><img src="images/github.png" alt="github" class="icon" ></a>
+            <a href="https://www.facebook.com/"><img src="../images/login/facebook.png" alt="facebook" class="icon" ></a>
+            <a href="https://www.instagram.com/"><img src="../images/login/instagram.png" alt="instagram" class="icon" ></a>
+            <a href="mailto: arafatrahman219@gmail.com"><img src="../images/login/gmail.png" alt="mailto Arafat" class="icon" >Arafat</a>
+            <a href="mailto: tahmidulislamomi09@gmail.com"><img src="../images/login/gmail.png" alt="mailto Omi" class="icon" >Omi</a>
+            <a href="https://github.com/Tahmidul-Islam-Omi/Vmart-Ventures"><img src="../images/login/github.png" alt="github" class="icon" ></a>
             <p style="font-family:'Times New Roman', Times, serif; font-size: small;">&copy2024 Vmart Ventures. All rights reserved.</p>
         </div>
     </footer>
@@ -136,6 +137,21 @@
 
 
 <script>
+
+    //this code is for the eye icon on and off for password (bootstrap)
+    const togglePassword = document.querySelector('#togglePassword');
+    let password = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+        
+
+    });
+
     const mouseover= (butt)=>
     {
         // var butt= document.getElementById("login");
@@ -243,11 +259,11 @@
         yy.value= links.innerText;
         if (links.innerText==="Arafat Rahman") {
             yy.value= "arafatrahman219@gmail.com";
-            img.src= "images/arafatFB.jpg";
+            img.src= "../images/login/arafatFB.jpg";
         }
         else if (links.innerText==="Tahmidul Islam Omi") {
             yy.value= "tahmidulislamomi09@gmail.com";
-            img.src= "images/omiFB.jpg";
+            img.src= "../images/login/omiFB.jpg";
         }
         links.style.color= "blue";
     }

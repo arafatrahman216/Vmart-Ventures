@@ -7,16 +7,24 @@
     background-size: 100%;
     background-attachment:fixed;
     background-position: center;
+    
 }
 body {
     font-family: Arial, sans-serif;
     background-color: #5a336b;
+    margin: 0 0;
+    padding: 0;
+}
+::selection {
+    background-color: #d1ff04;
+    color: #2b01ff;
 }
 h1 {
     color: rgb(96, 232, 51);
     font-weight: bold;
     text-align: center  ;
     text-rendering: auto;
+    
 }
 input::placeholder {
     font-weight: normal;
@@ -42,33 +50,60 @@ a{
     height:auto;;
     background-color: #c5426c;
     border-radius: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow:3px 3px 10px rgba(0, 0, 0, 0.1);
     visibility:visible;
+    /* animation: glowing 10s ease-in-out infinite ; */
+    /* animation-iteration-count: infinite; */
+
 }
 
 h2 {
     text-align: center;
+    text-decoration: overline underline;
+}
+
+#InBox{
+    width: 100%;
+    height:38px;
+    border-radius: 50px;
+    background-color: #c5426c;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-top: 5px;
+    /* border-bottom: 1px solid #fff; */
+}
+#InBox:hover{
+    border: 1px solid #000;
+    /* margin-top: 3px; */
+
+}
+#InBox:focus{
+    border: 1px solid #000;
+
 }
 
 input[type="email"],
-input[type="password"] {
-    width: 85%;
+input[type="password"],input[type="text"] {
+    width: 78%;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: 8px 0;
     font-family: sans-serif;
     text-align: center;
     display: inline-block;
     background-color: #c5426c;
-    border-bottom: 1px solid #fff;
-    border-top: none;
-    border-left: none;
-    border-right: none;
+    /* border-bottom: 1px solid #fff; */
+    border: none;
+    outline: none;
+    margin: 5px 0;
     position: relative;
     /* box-sizing: border-box; */
 }
+/* input:focus{
+
+} */
+
 #Customer
 {
     border-radius: 30px;
@@ -99,6 +134,7 @@ input[type="password"] {
 
 button {
     background-color: #4CAF50;
+    /* background-color: grey; */
     color: white;
     padding: 10px 10px;
     margin-top: auto;
@@ -151,6 +187,7 @@ footer{
     font-size: 12px;
     margin-top: 10px;
     margin-bottom: 10px;
+    /* animation: glowing 5s ease-in-out infinite ; */
 }
 
 .tableheader
@@ -210,4 +247,11 @@ footer{
     position: fixed;
     top: 500px;
     right: 95px;
+}
+@keyframes glowing {
+    0% { background-color: hsl(100, 1%, 51%); box-shadow: 1px 1px 3px  hsla(196, 60%, 44%, 0.984); }
+    25% { background-color:  hsl(5, 58%, 53%); box-shadow: 1px 1px 4px  hsl(305, 31%, 33%); }
+    50% { background-color:  hsl(295, 96%, 47%); box-shadow: 1px 1px 3px  hsl(351, 70%, 45%); }
+    75% { background-color:  hsl(198, 97%, 65%); box-shadow: 1px 1px 3px  hsl(254, 100%, 50%); }
+    100% { background-color:  hsl(109, 34%, 59%); box-shadow: 0 0 3px  hsl(61, 98%, 49%); }
 }

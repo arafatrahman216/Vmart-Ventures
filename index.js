@@ -4,15 +4,18 @@ const app = express();
 // const router= require('express-promise-router')();
 const router= express.Router();
 const cors = require('cors'); 
-router.use(express.static('images'));
+// router.use(express.static('images'));
 router.use(cors());
 app.use(cors());
 app.options('*', cors());
 
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 app.use(express.json());
-app.use(router);
-app.use(express.static('public'));  
+app.set('view engine', 'ejs');
+app.set('views', 'public/pages/');
+app.use(express.static('./public'));  
+app.use(express.urlencoded({ extended: false }));
+app.use('/',router);
 
 
 const db_query= require('./database/connection');
@@ -42,7 +45,7 @@ const authorize= async (email, password)=>{
         return false;
     }
 }
-app.post('/employee/result', async (req, res) => {
+router.post('/employee/result', async (req, res) => {
     if (authorized===1)
     {
         res.status(401).send(`<h1> Unauthorized Access Blocked</h1>`);
@@ -54,7 +57,7 @@ app.post('/employee/result', async (req, res) => {
     }
 });
 
-app.get('/employee/all/:id', async (req, res) => {
+router.get('/employee/all/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
     // res.sendFile(filePath);
     // console.log(req.query.username);
@@ -79,19 +82,19 @@ app.get('/employee/all/:id', async (req, res) => {
     // res.send();
     console.log(result);
 });
-app.get('/employee/login', async (req, res) => {
-
-
+router.get('/employee/login', async (req, res) => {
         const filePath = path.join(__dirname, 'index.html');
         // console.log(req.body);
         console.log(req.query);
-        res.sendFile(filePath);
+        // res.sendFile(filePath);
+        res.render('index', { title: 'Hey', message: 'Hello there!' })
         if (req.query.username==null || req.query.password==null) {
             console.log("null");
             return;
         }
-        if (req.query.username==="" || req.query.password==="") return;
-        // authorize(req.query.username,req.query.password);
+        // if (req.query.username==="" || req.query.password==="") return;
+        authorize(req.query.username,req.query.password);
+        console.log(authorized);
         console.log('hi');
     }
 );
