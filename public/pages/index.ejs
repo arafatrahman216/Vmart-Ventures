@@ -26,7 +26,7 @@
         <div>
             <table id="buttontable">
                 <tr>
-                    <td style="width: 50%; "><button type="button" onclick="onCustclick()" id="Customer"  onmouseover="RedButton(Customer)" onmouseout="BlueButton(Customer)" > Customer </button></td>
+                    <td style="width: 50%; "><button type="button" style="border: 2px solid #ffffff;" onclick="onCustclick()" id="Customer"  onmouseover="RedButton(Customer)" onmouseout="BlueButton(Customer)" > Customer </button></td>
                     <td style="width: 50%;"><button type="button" onclick="onSellerclick()" id="Seller"  onmouseover="RedButton(Seller)" onmouseout="BlueButton(Seller)" > Seller </button></td>
                 </tr>
 
@@ -39,13 +39,13 @@
         </div>
         <form  name="myForm" id = "myForm" action="/employee/all/100" method="post" enctype="multipart/form-data" >
             <h2>Login as a Customer</h2>
-            <label for="Email" >Email id :</label>
+            <label for="Email" ><b>Email id :</b></label>
             <br>
             <div id="InBox" >
             <img src="../images/login/email.png" id="eye" alt="eye" class="icon" >
             <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
             </div>
-                <label for="password">Password:</label>
+                <label for="password"><b>Password:</b></label>
             <br>
             <div id="InBox"  >
                 <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
@@ -65,13 +65,13 @@
         </form>
         <form  name="myForm2" style="display: none;"  id = "myForm2" action="/employee/result" method="post" enctype="multipart/form-data" >
             <h2>Login as a Seller</h2>
-            <label for="Email" >Email id :</label>
+            <label for="Email" ><b>Email id :</b></label>
             <br>
             <div id="InBox"  >
                 <img src="../images/login/email.png"  id="eye" alt="eye" class="icon" >
                 <input type="email" style="color: #ffffff; " id="username2" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
             </div>
-            <label for="password">Password:</label>
+            <label for="password"><b>Password:</b></label>
             <br>
             <div id="InBox"  >
                 <img src="../images/login/password.png" id="eye2" alt="eye" class="icon" >
@@ -199,6 +199,7 @@
     {
         // var butt= document.getElementById("login");
         butt.style.backgroundColor= "red";
+        butt.style.boxShadow= "0px 0px 10px 5px yellow";
         
         
     }
@@ -206,6 +207,7 @@
     {
         // var butt= document.getElementById("login");
         butt.style.backgroundColor= "blue";
+        butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
     }
 
     // const {db_query} = require('./index.js');
