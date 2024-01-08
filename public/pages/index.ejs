@@ -51,7 +51,7 @@
                 <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
                 <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
                 <!-- eye icon for password showing -->
-                <i class="far fa-eye" id="togglePassword" style=" cursor: pointer;"></i>
+                <i class="far fa-eye" id="togglePassword" onclick="eyeon(password,togglePassword)" style=" cursor: pointer;"></i>
             </div>
             <br>
             <div id="showInfo" >
@@ -74,8 +74,10 @@
             <label for="password">Password:</label>
             <br>
             <div id="InBox"  >
-                <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
+                <img src="../images/login/password.png" id="eye2" alt="eye" class="icon" >
                 <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                <!-- eye icon for password showing -->
+                <i class="far fa-eye" id="togglePassword2"onclick="eyeon(password2,togglePassword2)"   style=" cursor: pointer;"></i>
             </div>
             <br>
             <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> 
@@ -138,19 +140,25 @@
 
 <script>
 
-    //this code is for the eye icon on and off for password (bootstrap)
-    const togglePassword = document.querySelector('#togglePassword');
-    let password = document.querySelector('#password');
+    // // this code is for the eye icon on and off for password (bootstrap)
+    // const togglePassword = document.querySelector('#togglePassword');
+    // let password = document.querySelector('#password');
+    // togglePassword.addEventListener('click', function (e) {
+    // const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    // password.setAttribute('type', type);
+    // // toggle the eye slash icon
+    // this.classList.toggle('fa-eye-slash');
+    // });
 
-  togglePassword.addEventListener('click', function (e) {
-        // toggle the type attribute
+    
+    const eyeon= (password, TogglePassword)=>
+    {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         // toggle the eye slash icon
-        this.classList.toggle('fa-eye-slash');
-        
-
-    });
+        if (type==='text') password.setAttribute('autocomplete','off');
+        TogglePassword.classList.toggle('fa-eye-slash');
+    }
 
     const mouseover= (butt)=>
     {
@@ -168,7 +176,9 @@
     }
     const onCustclick= ()=>
     {
-        document.getElementById("myForm").style.display="block";
+        var Cform=document.getElementById("myForm");
+        if (!(Cform.style.display==="block")) document.getElementById("username").value= "";
+        Cform.style.display="block";
         document.getElementById("myForm2").style.display="none";
         document.getElementById("Customer").style.border="2px solid #ffffff";
         document.getElementById("Seller").style.border="none";

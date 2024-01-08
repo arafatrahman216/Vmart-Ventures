@@ -1,8 +1,8 @@
 
 
 .whole{
-    background-color: #5a336b;
-    background-image: url("../images/login/homeBG.jpg");
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
+    background-image: url("../images/login/homeBG2.png");
     background-repeat: no-repeat;
     background-size: 100%;
     background-attachment:fixed;
@@ -11,9 +11,17 @@
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #5a336b;
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
     margin: 0 0;
     padding: 0;
+}
+footer{
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgb(101, 52, 164) 35% , rgb(9, 36, 94) 100%);
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* animation: glowing 5s ease-in-out infinite ; */
 }
 ::selection {
     background-color: #d1ff04;
@@ -104,7 +112,7 @@ input[type="password"],input[type="text"] {
 
 } */
 
-#Customer
+#Customer,#Seller
 {
     border-radius: 30px;
     width: 120px;
@@ -123,13 +131,6 @@ input[type="password"],input[type="text"] {
     border-color: #fff;
     margin-bottom: 10px;
 
-}
-#Seller
-{
-    border-radius: 30px;
-    width: 120px;
-    position: relative;
-    left: 15px;
 }
 
 button {
@@ -181,14 +182,6 @@ hr{
     margin-right: auto;
 }
 
-footer{
-    background-color: #5a336b;
-    text-align: center;
-    font-size: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    /* animation: glowing 5s ease-in-out infinite ; */
-}
 
 .tableheader
 {
