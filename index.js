@@ -25,7 +25,7 @@ const { lowerCase } = require('lodash');
 const { log } = require('console');
 
 var goto='employee/user/';
-
+                        
 let authorized=0;
 var user_name="";
 const authorize= async (email, password)=>{
