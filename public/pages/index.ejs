@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -31,9 +32,6 @@
                 </tr>
 
             </table>
-        <!-- <% if (message) { %> 
-            <h2><%= message %> & password : <%= pass %> </h2>
-            <% } %> -->
         </div>
         <div >
             
@@ -42,6 +40,11 @@
         </div>
         <form  name="myForm" id = "myForm" action="/employee/authorize" method="post" >
             <h2>Login as a Customer</h2>
+            <% if (token==="blocked") { %>
+                <div style="font-size: medium;" class="alert" role="alert">
+                    <strong>Wrong email or password !</strong> Access Blocked !
+                </div>
+            <% } %>
             <label for="Email" ><b>Email id :</b></label>
             <br>
             <div id="InBox" >
@@ -86,7 +89,9 @@
             <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> 
             <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
             </div>
+            
             <div id="button-container">
+                    
             <button type="submit" id="login2" onmouseover="mouseover(login2)" onmouseout="mouseout(login2)" onclick="getinfo()" >Login</button>
             <button type="button" id="button2" onmouseover="mouseover(button2)" onmouseout="mouseout(button2)" onclick="showInfos(showInfo2)">Sign-Up</button>
             </div>
@@ -142,18 +147,16 @@
 
 
 <script>
+    // const toastTrigger = document.getElementById('button2')
+// const toastLiveExample = document.getElementById('liveToast')
 
-    // // this code is for the eye icon on and off for password (bootstrap)
-    // const togglePassword = document.querySelector('#togglePassword');
-    // let password = document.querySelector('#password');
-    // togglePassword.addEventListener('click', function (e) {
-    // const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    // password.setAttribute('type', type);
-    // // toggle the eye slash icon
-    // this.classList.toggle('fa-eye-slash');
-    // });
+// if (toastTrigger) {
+//   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+//   toastTrigger.addEventListener('click', () => {
+//     toastBootstrap.show()
+//   })
+// }
 
-    
     const eyeon= (password, TogglePassword)=>
     {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';

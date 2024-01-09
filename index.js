@@ -64,7 +64,7 @@ router.get('/employee/all/:id', async (req, res) => {
     console.log(result);
 });
 app.get('/employee/login', async (req, res) => {
-        res.render('index', { title: 'Hey', message: '' })
+        res.render('index', { token : 'unauthorized' })
         
     }
 );
@@ -107,11 +107,11 @@ app.post('/employee/authorize', async (req, res) => {
     if (r.length>0) 
     {
         console.log('OK');
-        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER });
+        var linkurl='/employee/user/'+r[0].USER_ID;
+        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
         return;
-
     }
-    else res.send(`<h1 > Wrong username or password </h1>`);
+    else res.render('index', { token : 'blocked' }) ;
     console.log('not ok');
     
 });

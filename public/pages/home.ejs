@@ -64,7 +64,7 @@
 <body>
     <!-- <% var userID= 'user/1' %> -->
     <div class="navbar">
-        <a href="#">Home</a>
+        <a href="#" id="homelink">Home</a>
         <a href="#">Products</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
@@ -76,7 +76,7 @@
 
         <div >
             
-            <a style="margin-left: auto; float: right;" href="user/1">Hello <%= Name %> </a>
+            <a style="margin-left: auto; float: right;" onclick="link_to_profile()" id="profile-link" href="#">Hello <%= Name %> </a>
             <a style="margin-left: auto; float: right;" href="#">Phone <%= Phone %> </a>
     </div>
     </div>
@@ -103,5 +103,19 @@
             <button>Add to Cart</button>
         </div>
     </div>
+    <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
+    <script>
+        // Get the profile link
+        
+        const link_to_profile =()=>
+        {
+            var profileLink = document.getElementById('profile-link');
+            // Get the user ID from the URL
+            // Set the href of the profile link to the user ID
+            var url = document.getElementById('testurl').innerHTML;
+            profileLink.href = url;
+            // document.getElementById('homelink').href = url;
+        }
+        </script>
 </body>
 </html>
