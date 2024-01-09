@@ -1,18 +1,8 @@
-const morgan = require('morgan');
 const express = require('express');
 const app = express();
 const router= express.Router();
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-// router.use(express.urlencoded({ extended: true }));
-
-app.use(morgan('tiny'));
-app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
@@ -24,13 +14,9 @@ const { lowerCase } = require('lodash');
 const { log } = require('console');
 
 const authorize = require('./database/Query/LoginAuthorization');
-var goto='employee/user/';
-                        
-let authorized=0;
-var user_name="";
 
 
-router.get('/employee/all/:id', async (req, res) => {
+router.get('/all/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
     // res.sendFile(filePath);
     // console.log(req.query.username);
@@ -55,15 +41,15 @@ router.get('/employee/all/:id', async (req, res) => {
     // res.send();
     console.log(result);
 });
-app.get('/employee/login', async (req, res) => {
+app.get('/login', async (req, res) => {
         res.render('index', { token : 'unauthorized' })
         
     }
 );
 
-app.get('/employee/user/:userid', async (req, res) => {
+app.get('/user/:userid', async (req, res) => {
     console.log('get request');
-    console.log(goto);
+    // console.log(goto);
     const id= (req.params.userid);
     console.log(id);
     const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
@@ -88,7 +74,7 @@ app.get('/employee/user/:userid', async (req, res) => {
 
 
 
-app.post('/employee/authorize', async (req, res) => {
+app.post('/authorize', async (req, res) => {
     console.log('post request');
     console.log(req.body.username);
     console.log(req.body.password);
@@ -99,7 +85,7 @@ app.post('/employee/authorize', async (req, res) => {
     if (r.length>0) 
     {
         console.log('OK');
-        var linkurl='/employee/user/'+r[0].USER_ID;
+        var linkurl='/user/'+r[0].USER_ID;
         res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
         return;
     }
@@ -109,7 +95,18 @@ app.post('/employee/authorize', async (req, res) => {
 });
 
 app.listen(5000, () => {
-    console.log('Server on port 3000');
+    console.log('Server on port 5000');
 });
 
 module.exports= db_query;
+
+
+//body parser for body data
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// router.use(bodyParser.json());
+
+// const morgan = require('morgan');
+// app.use(morgan('tiny'));
+// app.use(express.json());

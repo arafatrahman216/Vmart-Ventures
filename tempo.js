@@ -44,7 +44,7 @@ const authorize= async (email, password)=>{
         return false;
     }
 }
-app.post('/employee/result', async (req, res) => {
+app.post('/result', async (req, res) => {
     if (authorized===1)
     {
         res.status(401).send(`<h1> Unauthorized Access Blocked</h1>`);
@@ -56,7 +56,7 @@ app.post('/employee/result', async (req, res) => {
     }
 });
 
-app.get('/employee/all/:id', async (req, res) => {
+app.get('/all/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
     // res.sendFile(filePath);
     // console.log(req.query.username);
@@ -81,7 +81,7 @@ app.get('/employee/all/:id', async (req, res) => {
     // res.send();
     console.log(result);
 });
-app.get('/employee/login', async (req, res) => {
+app.get('/login', async (req, res) => {
         const filePath = path.join(__dirname, 'index.html');
         // console.log(req.body);
         console.log(req.query);
@@ -97,7 +97,7 @@ app.get('/employee/login', async (req, res) => {
         console.log('hi');
     }
 );
-// app.post('/employee/login', async (req, res) => {
+// app.post('/login', async (req, res) => {
 //     console.log(req.body);
 //     const filePath = path.join(__dirname, 'index.html');
 //     console.log('hello');
