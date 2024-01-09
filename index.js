@@ -41,15 +41,14 @@ router.get('/all/:id', async (req, res) => {
     // res.send();
     console.log(result);
 });
+
 app.get('/login', async (req, res) => {
         res.render('index', { token : 'unauthorized' })
-        
     }
 );
 
 app.get('/user/:userid', async (req, res) => {
     console.log('get request');
-    // console.log(goto);
     const id= (req.params.userid);
     console.log(id);
     const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
