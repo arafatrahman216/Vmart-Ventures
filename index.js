@@ -1,61 +1,42 @@
 const morgan = require('morgan');
 const express = require('express');
 const app = express();
-// const router= require('express-promise-router')();
 const router= express.Router();
-const cors = require('cors'); 
-// router.use(express.static('images'));
-router.use(cors());
-app.use(cors());
-app.options('*', cors());
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+// router.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('tiny'));
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
-app.use(express.urlencoded({ extended: false }));
 app.use('/',router);
 
 
 const db_query= require('./database/connection');
 const path = require('path');
 const { lowerCase } = require('lodash');
+const { log } = require('console');
 
+var goto='employee/user/';
 
 let authorized=0;
 var user_name="";
 const authorize= async (email, password)=>{
     
-    if (email==="" || password==="") return false;
-    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE EMAIL=\"${email}\" AND PASSWORD=\"${password}\"`;
+    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE \'${password}\'`;
     const params=[];
-    const result= await db_query(query,params);
-    if(result){
-        var {NAME}= result[0];
-        user_name=NAME;
-        authorized=2;
-        return true;
-    }
-    else{
-        authorized=1;
-        console.log(Date.now());
-        console.log(user_name);
-        console.log(password);
-        return false;
-    }
+    const r= await db_query(query,params);
+    console.log(r);
+    console.log(r.length);
+    return r;
 }
-router.post('/employee/result', async (req, res) => {
-    if (authorized===1)
-    {
-        res.status(401).send(`<h1> Unauthorized Access Blocked</h1>`);
-        authorized=0;
-    }
-    else if (authorized===2){
-        res.status(200).send(`<h1> Hello ${user_name}</h1>`);
-        authorized=0;
-    }
-});
 
 router.get('/employee/all/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
@@ -82,32 +63,58 @@ router.get('/employee/all/:id', async (req, res) => {
     // res.send();
     console.log(result);
 });
-router.get('/employee/login', async (req, res) => {
-        const filePath = path.join(__dirname, 'index.html');
-        // console.log(req.body);
-        console.log(req.query);
-        // res.sendFile(filePath);
-        res.render('index', { title: 'Hey', message: 'Hello there!' })
-        if (req.query.username==null || req.query.password==null) {
-            console.log("null");
-            return;
-        }
-        // if (req.query.username==="" || req.query.password==="") return;
-        authorize(req.query.username,req.query.password);
-        console.log(authorized);
-        console.log('hi');
+app.get('/employee/login', async (req, res) => {
+        res.render('index', { title: 'Hey', message: '' })
+        
     }
 );
-// app.post('/employee/login', async (req, res) => {
-//     console.log(req.body);
-//     const filePath = path.join(__dirname, 'index.html');
-//     console.log('hello');
-//     console.log(req.body);
-//     res.sendFile(filePath,`taken`);
-//     // res.sendFile(filePath);
-// });
+
+app.get('/employee/user/:userid', async (req, res) => {
+    console.log('get request');
+    console.log(goto);
+    const id= (req.params.userid);
+    console.log(id);
+    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
+    const params=[];
+    const result= await db_query(query,params);
+    console.log(result.length);
+    if (result.length<1)
+    {
+        res.send(`<h1> User with id ${id} not found </h1>`);
+        return;
+    }
+    const user_name=result[0].NAME;
+    console.log(user_name);
+    const phone = result[0].PHONE_NUMBER;
+    console.log(phone);
+    const Gender = result[0].GENDER ;
+
+    res.render('profile', { Name: user_name, Phone : phone , id: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
+    return;
+}
+);
 
 
+
+app.post('/employee/authorize', async (req, res) => {
+    console.log('post request');
+    console.log(req.body.username);
+    console.log(req.body.password);
+    var email=req.body.username;
+    var password=req.body.password;
+    var r= await authorize(email,password);
+    console.log(r.length);
+    if (r.length>0) 
+    {
+        console.log('OK');
+        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER });
+        return;
+
+    }
+    else res.send(`<h1 > Wrong username or password </h1>`);
+    console.log('not ok');
+    
+});
 
 app.listen(5000, () => {
     console.log('Server on port 3000');

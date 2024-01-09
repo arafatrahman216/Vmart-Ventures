@@ -31,13 +31,16 @@
                 </tr>
 
             </table>
+        <!-- <% if (message) { %> 
+            <h2><%= message %> & password : <%= pass %> </h2>
+            <% } %> -->
         </div>
         <div >
             
             
             <img  src="../images/login/login.png" class="images"  width="100px" alt="Avatar" >
         </div>
-        <form  name="myForm" id = "myForm" action="/employee/all/100" method="post" enctype="multipart/form-data" >
+        <form  name="myForm" id = "myForm" action="/employee/authorize" method="post" >
             <h2>Login as a Customer</h2>
             <label for="Email" ><b>Email id :</b></label>
             <br>

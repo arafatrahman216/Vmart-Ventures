@@ -11,6 +11,7 @@
   "keywords": [],
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "boostrap": "^2.0.0",
     "container": "^0.0.2",
     "cors": "^2.8.5",

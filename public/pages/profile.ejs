@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <style>
+        /* CSS styles for the colorful UI */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        
+        .profile h2 {
+            color: #333;
+            margin: 0;
+        }
+        
+        .profile p {
+            color: #777;
+            margin: 0;
+        }
+        
+        .profile-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .profile-info h3 {
+            color: #333;
+            margin: 0;
+        }
+        
+        .profile-info p {
+            color: #777;
+            margin: 0;
+        }
+        
+        .profile-info span {
+            font-weight: bold;
+        }
+        
+        .profile-info .label {
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .profile-info .value {
+            color: #777;
+        }
+        
+        .profile-info .gender {
+            color: #ff69b4;
+        }
+        
+        .profile-info .userid {
+            color: #1e90ff;
+        }
+        
+        .profile-info .dob {
+            color: #008000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+        <div class="profile">
+            <!-- <img src="profile-picture.jpg" alt="Profile Picture"> -->
+            <div>
+                <h2><%= Name %>
+                </h2>
+                <p>Software Developer</p>
+            </div>
+        </div>
+        <div class="profile-info">
+            <h3>Additional Information</h3>
+            <p><span class="label">Name:</span> <span class="value"><%= Name %></span></p>
+            <p><span class="label">Email:</span> <span class="value"><%= email %></span></p>
+            <p><span class="label">Phone:</span> <span class="value"><%= Phone %></span></p>
+            <p><span class="label">Gender:</span> <span class="value gender"><%= Gender %></span></p>
+            <p><span class="label">User ID:</span> <span class="value userid"><%= id %></span></p>
+            <p><span class="label">Date of Birth:</span> <span class="value dob"><%= dob %></span></p>
+        </div>
+    </div>
+</body>
+</html>
