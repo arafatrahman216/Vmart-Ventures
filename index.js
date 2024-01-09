@@ -7,6 +7,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 app.use('/',router);
+app.use(express.json());
 
 const db_query= require('./database/connection');
 const path = require('path');
@@ -74,13 +75,16 @@ app.get('/user/:userid', async (req, res) => {
 
 
 app.post('/authorize', async (req, res) => {
-    console.log('post request');
-    console.log(req.body.username);
-    console.log(req.body.password);
+    //console.log('post request');
+   //console.log(req.body.username);
+    //console.log(req.body.password);
     var email=req.body.username;
+
     var password=req.body.password;
     var r= await authorize(email,password);
-    console.log(r.length);
+
+    //console.log(r.length);
+
     if (r.length>0) 
     {
         console.log('OK');
@@ -88,9 +92,16 @@ app.post('/authorize', async (req, res) => {
         res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
         return;
     }
+
     else res.render('index', { token : 'blocked' }) ;
     console.log('not ok');
     
+});
+
+
+
+app.get('/signup' , async(req ,res) => {
+    console.log(req.body);
 });
 
 app.listen(5000, () => {

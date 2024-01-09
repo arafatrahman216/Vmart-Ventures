@@ -1,7 +1,12 @@
 body {
-    background-color: #3f5596;
-    font-family: Roboto;
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
+    font-family: 'Roboto' , 'sans-serif';
 }
+
+.header-class {
+    text-align: center;
+}
+
 
 .container {
     max-width: 400px;
