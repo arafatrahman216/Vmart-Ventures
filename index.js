@@ -102,6 +102,7 @@ app.post('/authorize', async (req, res) => {
 
 app.get('/signup' , async(req ,res) => {
     console.log(req.body);
+    res.render('signup');
 });
 
 app.listen(5000, () => {
