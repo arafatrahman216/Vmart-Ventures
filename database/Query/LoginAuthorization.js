@@ -20,4 +20,4 @@ const Seller_authorize= async (email, password)=>{
     return r;
 }
 
-module.exports= authorize;
+module.exports= {authorize, Seller_authorize};

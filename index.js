@@ -13,7 +13,7 @@ const path = require('path');
 const { lowerCase } = require('lodash');
 const { log } = require('console');
 
-const authorize = require('./database/Query/LoginAuthorization');
+const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 
 
 router.get('/all/:id', async (req, res) => {
@@ -56,7 +56,7 @@ app.post('/seller_authorize', async (req, res)=>
         var password=req.body.password2;
         var r= await Seller_authorize(email,password);
         console.log(r.length);
-        if (r.length>0)
+        if (r.length>0) 
         {
             console.log('OK');
             var linkurl='/user/'+r[0].USER_ID;
@@ -112,7 +112,6 @@ app.post('/authorize', async (req, res) => {
     }
     else res.render('index', { token : 'blocked' }) ;
     console.log('not ok');
-    
 });
 
 app.listen(5000, () => {
