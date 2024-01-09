@@ -47,6 +47,28 @@ app.get('/login', async (req, res) => {
     }
 );
 
+app.post('/seller_authorize', async (req, res)=>
+    {
+        console.log('post request');
+        console.log(req.body.username2);
+        console.log(req.body.password2);
+        var email=req.body.username2;
+        var password=req.body.password2;
+        var r= await Seller_authorize(email,password);
+        console.log(r.length);
+        if (r.length>0)
+        {
+            console.log('OK');
+            var linkurl='/user/'+r[0].USER_ID;
+            res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
+            return;
+        }
+        else res.render('index', { token : 'blocked' }) ;
+        console.log('not ok');
+    }
+
+);
+
 app.get('/user/:userid', async (req, res) => {
     console.log('get request');
     const id= (req.params.userid);
