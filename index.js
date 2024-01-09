@@ -18,25 +18,17 @@ app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 app.use('/',router);
 
-
 const db_query= require('./database/connection');
 const path = require('path');
 const { lowerCase } = require('lodash');
 const { log } = require('console');
 
+const authorize = require('./database/Query/LoginAuthorization');
 var goto='employee/user/';
                         
 let authorized=0;
 var user_name="";
-const authorize= async (email, password)=>{
-    
-    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE \'${password}\'`;
-    const params=[];
-    const r= await db_query(query,params);
-    console.log(r);
-    console.log(r.length);
-    return r;
-}
+
 
 router.get('/employee/all/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
