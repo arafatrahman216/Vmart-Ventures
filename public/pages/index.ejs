@@ -2,11 +2,14 @@
 <head>
     <title>Login Page</title>
     <meta charset="utf-8">
+    <!-- <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > -->
     <link rel="icon" type="image/x-icon" href="../images/login/login.png">
+    
     <link rel="stylesheet" href="../styles/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
 </head>
@@ -40,11 +43,12 @@
         </div>
         <form  name="myForm" id = "myForm" action="/authorize" method="post" >
             <h2>Login as a Customer</h2>
-            <% if (token==="blocked") { %>
+            <% if (ctoken==="blocked") { %>
                 <div style="font-size: medium;" class="alert" role="alert">
                     <strong>Wrong email or password !</strong> Access Blocked !
                 </div>
             <% } %>
+            
             <label for="Email" ><b>Email id :</b></label>
             <br>
             <div id="InBox" >
@@ -71,6 +75,11 @@
         </form>
         <form  name="myForm2" style="display: none;"  id = "myForm2" action="/seller_authorize" method="post" >
             <h2>Login as a Seller</h2>
+            <% if (stoken==="blocked") { %>
+                <div style="font-size: medium;" class="alert" role="alert">
+                    <strong>Wrong email or password !</strong> Access Blocked !
+                </div>
+            <% } %>
             <label for="Email" ><b>Email id :</b></label>
             <br>
             <div id="InBox"  >

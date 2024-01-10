@@ -17,7 +17,7 @@ const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorizati
 
 
 app.get('/login', async (req, res) => {
-    res.render('index', { token : 'unauthorized' })
+    res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
 }
 );
 
@@ -37,7 +37,7 @@ app.post('/seller_authorize', async (req, res)=>
             res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
             return;
         }
-        else res.render('index', { token : 'blocked' }) ;
+        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
 
@@ -84,7 +84,7 @@ app.post('/authorize', async (req, res) => {
         res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
         return;
     }
-    else res.render('index', { token : 'blocked' }) ;
+    else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
     console.log('not ok');
 });
 
