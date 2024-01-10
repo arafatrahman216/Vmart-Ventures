@@ -66,7 +66,7 @@
             </div>
             <div id="button-container">
                 <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
-                <button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button>
+                <a href = "/signup"><button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)" >Sign-Up</button></a>
             </div>
         </form>
         <form  name="myForm2" style="display: none;"  id = "myForm2" action="/seller_authorize" method="post" >
@@ -93,7 +93,7 @@
             <div id="button-container">
                     
             <button type="submit" id="login2" onmouseover="mouseover(login2)" onmouseout="mouseout(login2)" onclick="getinfo()" >Login</button>
-            <button type="button" id="button2" onmouseover="mouseover(button2)" onmouseout="mouseout(button2)" onclick="showInfos(showInfo2)">Sign-Up</button>
+            <a href = "/signup"><button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)" >Sign-Up</button></a>   
             </div>
         </form>
     </div>
@@ -147,15 +147,6 @@
 
 
 <script>
-    // const toastTrigger = document.getElementById('button2')
-// const toastLiveExample = document.getElementById('liveToast')
-
-// if (toastTrigger) {
-//   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-//   toastTrigger.addEventListener('click', () => {
-//     toastBootstrap.show()
-//   })
-// }
 
     const eyeon= (password, TogglePassword)=>
     {
@@ -216,7 +207,6 @@
         butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
     }
 
-    // const {db_query} = require('./index.js');
 
     const getinfo= async()=>
     {
@@ -239,34 +229,7 @@
 
     const  showInfos= async(showInfo)=>
     {
-        // const showInfo= document.getElementById(showInfo2)
-        const username= document.getElementById("username").value
-        if (username!=="") 
-        {
-            var paragraph= document.createElement("p")
-            paragraph.innerText= username+", Please contact your admin to reset your password"
-            showInfo.appendChild(paragraph)
-        }
-        else 
-        {
-            var paragraph= document.createElement("p")
-            paragraph.innerText= "Please contact your admin to sign up"
-            showInfo.appendChild(paragraph)
-        }
-        const password= document.getElementById("password").value
-        if (username!=="") showInfo.innerText= username
-        if (password!=="") var para= document.createElement("p")
-        para.innerText= password
-        showInfo.appendChild(para)
-        const options ={
-            method: 'GET'
-        };
-        const url= "http://localhost:5000/login"
-        const response= await fetch(url,options)
-        const myjson= await response.json()
-        var ppp=document.createElement("p")
-        ppp.innerText= 'All Employees'
-        showInfo.appendChild(ppp)
+       
     }
 
     const linkHover=(links)=>
