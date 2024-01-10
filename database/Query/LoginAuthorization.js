@@ -12,6 +12,7 @@ const authorize= async (email, password)=>{
 
 const Seller_authorize= async (email, password)=>{
     
+    console.log('in seller authorize');
     console.log(email);
     console.log(password);
     const query= `SELECT * FROM HR.SELLER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE \'${password}\'`;

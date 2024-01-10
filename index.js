@@ -43,16 +43,16 @@ app.post('/seller_authorize', async (req, res)=>
 
     );
     
-    app.get('/user/:userid', async (req, res) => {
-        console.log('get request');
-        const id= (req.params.userid);
-        console.log(id);
-        const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
-        const params=[];
-        const result= await db_query(query,params); 
-        console.log(result.length);
-        if (result.length<1)
-        {
+app.get('/user/:userid', async (req, res) => {
+    console.log('get request');
+    const id= (req.params.userid);
+    console.log(id);
+    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
+    const params=[];
+    const result= await db_query(query,params); 
+    console.log(result.length);
+    if (result.length<1)
+    {
         res.send(`<h1> User with id ${id} not found </h1>`);
         return;
     }

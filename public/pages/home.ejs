@@ -80,28 +80,32 @@
             <a style="margin-left: auto; float: right;" href="#">Phone <%= Phone %> </a>
     </div>
     </div>
-    
+    <aside style="float: inline-start;">
+        <h3>Categories</h3>
+        <ul>
+            <li>Category 1</li>
+            <li>Category 2</li>
+            <li>Category 3</li>
+            <li>Category 4</li>
+            <li>Category 5</li>
+        </ul>
+    </aside>
     <div class="product-section">
-        <div class="product-card">
-            <h3>Product 1</h3>
-            <p>Description of Product 1</p>
-            <p>$19.99</p>
-            <button>Add to Cart</button>
-        </div>
-        
-        <div class="product-card">
-            <h3>Product 2</h3>
-            <p>Description of Product 2</p>
-            <p>$29.99</p>
-            <button>Add to Cart</button>
-        </div>
-        
-        <div class="product-card" id="p3">
-            <h3>Product 3</h3>
-            <p>Description of Product 3</p>
-            <p>$39.99</p>
-            <button>Add to Cart</button>
-        </div>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <br>
     </div>
     <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
     <script>
