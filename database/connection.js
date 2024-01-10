@@ -6,8 +6,8 @@ let connection=undefined;
 async function db_query(query , params){
     if(connection===undefined){
         connection = await oracledb.getConnection({
-            user: 'system',
-            password: 'arafat219',
+            user: 'VMART_VENTURES',
+            password: '123',
             connectString: 'localhost/orcldb'
         });
         console.log("connected to database");
