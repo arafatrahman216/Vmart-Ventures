@@ -1,0 +1,40 @@
+const OracleDB = require('oracledb');
+const db_query= require('../connection');
+
+
+const addCustomer=async (name,email,phone,password,gender,dob )=>
+{
+
+    var userId= await query_checker();
+    userId++;
+    console.log('userId');
+    // console.log(userId);
+    console.log(name);
+    console.log(email);
+    console.log(phone);
+    console.log(password); 
+    console.log(gender);
+    console.log(dob);
+    const query= `INSERT INTO CUSTOMER_USER (USER_ID, EMAIL, PHONE, NAME, PASSWORD, PROFILE_PICTURE, GENDER, DATE_JOINED, DATE_OF_BIRTH) VALUES (${userId}, \'${email}\', \'${phone}\', \'${name}\', ORA_HASH(\'${password}\'), 'profile.jpg', \'${gender}\', SYSDATE, TO_DATE(\'${dob}\', 'YYYY-MM-DD'))`;
+    OracleDB.autoCommit=true;
+    const params=[];
+    const r= await db_query(query,params);
+    console.log(r);
+    
+}
+
+const query_checker= async ()=>
+{
+    const query= `SELECT MAX(USER_ID) as MID FROM CUSTOMER_USER`;
+    const params=[];
+    const r= await db_query(query,params);
+    // console.log('r');
+    // console.log(r);
+    // console.log('length ');
+    // console.log(r.length);
+    // console.log(r[0].MID); 
+    return r[0].MID;
+}
+
+
+module.exports= {addCustomer, query_checker};

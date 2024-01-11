@@ -11,6 +11,7 @@ const authorize= async (email, password)=>{
     return r;
 }
 
+
 const Seller_authorize= async (email, password)=>{
     
     console.log('in seller authorize');

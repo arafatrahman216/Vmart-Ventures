@@ -9,11 +9,14 @@ app.use(express.static('./public'));
 app.use('/',router);
 
 const db_query= require('./database/connection');
+
+
 const path = require('path');
 const { lowerCase } = require('lodash');
 const { log } = require('console');
 
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
+const {addCustomer, query_checker} = require('./database/Query/Customer_query');
 
 
 app.get('/login', async (req, res) => {
@@ -81,12 +84,32 @@ app.post('/authorize', async (req, res) => {
     {
         console.log('OK');
         var linkurl='/user/'+r[0].USER_ID;
-        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
+        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl});
         return;
     }
     else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
     console.log('not ok');
 });
+
+  
+app.get('/signup' , async(req ,res) => {
+    log('get request user signup');
+    
+    res.render('signup');    
+}); 
+app.post('/signup', async (req, res) => {
+    console.log(req.body); 
+    const {name, email,phone,password,gender,dob }= req.body;
+    // console.log(name);
+    // console.log(email);
+    // console.log(phone);
+    // console.log(password); 
+    // console.log(gender);
+    // console.log(dob);
+    addCustomer(name, email,phone, password,gender,dob);
+    res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+req.body.userid});
+}
+);
 
 app.listen(5000, () => {
     console.log('Server on port 5000');
