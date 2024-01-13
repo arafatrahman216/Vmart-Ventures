@@ -93,19 +93,13 @@ app.post('/authorize', async (req, res) => {
 
   
 app.get('/signup' , async(req ,res) => {
-    log('get request user signup');
+    //log('get request user signup');
     
     res.render('signup');    
 }); 
 app.post('/signup', async (req, res) => {
-    console.log(req.body); 
+    //console.log(req.body); 
     const {name, email,phone,password,gender,dob }= req.body;
-    // console.log(name);
-    // console.log(email);
-    // console.log(phone);
-    // console.log(password); 
-    // console.log(gender);
-    // console.log(dob);
     const userid= await addCustomer(name, email,phone, password,gender,dob);
     console.log('userid post signup');
     console.log(userid);
