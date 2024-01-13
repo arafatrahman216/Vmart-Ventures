@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgb(4, 46, 119) 100%);
     font-family: 'Roboto' , 'sans-serif';
 }
 
@@ -35,12 +35,20 @@ body {
     width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
+    text-align: center;
     border-radius: 20px;
+    background-color: chocolate;
+}
+
+.form-group input::placeholder {
+    font-weight: normal;
+    opacity: 0.8;
+    color: #000000;
 }
 
 .form-group input[type="radio"] {
     margin-top: 5px;
-    display: inline-block;
+    display: inline;
 }
 
 .form-group button {
@@ -56,4 +64,13 @@ body {
     background-color: #45a049;
 
 
+}
+
+#dob{
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+    background-color: chocolate;
 }

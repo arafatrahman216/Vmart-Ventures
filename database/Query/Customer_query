@@ -1,10 +1,16 @@
 const OracleDB = require('oracledb');
 const db_query= require('../connection');
+const { authorize } = require('./LoginAuthorization');
 
 
 const addCustomer=async (name,email,phone,password,gender,dob )=>
 {
-
+    const e= await authorize(email,password);
+    if (e.length>0)
+    {
+        console.log('user already exists');
+        return e[0].USER_ID ;  
+    }
     var userId= await query_checker();
     userId++;
     console.log('userId');
@@ -20,6 +26,7 @@ const addCustomer=async (name,email,phone,password,gender,dob )=>
     const params=[];
     const r= await db_query(query,params);
     console.log(r);
+    return userId;
     
 }
 
@@ -27,10 +34,11 @@ const query_checker= async ()=>
 {
     const query= `SELECT MAX(USER_ID) as MID FROM CUSTOMER_USER`;
     const params=[];
-    const r= await db_query(query,params);
+    
+    const r= await db_query(query,params) ;
     // console.log('r');
     // console.log(r);
-    // console.log('length ');
+    // console.log('length '); 
     // console.log(r.length);
     // console.log(r[0].MID); 
     return r[0].MID;

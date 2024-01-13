@@ -50,7 +50,7 @@ app.get('/user/:userid', async (req, res) => {
     console.log('get request');
     const id= (req.params.userid);
     console.log(id);
-    const query= `SELECT * FROM HR.CUSTOMER_USER WHERE USER_ID=${id}`;
+    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${id}`; 
     const params=[];
     const result= await db_query(query,params); 
     console.log(result.length);
@@ -106,8 +106,10 @@ app.post('/signup', async (req, res) => {
     // console.log(password); 
     // console.log(gender);
     // console.log(dob);
-    addCustomer(name, email,phone, password,gender,dob);
-    res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+req.body.userid});
+    const userid= await addCustomer(name, email,phone, password,gender,dob);
+    console.log('userid post signup');
+    console.log(userid);
+    res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
 }
 );
 
