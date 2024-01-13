@@ -6,6 +6,7 @@
         /* CSS styles for the navigation bar */
         .navbar {
             background-color: #333;
+            position: fixed;
             overflow: hidden;
         }
         
@@ -29,21 +30,13 @@
             justify-content: center;
         }
         
-        .product-card {
-            width: 200px;
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
         input[type=text] {
-            width: 130px;
+            width: 150px;
             box-sizing: border-box;
             border: 2px solid #ccc;
             border-radius: 30px;
             font-size: 16px;
             background-color: white;
-            background-image: url('./public/images/home/search.png');
             background-position: 10px 10px; 
             background-repeat: no-repeat;
             padding: 12px 20px 12px 40px;
@@ -52,12 +45,24 @@
           }
           
           input[type=text]:focus {
-            width: 30%;
+            width:250px;
             border-radius: 30px;
           }
           input[type=text]:hover {
-            width: 30%;
+            width: 250px;
             border-radius: 30px;
+          }
+          #profile-link:hover .profile-dropdown{
+            visibility: visible;
+            display: inline-block;
+            position:fixed;
+            margin-top: 50px;
+            margin-left: -50px;
+            background-color: #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1;
+
           }
     </style>
 </head>
@@ -69,44 +74,68 @@
         <a href="#">About</a>
         <a href="#">Contact</a>
 
-        <div >
-            <input type="text" id="searchbox" placeholder="Search">
-        </div>
 
+        <input type="text" id="searchbox" placeholder="Search">
+        <script>
+            // Get the input field
+            var input = document.getElementById("searchbox");
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    window.location.href = "/search/" + input.value;
+                }
+            });
+
+        </script>
 
         <div >
             
             <a style="margin-left: auto; float: right;" onclick="link_to_profile()" id="profile-link" href="#">Hello <%= Name %> </a>
             <a style="margin-left: auto; float: right;" href="#">Phone <%= Phone %> </a>
+            <img src="../images/login/arafatFB.jpg" style="width: 80px; border-radius: 50px;" alt="Avatar" class="profile-image">
+                <div class="profile-dropdown" style=" background-color:#ddd;">
+                    <a href="#">Profile</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Wishlist</a>
+                    <a href="#">Settings</a>
+                    <a href="#">Logout</a>
+                </div>
     </div>
     </div>
-    
+    <aside style="float: inline-start;">
+        <h3>Categories</h3>
+        <ul>
+            <li>Category 1</li>
+            <li>Category 2</li>
+            <li>Category 3</li>
+            <li>Category 4</li>
+            <li>Category 5</li>
+        </ul>
+    </aside>
     <div class="product-section">
-        <div class="product-card">
-            <h3>Product 1</h3>
-            <p>Description of Product 1</p>
-            <p>$19.99</p>
-            <button>Add to Cart</button>
-        </div>
-        
-        <div class="product-card">
-            <h3>Product 2</h3>
-            <p>Description of Product 2</p>
-            <p>$29.99</p>
-            <button>Add to Cart</button>
-        </div>
-        
-        <div class="product-card" id="p3">
-            <h3>Product 3</h3>
-            <p>Description of Product 3</p>
-            <p>$39.99</p>
-            <button>Add to Cart</button>
-        </div>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <%- include("card") %>
+        <br>
     </div>
     <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
     <script>
         // Get the profile link
-        
         const link_to_profile =()=>
         {
             var profileLink = document.getElementById('profile-link');
@@ -117,5 +146,6 @@
             // document.getElementById('homelink').href = url;
         }
         </script>
+        
 </body>
 </html>

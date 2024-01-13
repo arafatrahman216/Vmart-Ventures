@@ -1,103 +1,65 @@
-<!-- FILEPATH: /c:/Users/arafa/Documents/2-1 TEXTBOOK/test project/public/pages/index.html -->
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Signup Page</title>
-    <style>
-        body {
-            background-color: #3f5596;
-            font-family: Arial, sans-serif;
-        }
-        
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #e3320a;
-            border-radius: 15px;
-            box-shadow: 3px 3px 10px rgba(31, 203, 42, 0.549);
-        }
-        
-        .form-group {
-            margin-bottom: 10px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="password"],
-        .form-group select {
-            width: 90%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-        }
-        
-        .form-group input[type="radio"] {
-            margin-top: 5px;
-            display: inline-block;
-        }
-        
-        .form-group button {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        
-        .form-group button:hover {
-            background-color: #45a049;
-
-
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/signupStyle.css">
 </head>
 <body>
     <div class="container">
         <h2>Signup</h2>
-        <form>
+        <form action="/signup" method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Enter Your Full Name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="abc@xyz.com" autocomplete="email" required>
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" value="01" placeholder="01" name="phone"  required>
             </div>
             <div class="form-group">
                 <label for="gender">Gender:</label>
                 <input type="radio" id="male" name="gender" value="male" required>
-                <label for="male">Male</label>
+                <label for="male" style="display: inline-block;">Male</label>
                 <input type="radio" id="female" name="gender" value="female" required>
-                <label for="female">Female</label>
+                <label for="female" style="display: inline-block;">Female</label>
             </div>
             <div class="form-group">
                 <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
+                <input type="date" id="dob"  name="dob" value="2002-12-12" required>
             </div>
             <div class="form-group">
                 <label for="password">New Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" minlength="8" maxlength="32"  required>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
+                <input type="password" id="confirm-password" minlength="8" maxlength="32" name="confirm-password"   required>
+                <label id="message"  style=" padding-top: 3px; color: rgb(101, 3, 3);display: none; ">Password didn't match</label>
+                <script>
+                    var password = document.getElementById("password")
+                    , confirm_password = document.getElementById("confirm-password");
+
+                    const validatePassword=()=>{
+                    if(password.value != confirm_password.value) {
+                        confirm_password.setCustomValidity("Passwords Don't Match");
+                        document.getElementById("message").style.display = "block";
+                    } else {
+                        confirm_password.setCustomValidity('');
+                        document.getElementById("message").style.display = "none";
+                    }
+                    }
+
+                    password.onchange = validatePassword;
+                    confirm_password.onkeyup = validatePassword;
+                </script>
             </div>
             <div class="form-group">
-                <button type="submit">Signup</button>
+                <button type="submit" onmouseover="validatePassword()">Signup</button>
             </div>
         </form>
     </div>
