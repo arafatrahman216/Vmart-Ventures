@@ -1,5 +1,6 @@
 
 const db_query= require('../connection');
+
 const authorize= async (email, password)=>{
     
     const query= `SELECT * FROM CUSTOMER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE ORA_HASH(\'${password}\')`;
