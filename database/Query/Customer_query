@@ -3,7 +3,7 @@ const db_query= require('../connection');
 const { authorize } = require('./LoginAuthorization');
 
 
-const addCustomer=async (name,email,phone,password,gender,dob )=>
+const addCustomer=async (name,email,phone,password,gender,dob, street, postal_code,city, division )=>
 {
     const e= await authorize(email,password);
     if (e.length>0)
@@ -21,11 +21,16 @@ const addCustomer=async (name,email,phone,password,gender,dob )=>
     console.log(password); 
     console.log(gender);
     console.log(dob);
-    const query= `INSERT INTO CUSTOMER_USER (USER_ID, EMAIL, PHONE, NAME, PASSWORD, PROFILE_PICTURE, GENDER, DATE_JOINED, DATE_OF_BIRTH) VALUES (${userId}, \'${email}\', \'${phone}\', \'${name}\', ORA_HASH(\'${password}\'), 'profile.jpg', \'${gender}\', SYSDATE, TO_DATE(\'${dob}\', 'YYYY-MM-DD'))`;
+    console.log(street);
+    console.log(postal_code);
+    console.log(city);
+    console.log(division);
+    const query= `INSERT INTO CUSTOMER_USER (USER_ID, EMAIL, PHONE, NAME, PASSWORD, PROFILE_PICTURE, GENDER, DATE_JOINED, DATE_OF_BIRTH) VALUES (${userId}, \'${email}\', \'${phone}\', \'${name}\', ORA_HASH(\'${password}\'), 'profile.jpg', \'${gender}\', SYSDATE, TO_DATE(\'${dob}\', 'YYYY-MM-DD')) `;
+    const query2= `INSERT INTO ADDRESS (USER_ID, STREET_NAME, POSTAL_CODE, CITY, DIVISION, COUNTRY) VALUES (${userId}, \'${street}\', \'${postal_code}\', \'${city}\', \'${division}\','Bangladesh')`;
     OracleDB.autoCommit=true;
     const params=[];
-    const r= await db_query(query,params);
-    console.log(r);
+    db_query(query,params);
+    db_query(query2,params);
     return userId;
     
 }
