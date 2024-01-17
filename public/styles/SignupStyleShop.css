@@ -1,0 +1,145 @@
+/* body {
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgb(4, 46, 119) 100%);
+    font-family: 'Roboto' , 'sans-serif';
+}
+
+.header-class {
+    text-align: center;
+}
+
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #e3320a;
+    border-radius: 15px;
+    box-shadow: 3px 3px 10px rgba(31, 203, 42, 0.549);
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"],
+.form-group select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-radius: 20px;
+    background-color: chocolate;
+}
+
+.form-group input::placeholder {
+    font-weight: normal;
+    opacity: 0.8;
+    color: #000000;
+}
+
+.form-group input[type="radio"] {
+    margin-top: 5px;
+    display: inline;
+}
+
+.form-group button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #45a049;
+
+
+}
+
+#dob{
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+    background-color: chocolate;
+} */
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
+    font-family: 'Roboto' , 'sans-serif';
+}
+
+h4{
+    font-size: 2rem !important;
+    font-weight: 500;
+ }
+
+.address-fields {
+    display: flex;
+}
+
+.street-field,
+
+.postal-code-field {
+    width: 45%;
+    margin-right: 5px; /* Adjust as needed for spacing between fields */
+}
+
+
+form{
+    width: 500px;
+    height: 940px;
+    background: #fff;
+    padding: 45px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin: auto;
+    margin-top: 90px;
+    margin-left: auto;
+    font-weight: 600;
+}
+
+.form-control{
+    color: rgba(0,0,0,.87);
+    border-bottom-color: rgba(0,0,0,.42);
+    box-shadow: none !important; 
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 4px 4px 0 0;
+}
+
+.btn-primary{
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35%, rgba(0,212,255,1) 100%);
+    border: none;
+    outline: none;
+    border-radius: 90px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+ 
+
+ 
