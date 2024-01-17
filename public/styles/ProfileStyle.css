@@ -7,6 +7,8 @@ body {
 .page-limit{
     width: 300px;
     height: 200px;
+    margin-right: 50%;
+    margin-left: 25%;
 }
 
 .container-center {
