@@ -110,6 +110,12 @@
             </div>
 
             <div class="mb-3 mt-1">
+                <label for="profilePicture">Profile Picture</label>
+                <input type="file" class="form-control-file" id="profilePicture" name="profilePicture">
+                <!-- <small class="form-text text-muted">optional</small> -->
+            </div>
+
+            <div class="mb-3 mt-1">
                 <label for="address">Address Details</label>
 
                 <div class="address-fields">
@@ -205,6 +211,18 @@
         </script>
 
         <script>
+
+            const bangladeshDivisions = [
+            { name: "Dhaka",districts: ["Dhaka", "Narayanganj", "Narsingdi", "Munshiganj", "Manikganj", "Gazipur", "Kishoreganj", "Tangail", "Faridpur", "Madaripur", "Rajbari", "Shariatpur", "Gopalganj"]},
+            { name: "Chittagong", districts: ["Chittagong", "Cox's Bazar", "Comilla", "Chandpur", "Noakhali", "Lakshmipur", "Brahmanbaria", "Feni", "Bandarban", "Khagrachari", "Rangamati"] },
+            { name: "Khulna",districts: ["Khulna", "Jessore", "Bagerhat", "Satkhira", "Chuadanga", "Meherpur", "Narail", "Jhenaidah", "Magura", "Kushtia"] },
+            { name: "Rajshahi", districts: ["Rajshahi", "Pabna", "Natore", "Sirajganj", "Chapainawabganj", "Joypurhat", "Naogaon", "Bogra"]},
+            { name: "Sylhet", districts: ["Sylhet", "Moulvibazar", "Sunamganj", "Habiganj"]},
+            { name: "Rangpur", districts: ["Rangpur", "Dinajpur", "Nilphamari", "Kurigram", "Lalmonirhat", "Panchagarh", "Gaibandha", "Thakurgaon"]},  
+            { name: "Barisal", districts: ["Barisal", "Patuakhali", "Bhola", "Jhalokathi", "Pirojpur", "Borguna"]},
+            { name: "Mymensingh", districts: ["Mymensingh", "Netrokona", "Sherpur", "Jamalpur"] }
+            ];
+            
             function updateCities() {
                 var divisionSelect = document.getElementById("division");
                 var citySelect = document.getElementById("city");
@@ -215,43 +233,53 @@
                 // Add city options based on the selected division
                 switch (divisionSelect.value) {
                     case "Dhaka":
-                        addCityOption("Dhaka City", citySelect);
-                        addCityOption("Gazipur", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[0].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[0].districts[i], citySelect);
+                        }
                         break;
                     case "Rajshahi":
-                        addCityOption("Rajshahi City", citySelect);
-                        addCityOption("Bogra", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[3].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[3].districts[i], citySelect);
+                        }
                         break;
                     case "Chattogram":
-                        addCityOption("Chattogram City", citySelect);
-                        addCityOption("Cox's Bazar", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[1].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[1].districts[i], citySelect);
+                        }
                         break;
                     case "Khulna":
-                        addCityOption("Khulna City", citySelect);
-                        addCityOption("Jessore", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[2].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[2].districts[i], citySelect);
+                        }
                         break;
                     case "Barishal":
-                        addCityOption("Barishal City", citySelect);
-                        addCityOption("Patuakhali", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[6].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[6].districts[i], citySelect);
+                        }
                         break;
                     case "Sylhet":
-                        addCityOption("Sylhet City", citySelect);
-                        addCityOption("Moulvibazar", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[4].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[4].districts[i], citySelect);
+                        }
                         break;
                     case "Rangpur":
-                        addCityOption("Rangpur City", citySelect);
-                        addCityOption("Dinajpur", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[5].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[5].districts[i], citySelect);
+                        }
                         break;
                     case "Mymensingh":
-                        addCityOption("Mymensingh City", citySelect);
-                        addCityOption("Jamalpur", citySelect);
+                        for (var i = 0; i < bangladeshDivisions[7].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[7].districts[i], citySelect);
+                        }
                         break;
                     default:
                         // No division selected, hide the city field or add a default city
                         break;
                 }
             }
-    
+
+            updateCities();
+           
             function addCityOption(cityName, selectElement) {
                 var option = document.createElement("option");
                 option.value = cityName.replace(" ", "_");
