@@ -98,9 +98,9 @@ app.get('/signup' , async(req ,res) => {
     res.render('signup');    
 }); 
 app.post('/signup', async (req, res) => {
-    //console.log(req.body); 
-    const {name, email,phone,password,gender,dob }= req.body;
-    const userid= await addCustomer(name, email,phone, password,gender,dob);
+    console.log(req.body);  
+    const {name, e_mail,phone,password,gender,dob ,street, postal_code,city, division}= req.body;
+    const userid= await addCustomer(name, e_mail,phone, password,gender,dob,street, postal_code,city, division);
     console.log('userid post signup');
     console.log(userid);
     res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
