@@ -1,26 +1,84 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Signup Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/signupStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
 
 <body>
-    <div class="container">
-        <h2>Signup</h2>
-        <form action="/signup" method="post">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter Your Full Name" required>
+
+    <div class="container-fluid">
+
+        <form class="mx-auto" action="/signup" method="post">
+            <h3 class="text-center" class="mb-2 mt-1">Signup</h3>
+
+            <div class="mb-3 mt-1">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Your Full Name" required>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="abc@xyz.com" autocomplete="email" required>
+
+            <div class="mb-3 mt-1">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" name="e_mail" class="form-control" id="email" autocomplete="email" required>
             </div>
-            <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" value="01" placeholder="01" name="phone" required>
+
+            <div class="mb-3 mt-1">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+
+            <div class="mb-3 mt-1">
+                <label for="address">Address Details</label>
+
+                <div class="address-fields">
+                    <div class="street-field">
+                        <label for="street">Street Name</label>
+                        <input type="text" id="street" class="form-control" name="street" required>
+                    </div>
+                    <div class="postal-code-field">
+                        <label for="postal_code">Postal Code</label>
+                        <input type="text" id="postal_code" class="form-control" name="postal_code" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-1">
+                <div class="address-fields">
+                    <div class="street-field">
+                        <label for="division">Division</label>
+                        <select id="division" name="division" required onchange="updateCities()">
+
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Chattogram">Chattogram</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Barishal">Barishal</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Mymensingh">Mymensingh</option>
+                        </select>
+                    </div>
+
+                    <div class="postal-code-field">
+                        <label for="city">City</label>
+                        <select id="city" name="city" required>
+                        
+                        
+                         <!-- City options will be dynamically added here -->
+                        </select>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <div class="mb-3 mt-1">
+                <label>Country: <span style="font-weight: lighter;">Bangladesh</span></label>
             </div>
             <div class="form-group">
                 <label for="gender">Gender:</label>
@@ -29,43 +87,124 @@
                 <input type="radio" id="female" name="gender" value="female" required>
                 <label for="female" style="display: inline-block;">Female</label>
             </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
+            
+
+            <div class="mb-3 mt-1">
+                <label for="dob" style="margin-right: 15px">Date of Birth </label>
                 <input type="date" id="dob" name="dob" value="2002-12-12" required>
             </div>
-            <div class="form-group">
-                <label for="password">New Password:</label>
-                <input type="password" id="password" name="password" minlength="8" maxlength="32" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" minlength="8" maxlength="32" name="confirm-password"
+
+            <div class="mb-3 mt-1">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" name="password" minlength="8" maxlength="32"
                     required>
-                <label id="message" style=" padding-top: 3px; color: rgb(101, 3, 3);display: none; ">Password didn't
-                    match</label>
-                <script>
-                    var password = document.getElementById("password")
-                        , confirm_password = document.getElementById("confirm-password");
-
-                    const validatePassword = () => {
-                        if (password.value != confirm_password.value) {
-                            confirm_password.setCustomValidity("Passwords Don't Match");
-                            document.getElementById("message").style.display = "block";
-                        } else {
-                            confirm_password.setCustomValidity('');
-                            document.getElementById("message").style.display = "none";
-                        }
-                    }
-
-                    password.onchange = validatePassword;
-                    confirm_password.onkeyup = validatePassword;
-                </script>
             </div>
-            <div class="form-group">
-                <button type="submit" onmouseover="validatePassword()">Signup</button>
+
+            <div class="mb-3 mt-1">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm-password" minlength="8" maxlength="32"
+                    name="confirm-password" required>
+                <label id="message" style=" padding-top: 3px; color: rgb(101, 3, 3); display: none; ">Password
+                    didn't match</label>
             </div>
+
+            <button type="submit" onmouseover="validatePassword()" class="btn btn-primary mt-3">Signup</button>
+
         </form>
     </div>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 
+        <script>
+            var password = document.getElementById("password")
+            , confirm_password = document.getElementById("confirm-password");
+
+            const validatePassword=()=>{
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+                document.getElementById("message").style.display = "block";
+            } else {
+                confirm_password.setCustomValidity('');
+                document.getElementById("message").style.display = "none";
+            }
+            }
+
+            password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+            const bangladeshDivisions = [
+            { name: "Dhaka",districts: ["Dhaka", "Narayanganj", "Narsingdi", "Munshiganj", "Manikganj", "Gazipur", "Kishoreganj", "Tangail", "Faridpur", "Madaripur", "Rajbari", "Shariatpur", "Gopalganj"]},
+            { name: "Chittagong", districts: ["Chittagong", "Cox's Bazar", "Comilla", "Chandpur", "Noakhali", "Lakshmipur", "Brahmanbaria", "Feni", "Bandarban", "Khagrachari", "Rangamati"] },
+            { name: "Khulna",districts: ["Khulna", "Jessore", "Bagerhat", "Satkhira", "Chuadanga", "Meherpur", "Narail", "Jhenaidah", "Magura", "Kushtia"] },
+            { name: "Rajshahi", districts: ["Rajshahi", "Pabna", "Natore", "Sirajganj", "Chapainawabganj", "Joypurhat", "Naogaon", "Bogra"]},
+            { name: "Sylhet", districts: ["Sylhet", "Moulvibazar", "Sunamganj", "Habiganj"]},
+            { name: "Rangpur", districts: ["Rangpur", "Dinajpur", "Nilphamari", "Kurigram", "Lalmonirhat", "Panchagarh", "Gaibandha", "Thakurgaon"]},  
+            { name: "Barisal", districts: ["Barisal", "Patuakhali", "Bhola", "Jhalokathi", "Pirojpur", "Borguna"]},
+            { name: "Mymensingh", districts: ["Mymensingh", "Netrokona", "Sherpur", "Jamalpur"] }
+            ];
+            function updateCities() {
+                var divisionSelect = document.getElementById("division");
+                var citySelect = document.getElementById("city");
+    
+                // Clear previous city options
+                citySelect.innerHTML = "";
+    
+                // Add city options based on the selected division
+                switch (divisionSelect.value) {
+                    case "Dhaka":
+                        for (var i = 0; i < bangladeshDivisions[0].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[0].districts[i], citySelect);
+                        }
+                        break;
+                    case "Rajshahi":
+                        for (var i = 0; i < bangladeshDivisions[3].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[3].districts[i], citySelect);
+                        }
+                        break;
+                    case "Chattogram":
+                        for (var i = 0; i < bangladeshDivisions[1].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[1].districts[i], citySelect);
+                        }
+                        break;
+                    case "Khulna":
+                        for (var i = 0; i < bangladeshDivisions[2].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[2].districts[i], citySelect);
+                        }
+                        break;
+                    case "Barishal":
+                        for (var i = 0; i < bangladeshDivisions[6].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[6].districts[i], citySelect);
+                        }
+                        break;
+                    case "Sylhet":
+                        for (var i = 0; i < bangladeshDivisions[4].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[4].districts[i], citySelect);
+                        }
+                        break;
+                    case "Rangpur":
+                        for (var i = 0; i < bangladeshDivisions[5].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[5].districts[i], citySelect);
+                        }
+                        break;
+                    case "Mymensingh":
+                        for (var i = 0; i < bangladeshDivisions[7].districts.length; i++) {
+                            addCityOption(bangladeshDivisions[7].districts[i], citySelect);
+                        }
+                        break;
+                    default:
+                        // No division selected, hide the city field or add a default city
+                        break;
+                }
+            }
+            updateCities();
+    
+            function addCityOption(cityName, selectElement) {
+                var option = document.createElement("option");
+                option.value = cityName.replace(" ", "_");
+                option.text = cityName;
+                selectElement.add(option);
+            }
+
+        </script>
+</body>
 </html>
