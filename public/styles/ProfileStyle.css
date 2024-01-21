@@ -1,0 +1,69 @@
+body {
+    padding-top: 56px; /* Adjust for fixed navbar height */
+    justify-content:center ;
+
+}
+
+.page-limit{
+    width: 300px;
+    height: 200px;
+    margin-right: 50%;
+    margin-left: 25%;
+}
+
+.container-center {
+    max-width: 800px; /* Set your desired maximum width */
+    margin: 0 auto; /* Center the container horizontally */
+    padding-top: 20px; /* Add some top padding for space */
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px; /* Height of fixed navbar */
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+    width: 800px !important ;/* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    margin: 10px auto; /* Center the profile picture and add some spacing */
+    display: block;
+}
+
+.main-content {
+    margin-top: 20px;
+}
+
+.sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.nav-item {
+    padding: 10px 0;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+    color: #007bff;
+}
+
+/* Add your custom styling here as needed */
+
