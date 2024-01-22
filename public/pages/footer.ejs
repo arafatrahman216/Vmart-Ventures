@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Signup Page</title>
-        <link rel="stylesheet" href="../styles/login.css">
+        <link rel="stylesheet" href="../styles/footer.css">
     </head>
 <body>
-<footer>
+<footer >
     <hr>
     <h2 style="color: #ffffff;"> Vmart-Ventures</h2>
     <div>
         <table id="foot" style="float: right;">
-            <!-- <th style=" text-align: center; color: #ffffff; font-family:monospace; font-size: large;">VMart Ventures</th> -->
-            <tr class="tableheader">
+                <tr class="tableheader">
                 <td style="width: 250px; " >Customer Care</td>
                 <td style="width: 250px;">Vmart Ventures</td>
                 <td style="width: 250px;">About Us</td>
@@ -21,7 +19,7 @@
                 <td style="width: 250px; " >Help Center</td>
                 <td style="width: 250px;">About Vmart Ventures</td>
                 <td style="width: 250px;"><a target="_blank" class="fblink" id="arafatfb" onmouseover="linkHover(arafatfb)" onmouseout="linkHoverOut(arafatfb)"  href="https://www.facebook.com/arafat.rahman.160216">Arafat Rahman
-                    <img id="hoveringImg"  src="public/images/login/user.png" alt="facebook" class="profile" >
+                    <img id="hoveringImg"  src="public/images/login/user.png" class="profile" >
                 </a></td>
                 
             </tr>
@@ -51,5 +49,29 @@
         <p style="font-family:'Times New Roman', Times, serif; font-size: small;">&copy2024 Vmart Ventures. All rights reserved.</p>
     </div>
 </footer>
+<script>
+    const linkHover=(links)=>
+    {
+        var img= document.getElementById("hoveringImg");
+        var yy= document.getElementById("username");
+        img.style.display= "inline-block";    
+        yy.value= links.innerText;
+        if (links.innerText==="Arafat Rahman") {
+            yy.value= "arafatrahman219@gmail.com";
+            img.src= "../images/login/arafatFB.jpg";
+        }
+        else if (links.innerText==="Tahmidul Islam Omi") {
+            yy.value= "tahmidulislamomi09@gmail.com";
+            img.src= "../images/login/omiFB.jpg";
+        }
+        links.style.color= "blue";
+    }
+    const linkHoverOut=(links)=>
+    {
+        var img= document.getElementById("hoveringImg");
+        img.style.display= "none";
+        links.style.color= "#a8fa05f3";
+    }
+</script>
 </body>
 </html>

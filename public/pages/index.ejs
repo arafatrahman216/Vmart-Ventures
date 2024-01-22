@@ -1,3 +1,4 @@
+@ -1,156 +1,112 @@
 <html>
 <head>
     <title>Login Page</title>
@@ -106,119 +107,52 @@
             </div>
         </form>
     </div>
+    <footer>
+        <hr>
+        <h2 style="color: #ffffff;"> Vmart-Ventures</h2>
+        <div>
+            <table id="foot" style="float: right;">
+                <!-- <th style=" text-align: center; color: #ffffff; font-family:monospace; font-size: large;">VMart Ventures</th> -->
+                <tr class="tableheader">
+                    <td style="width: 250px; " >Customer Care</td>
+                    <td style="width: 250px;">Vmart Ventures</td>
+                    <td style="width: 250px;">About Us</td>
+                </tr>
+                
+                <tr class="tablerow">
+                    <td style="width: 250px; " >Help Center</td>
+                    <td style="width: 250px;">About Vmart Ventures</td>
+                    <td style="width: 250px;"><a target="_blank" class="fblink" id="arafatfb" onmouseover="linkHover(arafatfb)" onmouseout="linkHoverOut(arafatfb)"  href="https://www.facebook.com/arafat.rahman.160216">Arafat Rahman
+                        <img id="hoveringImg"  src="public/images/login/user.png" alt="facebook" class="profile" >
+                    </a></td>
+                    
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >How to Buy</td>
+                    <td class="tabledata" >Digital payments</td>
+                    <td class="tabledata" ><a id="omifb" class="fblink" onmouseover="linkHover(omifb)" onmouseout="linkHoverOut(omifb)" target="_blank" href="https://www.facebook.com/tahmidulislam.omi">Tahmidul Islam Omi</a></td>
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >Terms and Conditions</td>
+                    <td class="tabledata" >Privacy Policy</td>
+                </tr>
+                <tr class="tablerow">
+                    <td class="tabledata" >Your Orders</td>
+                    <td class="tabledata" >Your Account</td>
+                    <td class="tabledata" ></td>
+                </tr>
+            </table>
+        </div>              
+            <p style="font-family:'Times New Roman', Times, serif; font-size: medium;">Contact us :</p>
+            <a href="https://www.facebook.com/"><img src="../images/login/facebook.png" alt="facebook" class="icon" ></a>
+            <a href="https://www.instagram.com/"><img src="../images/login/instagram.png" alt="instagram" class="icon" ></a>
+            <a href="mailto: arafatrahman219@gmail.com"><img src="../images/login/gmail.png" alt="mailto Arafat" class="icon" >Arafat</a>
+            <a href="mailto: tahmidulislamomi09@gmail.com"><img src="../images/login/gmail.png" alt="mailto Omi" class="icon" >Omi</a>
+            <a href="https://github.com/Tahmidul-Islam-Omi/Vmart-Ventures"><img src="../images/login/github.png" alt="github" class="icon" ></a>
+            <p style="font-family:'Times New Roman', Times, serif; font-size: small;">&copy2024 Vmart Ventures. All rights reserved.</p>
+        </div>
+    </footer>
     <%- include('./footer') %>
 </body>
 </html>
 
-
-<script>
-    
-
-    const eyeon= (password, TogglePassword)=>
-    {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        // toggle the eye slash icon
-        if (type==='text') password.setAttribute('autocomplete','off');
-        TogglePassword.classList.toggle('fa-eye-slash');
-    }
-
-    const mouseover= (butt)=>
-    {
-        // var butt= document.getElementById("login");
-        butt.style.backgroundColor= "red";
-        // butt.style.width="45%"
-        // butt.style.height="40px"
-    }
-    const mouseout= (butt)=>
-    {
-        // var butt= document.getElementById("login");
-        butt.style.backgroundColor= "blue";
-        // butt.style.width="40%"
-        // butt.style.height="35px"
-    }
-    const onCustclick= ()=>
-    {
-        var Cform=document.getElementById("myForm");
-        if (!(Cform.style.display==="block")) document.getElementById("username").value= "";
-        Cform.style.display="block";
-        document.getElementById("myForm2").style.display="none";
-        document.getElementById("Customer").style.border="2px solid #ffffff";
-        document.getElementById("Seller").style.border="none";
-
-        // document.getElementById("username").innerText= s;
-
-    }
-    const onSellerclick= ()=>
-    {
-        document.getElementById("myForm2").style.display="block";
-        document.getElementById("myForm").style.display="none";
-        document.getElementById("Seller").style.border="2px solid #ffffff";
-        document.getElementById("Customer").style.border="none";
-    }
-
-
-    const RedButton= (butt)=>
-    {
-        // var butt= document.getElementById("login");
-        butt.style.backgroundColor= "red";
-        butt.style.boxShadow= "0px 0px 10px 5px yellow";
-        
-        
-    }
-    const BlueButton= (butt)=>
-    {
-        // var butt= document.getElementById("login");
-        butt.style.backgroundColor= "blue";
-        butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
-    }
-
-
-    const getinfo= async()=>
-    {
-        const options ={
-            method: 'GET'
-        };
-        const url= "http://localhost:5000/login"
-        const response= await fetch(url,options)
-        const data= await response.json()
-        console.log(data);
-        const show= document.getElementById("showInfo")
-        const username= document.getElementById("username").value
-        const password= document.getElementById("password").value
-        if (username!=="") showInfo.innerText= username
-        if (password!=="") var para= document.createElement("p")
-        para.innerText= password
-        showInfo.appendChild(para)
-
-    }
-
-    const  showInfos= async(showInfo)=>
-    {
-       
-    }
-
-    const linkHover=(links)=>
-    {
-        var img= document.getElementById("hoveringImg");
-        var yy= document.getElementById("username");
-        img.style.display= "inline-block";    
-        yy.value= links.innerText;
-        if (links.innerText==="Arafat Rahman") {
-            yy.value= "arafatrahman219@gmail.com";
-            img.src= "../images/login/arafatFB.jpg";
-        }
-        else if (links.innerText==="Tahmidul Islam Omi") {
-            yy.value= "tahmidulislamomi09@gmail.com";
-            img.src= "../images/login/omiFB.jpg";
-        }
-        links.style.color= "blue";
-    }
-    const linkHoverOut=(links)=>
-    {
-        var img= document.getElementById("hoveringImg");
-        img.style.display= "none";
-        links.style.color= "#a8fa05f3";
-    }
-
-</script>
