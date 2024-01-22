@@ -15,6 +15,7 @@ const path = require('path');
 const { lowerCase } = require('lodash');
 const { log } = require('console');
 
+
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 const {addCustomer, query_checker} = require('./database/Query/Customer_query');
 
@@ -113,39 +114,3 @@ app.listen(5000, () => {
 
 module.exports= db_query;
 
-
-//body parser for body data
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-// router.use(bodyParser.json());
-
-// const morgan = require('morgan');
-// app.use(morgan('tiny'));
-// app.use(express.json());
-
-// router.get('/all/:id', async (req, res) => {
-//     const filePath = path.join(__dirname, 'index.html');
-//     // res.sendFile(filePath);
-//     // console.log(req.query.username);
-//     const id= (req.params.id);
-//     console.log(id);
-//     const query= `SELECT * FROM HR.EMPLOYEES WHERE EMPLOYEE_ID=${id}`;
-//     const params=[];
-//     const result= await db_query(query,params);
-//     const new_result=result.map((item)=>{
-//         return {
-//             "EMPLOYEE_ID": item.EMPLOYEE_ID,
-//             "FULL_NAME": item.FIRST_NAME+" "+item.LAST_NAME,
-//             "EMAIL": lowerCase(item.EMAIL)+"@gmail.com",
-//             "PHONE_NUMBER": item.PHONE_NUMBER,
-//             "DEPARTMENT_ID": item.DEPARTMENT_ID
-//         }
-//     }
-//     );
-//     if (result) res.status(200).json(new_result)
-//     else res.status(404).send(`<h1> Employee with id ${id} not found </h1>`);
-//     // res.status(200).sendFile(filePath);
-//     // res.send();
-//     console.log(result);
-// });
