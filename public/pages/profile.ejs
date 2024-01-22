@@ -1,117 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/ProfileStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <title>User Profile</title>
-    <style>
-        /* CSS styles for the colorful UI */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-top: 0;
-        }
-        
-        .profile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .profile img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-        }
-        
-        .profile h2 {
-            color: #333;
-            margin: 0;
-        }
-        
-        .profile p {
-            color: #777;
-            margin: 0;
-        }
-        
-        .profile-info {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
-        
-        .profile-info h3 {
-            color: #333;
-            margin: 0;
-        }
-        
-        .profile-info p {
-            color: #777;
-            margin: 0;
-        }
-        
-        .profile-info span {
-            font-weight: bold;
-        }
-        
-        .profile-info .label {
-            color: #555;
-            font-weight: bold;
-        }
-        
-        .profile-info .value {
-            color: #777;
-        }
-        
-        .profile-info .gender {
-            color: #ff69b4;
-        }
-        
-        .profile-info .userid {
-            color: #1e90ff;
-        }
-        
-        .profile-info .dob {
-            color: #008000;
-        }
-    </style>
+
 </head>
+
 <body>
-    <div class="container">
-        <h1>User Profile</h1>
-        <div class="profile">
-            <!-- <img src="profile-picture.jpg" alt="Profile Picture"> -->
-            <div>
-                <h2><%= Name %>
-                </h2>
-                <p>Software Developer</p>
-            </div>
-        </div>
-        <div class="profile-info">
-            <h3>Additional Information</h3>
-            <p><span class="label">Name:</span> <span class="value"><%= Name %></span></p>
-            <p><span class="label">Email:</span> <span class="value"><%= email %></span></p>
-            <p><span class="label">Phone:</span> <span class="value"><%= Phone %></span></p>
-            <p><span class="label">User ID:</span> <span class="value userid"><%= id %></span></p>
-            <p><span class="label">Date of Birth:</span> <span class="value dob"><%= dob %></span></p>
+    <div class="container-fluid" class = "page-limit">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+
+                        <!-- <div class="col-md-3">
+                            <img src="../images/UserProfile/account.png" alt="Profile Picture" class="img-fluid rounded-circle profile-picture">
+                        </div> -->
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Your Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Order History
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Wishlist
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Favourite Products
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Favourite Shops
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Change Password
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Your Profile</h1>
+                </div>
+
+
+                <!-- <div class="row">
+                    <div class="col-md-6">
+
+                        <h3>Personal Information</h3>
+                        <p><strong>Name:</strong> John Doe</p>
+                        <p><strong>Email:</strong> john.doe@example.com</p>
+                        <p><strong>Phone Number:</strong> 01919721621 </p>
+                        <p><strong>Address:</strong> 123 Main St, Cityville</p>
+                        <p><strong>Gender:</strong> Male </p>
+                        <p><strong>Postal Code:</strong> 1234</p>
+                        <p><strong>Date of Birth:</strong> 19 /1/ 2002 </p>
+
+                    </div>
+                </div>
+
+                <button type="button">Edit Information</button> -->
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Personal Information</h3>
+                        <form id="profileForm" action="/user/<%= userID %>" method="post">
+                            <div class="form-group">
+                                <label for="name"><strong>Name:</strong></label>
+                                <input type="text" class="form-control" id="name" value="<%= name %>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><strong>Email:</strong></label>
+                                <input type="email" class="form-control" id="email"  value="<%= email %>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><strong>Phone Number:</strong></label>
+                                <input type="tel" class="form-control" id="phone"  value="<%= phone %>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="address"><strong>Address:</strong></label>
+                                <input type="text" class="form-control" id="address"  value="BUET" readonly>
+                            </div>
+                            <!-- Add more form fields as needed -->
+                
+                            <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
+                            <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+            </main>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
+
+<script>
+
+    $(document).ready(function () {
+        // Edit Information button click event
+        $("#editBtn").on("click", function () {
+            // Enable editing
+            $("input[readonly]").prop("readonly", false);
+            
+            // Show Save Changes button and hide Edit Information button
+            $("#saveBtn").removeClass("d-none");
+            $(this).addClass("d-none");
+
+        });
+
+        // Save Changes button click event
+        $("#profileForm").submit(function (event) {
+
+            event.preventDefault(); // Prevent the default form submission
+
+            // Extract the form data
+            var formData = {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val()
+                // Add more fields as needed
+            };
+
+            // Send the data to the server using AJAX
+            $.ajax({
+                type: "POST",
+                url: "/user/" + userID, // Replace with your server endpoint
+                data: formData,
+
+                success: function (response) {
+                    // Handle success response from the server
+                    console.log(response);
+                },
+
+                error: function (error) {
+                    // Handle error response from the server
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
 </html>

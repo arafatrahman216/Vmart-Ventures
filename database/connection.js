@@ -20,7 +20,9 @@ async function db_query(query , params){
         let result = await connection.execute(query,params);
         oracledb.autoCommit=true;
         return result.rows; 
-    } catch(err){
+    } 
+    
+    catch(err){
         console.log(err);
     }
 }
