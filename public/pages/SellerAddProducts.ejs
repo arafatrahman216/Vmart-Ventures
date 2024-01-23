@@ -35,7 +35,8 @@
                 <h2 class="text-center mb-4">Add Product</h2>
 
                 <!-- Product Form -->
-                <form action="/addproducts" method="post">
+                <form action="/addproducts/<%= shopname %>/<%= shopid%>" method="post">
+
                     <div class="form-group">
                         <label for="productName">Product Name</label>
                         <input type="text" class="form-control" name = "productname" id="productName" required>

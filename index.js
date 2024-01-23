@@ -54,6 +54,8 @@ app.post('/seller_authorize', async (req, res)=>
 {
     console.log('post request');
 
+        console.log(req.body);
+
         var email=req.body.username2;
         var password=req.body.password2;
 
@@ -229,15 +231,47 @@ app.post('/ShopOwnerSignup', async (req, res) => {
 
 );
 
-app.get('/addproducts' , async(req ,res) => {
-    
-    res.render('AddProducts');    
+
+app.get('/addproducts/:shopname/:shopid', async (req, res) => {
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+
+    res.render('SellerAddProducts', { shopname: shopname, shopid: shopid });
 });
 
-app.post('/addproducts' , async(req ,res) => {
-    
-        
-});
+app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+    try {
+
+  
+      const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
+      const shopname = req.params.shopname;
+      const shopid = req.params.shopid;
+  
+      // Assuming you have a table named 'products' with appropriate columns
+      const query = `
+        INSERT INTO PRODUCTS (shopname, shopid, productname, productdescrip, productprice, productquantity, promocode)
+        VALUES (:shopname, :shopid, :productname, :productdescrip, :productprice, :productquantity, :promocode)
+      `;
+  
+      const params = {
+        shopname,
+        shopid,
+        productname,
+        productdescrip: productDescrip,
+        productprice: productPrice,
+        productquantity: productQuantity,
+        promocode: promoCode
+      };
+  
+      const result = await db_query(sql, params);
+  
+      console.log("Product added successfully to the database");
+      res.status(200).send("Product added successfully to the database");
+    } catch (error) {
+      console.error("Error adding product to the database:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 
 // working up to 
 
