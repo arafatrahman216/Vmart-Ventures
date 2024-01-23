@@ -25,54 +25,56 @@ app.get('/login', async (req, res) => {
 }
 );
 
-// app.post('/seller_authorize', async (req, res)=>
-// {
-//     console.log('post request');
-//         console.log(req.body.username2);
-//         console.log(req.body.password2);
-//         var email=req.body.username2;
-//         var password=req.body.password2;
-//         var r= await Seller_authorize(email,password);
-//         console.log(r.length);
-//         if (r.length>0) 
-//         {
-//             console.log('OK');
-//             var linkurl='/user/'+r[0].USER_ID;
-//             res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
-//             return;
-//         }
-//         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
-//         console.log('not ok');
-//     }
-
-//     );
-
-
+// arafat's code
 app.post('/seller_authorize', async (req, res)=>
 {
     console.log('post request');
-
+        console.log(req.body.username2);
+        console.log(req.body.password2);
         var email=req.body.username2;
         var password=req.body.password2;
-
-        var r = await Seller_authorize(email,password);
-
-
+        var r= await Seller_authorize(email,password);
+        console.log(r.length);
         if (r.length>0) 
         {
             console.log('OK');
-            var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
-
-            res.render('SellerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            var linkurl='/user/'+r[0].USER_ID;
+            res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
             return;
         }
-
         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
 
 );
-    
+
+// omi's code
+// app.post('/seller_authorize', async (req, res)=>
+// {
+//     console.log('post request');
+
+//         var email=req.body.username2;
+//         var password=req.body.password2;
+
+//         var r = await Seller_authorize(email,password);
+
+
+//         if (r.length>0) 
+//         {
+//             console.log('OK');
+//             var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
+
+//             res.render('SellerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+//             return;
+//         }
+
+//         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
+//         console.log('not ok');
+//     }
+
+// );
+
+// arafat code
 // app.get('/user/:userid', async (req, res) => {
 
 //     console.log('get request');
@@ -117,24 +119,8 @@ app.get('/user/:userid', async (req, res) => {
 }
 );                      
 
-// app.post('/user/:userid', async (req, res) => {
-//     //const updatedData = req.body; // Assuming you're using a body parser middleware
-//     // Update the database with the new data
-//     //console.log( req.params.userid );
-
-//     console.log("Profile Post");
-
-//     const query= `UPDATE CUSTOMER_USER SET NAME =  req.body.name, PHONE =req.body.phone , EMAIL = req.body.email , WHERE USER_ID LIKE ${req.params.userid}`; 
-//     const params=[];
-
-//     const result= await db_query(query,params); 
-    
-
-//     //console.log(req.body);
-
-// });
-
 app.post('/user/:userid', async (req, res) => {
+
     console.log("Profile Post");
 
     const query = `
@@ -207,7 +193,6 @@ app.post('/authorize', async (req, res) => {
 
   
 app.get('/signup' , async(req ,res) => {
-    //log('get request user signup');
     
     res.render('signup');    
 }); 
@@ -224,6 +209,27 @@ app.post('/signup', async (req, res) => {
 
 );
 
+// working right now
+
+app.get('/ShopOwnerSignup' , async(req ,res) => {
+    
+    res.render('ShopOwnerSignup');    
+});
+
+app.post('/ShopOwnerSignup', async (req, res) => {
+
+    console.log(req.body);  
+    //const {name, email, phone, shopname , street, postal_code,city, division , password , description }= req.body;
+    const shopid= await addSeller( email, phone, shopname , street, postal_code,city, division , password , description);
+    console.log('Shop Owner post signup');
+    console.log(shopid);
+    //res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
+    res.render('ShopOwnerProfile' , {shopname: req.body.shopname , email: req.body.email , description: req.body.description , shopid: req.body.shopid , phone: req.body.phone , revenue: req.body.revenue});
+}
+
+);
+
+// working up to 
 
 app.listen(5000, () => {
     console.log('Server on port 5000');
