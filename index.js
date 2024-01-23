@@ -229,6 +229,16 @@ app.post('/ShopOwnerSignup', async (req, res) => {
 
 );
 
+app.get('/addproducts' , async(req ,res) => {
+    
+    res.render('AddProducts');    
+});
+
+app.post('/addproducts' , async(req ,res) => {
+    
+        
+});
+
 // working up to 
 
 app.listen(5000, () => {
