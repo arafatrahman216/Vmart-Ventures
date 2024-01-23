@@ -117,20 +117,10 @@
         </ul>
     </aside>
     <div class="product-section">
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
-        <%- include("card") %>
+        <% products.forEach(function(product){ %>
+            <%- include("card", {PRODUCT_NAME: product.PRODUCT_NAME, SHOP_NAME: product.SHOP_NAME, PRODUCT_PRICE: product.PRODUCT_PRICE}) %>
+        <% }) %>
+
         <br>
     </div>
     <%- include("footer") %>

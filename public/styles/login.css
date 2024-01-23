@@ -208,12 +208,6 @@ hr{
     margin-bottom: 10px;
 
 }
-#hoveringImg{
-    display: none; 
-    position: fixed;
-    top: 500px;
-    right: 95px;
-}
 .alert
 {
     width: 100%;

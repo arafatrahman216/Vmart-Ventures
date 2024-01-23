@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const axios = require('axios');
 const router= express.Router();
 app.use(express.urlencoded({ extended: true }));
 
@@ -12,12 +13,49 @@ const db_query= require('./database/connection');
 
 
 const path = require('path');
-const { lowerCase } = require('lodash');
+const { lowerCase, isNumber } = require('lodash');
 const { log } = require('console');
 
 
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 const {addCustomer, query_checker} = require('./database/Query/Customer_query');
+
+
+app.get('/products/:id', async (req, res) => {
+    console.log('get request');
+    const id= (req.params.id);
+    console.log(id);
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
+    +`WHERE P.PRODUCT_ID LIKE ${id}`;   
+    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
+    const params=[];
+    const result= await db_query(query,params); 
+    // console.log(result.length);
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    const products = [];
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            product_id: result[i].PRODUCT_ID,
+            PRODUCT_NAME: result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            product_stock: result[i].STOCK,
+            product_description: result[i].DESCRIPTION,
+            product_image: result[i].PRODUCT_IMAGE,
+            product_rating: result[i].RATING,
+            product_catagory: result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            product_shop_id: result[i].SHOP_ID
+        };
+        products.push(product);
+    }
+    res.json(products);
+    return;
+}
+);
 
 
 app.get('/login', async (req, res) => {
@@ -85,6 +123,12 @@ app.post('/authorize', async (req, res) => {
     {
         console.log('OK');
         var linkurl='/user/'+r[0].USER_ID;
+        var products = [];
+        const result= axios.get(`http://localhost:5000/products/all`).then(response => {
+            products=response.data;
+            console.log(products);
+
+        })
         res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl});
         return;
     }
@@ -113,4 +157,5 @@ app.listen(5000, () => {
 });
 
 module.exports= db_query;
+
 

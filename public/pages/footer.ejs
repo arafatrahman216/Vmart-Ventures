@@ -19,7 +19,7 @@
                 <td style="width: 250px; " >Help Center</td>
                 <td style="width: 250px;">About Vmart Ventures</td>
                 <td style="width: 250px;"><a target="_blank" class="fblink" id="arafatfb" onmouseover="linkHover(arafatfb)" onmouseout="linkHoverOut(arafatfb)"  href="https://www.facebook.com/arafat.rahman.160216">Arafat Rahman
-                    <img id="hoveringImg"  src="public/images/login/user.png" class="profile" >
+                    <!-- <img id="hoveringImg"  src="public/images/login/user.png" class="profile" > -->
                 </a></td>
                 
             </tr>
@@ -52,24 +52,10 @@
 <script>
     const linkHover=(links)=>
     {
-        var img= document.getElementById("hoveringImg");
-        var yy= document.getElementById("username");
-        img.style.display= "inline-block";    
-        yy.value= links.innerText;
-        if (links.innerText==="Arafat Rahman") {
-            yy.value= "arafatrahman219@gmail.com";
-            img.src= "../images/login/arafatFB.jpg";
-        }
-        else if (links.innerText==="Tahmidul Islam Omi") {
-            yy.value= "tahmidulislamomi09@gmail.com";
-            img.src= "../images/login/omiFB.jpg";
-        }
         links.style.color= "blue";
     }
     const linkHoverOut=(links)=>
     {
-        var img= document.getElementById("hoveringImg");
-        img.style.display= "none";
         links.style.color= "#a8fa05f3";
     }
 </script>
