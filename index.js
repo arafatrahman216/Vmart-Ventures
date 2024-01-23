@@ -115,19 +115,46 @@ app.get('/user/:userid', async (req, res) => {
     res.render('profile', { name: result[0].NAME , phone : result[0].PHONE  , email : result[0].EMAIL , userID : result[0].USER_ID});
     return;
 }
-);
+);                      
 
-app.post('/user/:userid', async (req, res) => {
-    //const updatedData = req.body; // Assuming you're using a body parser middleware
-    // Update the database with the new data
-    //console.log( req.params.userid );
+// app.post('/user/:userid', async (req, res) => {
+//     //const updatedData = req.body; // Assuming you're using a body parser middleware
+//     // Update the database with the new data
+//     //console.log( req.params.userid );
 
-    console.log("Profile Post");
+//     console.log("Profile Post");
+
+//     const query= `UPDATE CUSTOMER_USER SET NAME =  req.body.name, PHONE =req.body.phone , EMAIL = req.body.email , WHERE USER_ID LIKE ${req.params.userid}`; 
+//     const params=[];
+
+//     const result= await db_query(query,params); 
     
 
-    console.log(req.body);
+//     //console.log(req.body);
 
+// });
 
+app.post('/user/:userid', async (req, res) => {
+    console.log("Profile Post");
+
+    const query = `
+        UPDATE CUSTOMER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email 
+        WHERE USER_ID LIKE :userid
+    `;
+
+    const params = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        userId: req.params.userid
+    };
+
+    try {
+        const result = await db_query(query, params);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
 });
 
 //after submitting login page
