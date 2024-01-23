@@ -107,8 +107,68 @@
             </div>
         </form>
     </div>
-    
     <%- include('./footer') %>
+    <script>
+    
+
+        const eyeon= (password, TogglePassword)=>
+        {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            if (type==='text') password.setAttribute('autocomplete','off');
+            TogglePassword.classList.toggle('fa-eye-slash');
+        }
+    
+        const mouseover= (butt)=>
+        {
+            // var butt= document.getElementById("login");
+            butt.style.backgroundColor= "red";
+            // butt.style.width="45%"
+            // butt.style.height="40px"
+        }
+        const mouseout= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+        // butt.style.width="40%"
+        // butt.style.height="35px"
+    }
+    const onCustclick= ()=>
+    {
+        var Cform=document.getElementById("myForm");
+        if (!(Cform.style.display==="block")) document.getElementById("username").value= "";
+        Cform.style.display="block";
+        document.getElementById("myForm2").style.display="none";
+        document.getElementById("Customer").style.border="2px solid #ffffff";
+        document.getElementById("Seller").style.border="none";
+
+        // document.getElementById("username").innerText= s;
+
+    }
+    const onSellerclick= ()=>
+    {
+        document.getElementById("myForm2").style.display="block";
+        document.getElementById("myForm").style.display="none";
+        document.getElementById("Seller").style.border="2px solid #ffffff";
+        document.getElementById("Customer").style.border="none";
+    }
+    const RedButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "red";
+        butt.style.boxShadow= "0px 0px 10px 5px yellow";
+        
+        
+    }
+    const BlueButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+        butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
+    }
+
+    </script>
 </body>
 </html>
 

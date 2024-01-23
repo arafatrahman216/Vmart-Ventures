@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Design</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="../styles/CardStyle.css" rel="stylesheet">
 
 </head>
-<body>
+<body class="card-body">
     
             <div style="margin: 2px;"  >
                 <div class="card" style="width: 250px; height:auto;display: inline-block; border-radius: 10px; border-color: sienna;">
-                    <img src="../images/product/product1.jpg" style="width: 180px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
+                    
+                    <img src="" style="width: 180px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
+                    <script>
+                        var img = document.querySelector('.card-img-top');
+                        img.src = '<%= PRODUCT_IMAGE %>';
+                        img.alt = '<%= PRODUCT_NAME %>';
+                        
+
+                    </script>
                     <div class="card-body">
-                        <h6 class="card-title"><%= PRODUCT_NAME %></h6>
+                        <% if (PRODUCT_NAME.length > 45) { %>
+                            <h6 class="card-title"><%= PRODUCT_NAME.substring(0, 45) %>...</h6>
+                        <% } else { %>
+                            <h6 class="card-title"><%= PRODUCT_NAME %></h6>
+                        <% } %>
                         <p style="display: block;" class="card-text"><%= SHOP_NAME %></p> 
                         <s class="striked" style="margin-left: 8px;" ><%= PRODUCT_PRICE %> ৳ </s> 
                         <span class="badge bg-success" id="disc" style="margin-left: 50px;">10% off</span>
                     </div>
                     <div class="mb-5 d-flex justify-content-around">
-                        <b class = "price">64,700৳ </b> 
+                        <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
                         <button class="btn btn-primary">Add to Cart</button>
                     </div>
                 </div>

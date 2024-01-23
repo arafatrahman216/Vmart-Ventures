@@ -44,7 +44,7 @@ app.get('/products/:id', async (req, res) => {
             PRODUCT_PRICE: result[i].PRICE,
             product_stock: result[i].STOCK,
             product_description: result[i].DESCRIPTION,
-            product_image: result[i].PRODUCT_IMAGE,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
             product_rating: result[i].RATING,
             product_catagory: result[i].CATAGORY_NAME,
             SHOP_NAME: result[i].SHOP_NAME,
@@ -126,11 +126,16 @@ app.post('/authorize', async (req, res) => {
         var products = [];
         const result= axios.get(`http://localhost:5000/products/all`).then(response => {
             products=response.data;
-            console.log(products);
+            console.log("logging things ");
+            let arr= { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products};
+            console.log(arr);
+            res.render('home', arr);
+            // res.json({Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products})
+            // res.json(arr);
+            return;
 
         })
-        res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl});
-        return;
+
     }
     else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
     console.log('not ok');

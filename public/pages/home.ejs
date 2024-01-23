@@ -25,6 +25,11 @@
         
         /* CSS styles for the product section */
         .product-section {
+            
+            /* margin-left: 300px;
+            margin-top: 100px;
+            margin-right: 50px;
+            margin-bottom: 50px; */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -89,7 +94,7 @@
                     window.location.href = "/search/" + input.value;
                 }
             });
-
+        
         </script>
 
         <div >
@@ -113,22 +118,27 @@
             <li>Category 2</li>
             <li>Category 3</li>
             <li>Category 4</li>
-            <li>Category 5</li>
+            <li>Category 5</li> 
         </ul>
     </aside>
     <div class="product-section">
-        <% products.forEach(function(product){ %>
-            <%- include("card", {PRODUCT_NAME: product.PRODUCT_NAME, SHOP_NAME: product.SHOP_NAME, PRODUCT_PRICE: product.PRODUCT_PRICE}) %>
-        <% }) %>
+        <% for (var i = 0; i < products.length; i++) { %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, PRODUCT_IMAGE : products[i].PRODUCT_IMAGE}) %>
+
+        <% } %>
 
         <br>
     </div>
     <%- include("footer") %>
     <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
     <script>
+
+        // Get the product data from the server
+        
         // Get the profile link
         const link_to_profile =()=>
         {
+
             var profileLink = document.getElementById('profile-link');
             // Get the user ID from the URL
             // Set the href of the profile link to the user ID
