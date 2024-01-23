@@ -74,3 +74,29 @@ $("#profileForm").submit(function (event) {
         }
     });
 });
+
+
+
+app.post('/user/:userid', async (req, res) => {
+
+    console.log("Profile Post");
+
+    const query = `
+        UPDATE CUSTOMER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email 
+        WHERE USER_ID LIKE :userid
+    `;
+
+    const params = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        userId: req.params.userid
+    };
+
+    try {
+        const result = await db_query(query, params);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+});
