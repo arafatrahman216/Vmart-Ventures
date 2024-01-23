@@ -62,49 +62,58 @@ app.get('/login', async (req, res) => {
     res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
 }
 );
-
 app.post('/seller_authorize', async (req, res)=>
 {
     console.log('post request');
-        console.log(req.body.username2);
-        console.log(req.body.password2);
+
         var email=req.body.username2;
         var password=req.body.password2;
-        var r= await Seller_authorize(email,password);
-        console.log(r.length);
+
+        var r = await Seller_authorize(email,password);
+
+
         if (r.length>0) 
         {
             console.log('OK');
-            var linkurl='/user/'+r[0].USER_ID;
-            res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
+            var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
+
+            res.render('SellerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
             return;
         }
+
         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
 
-    );
+);
     
 app.get('/user/:userid', async (req, res) => {
+
     console.log('get request');
     const id= (req.params.userid);
     console.log(id);
+
     const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${id}`; 
     const params=[];
     const result= await db_query(query,params); 
+
     console.log(result.length);
+
     if (result.length<1)
     {
         res.send(`<h1> User with id ${id} not found </h1>`);
         return;
     }
+
     const user_name=result[0].NAME;
     console.log(user_name);
+
     const phone = result[0].PHONE_NUMBER;
     console.log(phone);
+
     const Gender = result[0].GENDER ;
     
-    res.render('profile', { Name: user_name, Phone : phone , id: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
+    res.render('profile', { Name: user_name, Phone : phone , userID: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
     return;
 }
 );
