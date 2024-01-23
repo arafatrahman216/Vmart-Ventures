@@ -26,53 +26,53 @@ app.get('/login', async (req, res) => {
 );
 
 // arafat's code
-app.post('/seller_authorize', async (req, res)=>
-{
-    console.log('post request');
-        console.log(req.body.username2);
-        console.log(req.body.password2);
-        var email=req.body.username2;
-        var password=req.body.password2;
-        var r= await Seller_authorize(email,password);
-        console.log(r.length);
-        if (r.length>0) 
-        {
-            console.log('OK');
-            var linkurl='/user/'+r[0].USER_ID;
-            res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
-            return;
-        }
-        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
-        console.log('not ok');
-    }
-
-);
-
-// omi's code
 // app.post('/seller_authorize', async (req, res)=>
 // {
 //     console.log('post request');
-
+//         console.log(req.body.username2);
+//         console.log(req.body.password2);
 //         var email=req.body.username2;
 //         var password=req.body.password2;
-
-//         var r = await Seller_authorize(email,password);
-
-
+//         var r= await Seller_authorize(email,password);
+//         console.log(r.length);
 //         if (r.length>0) 
 //         {
 //             console.log('OK');
-//             var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
-
-//             res.render('SellerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+//             var linkurl='/user/'+r[0].USER_ID;
+//             res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
 //             return;
 //         }
-
 //         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
 //         console.log('not ok');
 //     }
 
 // );
+
+// omi's code
+
+app.post('/seller_authorize', async (req, res)=>
+{
+    console.log('post request');
+
+        var email=req.body.username2;
+        var password=req.body.password2;
+
+        var r = await Seller_authorize(email,password);
+
+        if (r.length>0) 
+        {
+            console.log('OK');
+            var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
+
+            res.render('ShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            return;
+        }
+
+        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
+        console.log('not ok');
+    }
+
+);
 
 // arafat code
 // app.get('/user/:userid', async (req, res) => {
