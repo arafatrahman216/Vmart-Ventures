@@ -40,3 +40,37 @@
         });
     });
 </script> */}
+
+
+
+// data was in profile.ejs
+
+$("#profileForm").submit(function (event) {
+
+    event.preventDefault(); // Prevent the default form submission
+
+    // Extract the form data
+    var formData = {
+        name: $("#name").val(),
+        email: $("#email").val(),
+        phone: $("#phone").val()
+        // Add more fields as needed
+    };
+
+    // Send the data to the server using AJAX
+    $.ajax({
+        type: "POST",
+        url: "/user/" + userID, // Replace with your server endpoint
+        data: formData,
+
+        success: function (response) {
+            // Handle success response from the server
+            console.log(response);
+        },
+
+        error: function (error) {
+            // Handle error response from the server
+            console.error(error);
+        }
+    });
+});

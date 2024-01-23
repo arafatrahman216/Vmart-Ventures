@@ -7,6 +7,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 app.use('/',router);
+app.use(express.json());
 
 const db_query= require('./database/connection');
 
@@ -108,6 +109,7 @@ app.get('/user/:userid', async (req, res) => {
 
     const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${req.params.userid}`; 
     const params=[];
+
     const result= await db_query(query,params); 
     
     res.render('profile', { name: result[0].NAME , phone : result[0].PHONE  , email : result[0].EMAIL , userID : result[0].USER_ID});
@@ -116,15 +118,16 @@ app.get('/user/:userid', async (req, res) => {
 );
 
 app.post('/user/:userid', async (req, res) => {
-    const updatedData = req.body; // Assuming you're using a body parser middleware
+    //const updatedData = req.body; // Assuming you're using a body parser middleware
     // Update the database with the new data
+    //console.log( req.params.userid );
 
     console.log("Profile Post");
+    
 
-    console.log(updatedData);
+    console.log(req.body);
 
-    // Send a response back to the client
-    res.send("Profile updated successfully");
+
 });
 
 //after submitting login page
