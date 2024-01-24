@@ -150,7 +150,7 @@ app.post('/seller_authorize', async (req, res)=>
             console.log('OK');
             var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
 
-            res.render('SellerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            res.render('ShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
             return;
         }
 
@@ -159,6 +159,21 @@ app.post('/seller_authorize', async (req, res)=>
     }
 
 );
+
+app.post('/user/:userid', async (req, res) => {
+ 
+    console.log("Profile Post");
+ 
+    const query = `UPDATE CUSTOMER_USER SET NAME = \'${req.body.name}\', PHONE = \'${req.body.phone}\', EMAIL = \'${req.body.email}\' WHERE USER_ID= ${req.params.userid} `;
+    console.log(query);
+    // try {
+    //     const result = await db_query(query, []);
+    // } catch (error) {
+    //     console.error('Error updating data:', error);
+    // }
+    res.redirect('/user/'+req.params.userid);
+
+});
     
 app.get('/user/:userid', async (req, res) => {
 
@@ -181,7 +196,7 @@ app.get('/user/:userid', async (req, res) => {
     const user_name=result[0].NAME;
     console.log(user_name);
 
-    const phone = result[0].PHONE_NUMBER;
+    const phone = result[0].PHONE;
     console.log(phone);
 
     const Gender = result[0].GENDER ;
@@ -191,7 +206,6 @@ app.get('/user/:userid', async (req, res) => {
 }
 );
 
-app.get('filter/')
 
 
 

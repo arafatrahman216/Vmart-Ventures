@@ -91,24 +91,24 @@
                         <form id="profileForm" action="/user/<%= userID %>" method="post">
                             <div class="form-group">
                                 <label for="name"><strong>Name:</strong></label>
-                                <input type="text" class="form-control" id="name" value="<%= Name %>" readonly>
+                                <input type="text" class="form-control" name="name" id="name" value="<%= Name %>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="email"><strong>Email:</strong></label>
-                                <input type="email" class="form-control" id="email"  value="<%= email %>" readonly>
+                                <input type="email" class="form-control" id="email" name="email"  value="<%= email %>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="phone"><strong>Phone Number:</strong></label>
-                                <input type="tel" class="form-control" id="phone"  value="<%= Phone %>" readonly>
+                                <input type="tel" class="form-control" id="phone" name="phone"  value="<%= Phone %>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="address"><strong>Address:</strong></label>
+                                <label for="address" id="address" name="address" ><strong>Address:</strong></label>
                                 <input type="text" class="form-control" id="address"  value="BUET" readonly>
                             </div>
                             <!-- Add more form fields as needed -->
                 
                             <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
-                            <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                            <button type="button" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
                         </form>
                     </div>
                 </div>
@@ -125,49 +125,82 @@
 
 <script>
 
-    $(document).ready(function () {
-        // Edit Information button click event
-        $("#editBtn").on("click", function () {
-            // Enable editing
-            $("input[readonly]").prop("readonly", false);
+    // $(document).ready(function () {
+    //     // Edit Information button click event
+    //     $("#editBtn").on("click", function () {
+    //         // Enable editing
+    //         $("input[readonly]").prop("readonly", false);
             
-            // Show Save Changes button and hide Edit Information button
-            $("#saveBtn").removeClass("d-none");
-            $(this).addClass("d-none");
+    //         // Show Save Changes button and hide Edit Information button
+    //         $("#saveBtn").removeClass("d-none");
+    //         $(this).addClass("d-none");
 
-        });
+    //     });
 
-        // Save Changes button click event
-        $("#profileForm").submit(function (event) {
+    //     // Save Changes button click event
+    //     $("#profileForm").submit(function (event) {
 
-            event.preventDefault(); // Prevent the default form submission
+    //         event.preventDefault(); // Prevent the default form submission
 
-            // Extract the form data
-            var formData = {
-                name: $("#name").val(),
-                email: $("#email").val(),
-                phone: $("#phone").val()
-                // Add more fields as needed
-            };
+    //         // Extract the form data
+    //         var formData = {
+    //             name: $("#name").val(),
+    //             email: $("#email").val(),
+    //             phone: $("#phone").val()
+    //             // Add more fields as needed
+    //         };
 
-            // Send the data to the server using AJAX
-            $.ajax({
-                type: "POST",
-                url: "/user/" + userID, // Replace with your server endpoint
-                data: formData,
+    //         // Send the data to the server using AJAX
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/user/" + userID, // Replace with your server endpoint
+    //             data: formData,
 
-                success: function (response) {
-                    // Handle success response from the server
-                    console.log(response);
-                },
+    //             success: function (response) {
+    //                 // Handle success response from the server
+    //                 console.log(response);
+    //             },
 
-                error: function (error) {
-                    // Handle error response from the server
-                    console.error(error);
-                }
-            });
-        });
+    //             error: function (error) {
+    //                 // Handle error response from the server
+    //                 console.error(error);
+    //             }
+    //         });
+    //     });
+    // });
+
+    var editBtn = document.getElementById('editBtn');
+    var saveBtn = document.getElementById('saveBtn');
+    var name = document.getElementById('name');
+    var email = document.getElementById('email');
+    var phone = document.getElementById('phone');
+    var address = document.getElementById('address');
+    editBtn.addEventListener('click', function (event) {
+        saveBtn.classList.remove('d-none');
+        editBtn.classList.add('d-none');
+        name.readOnly= false;
+        email.readOnly= false;
+        phone.readOnly= false;
+        address.readOnly= false;
+
+    });
+    saveBtn.addEventListener('click', function (event) {
+        saveBtn.classList.add('d-none');
+        editBtn.classList.remove('d-none');
+        name.readOnly= true;
+        email.readOnly= true;
+        phone.readOnly= true;
+        address.readOnly= true;
+        event.preventDefault(); // Prevent the default form submission
+        axios.post('/user/<%= userID %>', {
+            name: name.value,
+            email: email.value,
+            phone: phone.value
+        })
+
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 </html>
