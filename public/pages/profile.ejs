@@ -125,80 +125,99 @@
 
 <script>
 
-    // $(document).ready(function () {
-    //     // Edit Information button click event
-    //     $("#editBtn").on("click", function () {
-    //         // Enable editing
-    //         $("input[readonly]").prop("readonly", false);
+    $(document).ready(function () {
+        // Edit Information button click event
+        $("#editBtn").on("click", function () {
+            // Enable editing
+            $("input[readonly]").prop("readonly", false);
             
-    //         // Show Save Changes button and hide Edit Information button
-    //         $("#saveBtn").removeClass("d-none");
-    //         $(this).addClass("d-none");
+            // Show Save Changes button and hide Edit Information button
+            $("#saveBtn").removeClass("d-none");
+            $(this).addClass("d-none");
 
-    //     });
+        });
 
-    //     // Save Changes button click event
-    //     $("#profileForm").submit(function (event) {
+        // Save Changes button click event
+        $("#profileForm").submit(function (event) {
 
-    //         event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Prevent the default form submission
 
-    //         // Extract the form data
-    //         var formData = {
-    //             name: $("#name").val(),
-    //             email: $("#email").val(),
-    //             phone: $("#phone").val()
-    //             // Add more fields as needed
-    //         };
+            // Extract the form data
+            var formData = {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val()
+                // Add more fields as needed
+            };
 
-    //         // Send the data to the server using AJAX
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/user/" + userID, // Replace with your server endpoint
-    //             data: formData,
+            // Send the data to the server using AJAX
+            $.ajax({
+                type: "POST",
+                url: "/user/" + userID, // Replace with your server endpoint
+                data: formData,
 
-    //             success: function (response) {
-    //                 // Handle success response from the server
-    //                 console.log(response);
-    //             },
+                success: function (response) {
+                    // Handle success response from the server
+                    console.log(response);
+                },
 
-    //             error: function (error) {
-    //                 // Handle error response from the server
-    //                 console.error(error);
-    //             }
-    //         });
-    //     });
+                error: function (error) {
+                    // Handle error response from the server
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+    // var editBtn = document.getElementById('editBtn');
+    // var saveBtn = document.getElementById('saveBtn');
+    // var name = document.getElementById('name');
+    // var email = document.getElementById('email');
+    // var phone = document.getElementById('phone');
+    // var address = document.getElementById('address');
+    // editBtn.addEventListener('click', function (event) {
+    //     saveBtn.classList.remove('d-none');
+    //     editBtn.classList.add('d-none');
+    //     name.readOnly= false;
+    //     email.readOnly= false;
+    //     phone.readOnly= false;
+    //     address.readOnly= false;
+
     // });
+    // saveBtn.addEventListener('click', function (event) {
+    //     saveBtn.classList.add('d-none');
+    //     editBtn.classList.remove('d-none');
+    //     name.readOnly= true;
+    //     email.readOnly= true;
+    //     phone.readOnly= true;
+    //     address.readOnly= true;
+    //     event.preventDefault(); // Prevent the default form submission
+    //     axios.post('/user/<%= userID %>', {
+    //         name: $("#name").val(),
+    //         email: $("#email").val(),
+    //         phone: $("#phone").val()
+    //     })
 
-    var editBtn = document.getElementById('editBtn');
-    var saveBtn = document.getElementById('saveBtn');
-    var name = document.getElementById('name');
-    var email = document.getElementById('email');
-    var phone = document.getElementById('phone');
-    var address = document.getElementById('address');
-    editBtn.addEventListener('click', function (event) {
-        saveBtn.classList.remove('d-none');
-        editBtn.classList.add('d-none');
-        name.readOnly= false;
-        email.readOnly= false;
-        phone.readOnly= false;
-        address.readOnly= false;
+    //     axios({
+    //         method : 'post',
+    //         url : '/user/<%= userID %>',
+    //         data : {
+    //             name: name.value,
+    //             email: email.value,
+    //             phone: phone.value
+    //         }
+            
+    //     })
+    //     .then(function (response) {
+    //         // handle success
+    //         console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //         // handle error
+    //         console.log(error);
+    //     })
 
-    });
-    saveBtn.addEventListener('click', function (event) {
-        saveBtn.classList.add('d-none');
-        editBtn.classList.remove('d-none');
-        name.readOnly= true;
-        email.readOnly= true;
-        phone.readOnly= true;
-        address.readOnly= true;
-        event.preventDefault(); // Prevent the default form submission
-        axios.post('/user/<%= userID %>', {
-            name: name.value,
-            email: email.value,
-            phone: phone.value
-        })
-
-    });
+    // });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

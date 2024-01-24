@@ -13,7 +13,7 @@ const db_query= require('./database/connection');
 
 
 const path = require('path');
-const { lowerCase, isNumber } = require('lodash');
+const { lowerCase, isNumber, result } = require('lodash');
 const { log } = require('console');
 
 
@@ -112,16 +112,16 @@ app.get('/products/:id', async (req, res) => {
     const products = [];
     for (let i = 0; i < result.length; i++) {
         const product = {
-            product_id: result[i].PRODUCT_ID,
-            PRODUCT_NAME: result[i].PRODUCT_NAME,
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME : result[i].PRODUCT_NAME,
             PRODUCT_PRICE: result[i].PRICE,
-            product_stock: result[i].STOCK,
-            product_description: result[i].DESCRIPTION,
+            PRODUCT_STOCK: result[i].STOCK,
+            PRODUCT_DESCRIPTION: result[i].DESCRIPTION,
             PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
-            product_rating: result[i].RATING,
-            product_catagory: result[i].CATAGORY_NAME,
+            PRODUCT_RATING : result[i].RATING,
+            PRODUCT_CATAGORY : result[i].CATAGORY_NAME,
             SHOP_NAME: result[i].SHOP_NAME,
-            product_shop_id: result[i].SHOP_ID
+            PRODUCT_SHOP_ID : result[i].SHOP_ID
         };
         products.push(product);
     }
@@ -130,11 +130,25 @@ app.get('/products/:id', async (req, res) => {
 }
 );
 
+app.get('/product/:id', async (req, res) => {
+    // console.log('get request');
+    const id= (req.params.id);
+    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
+        const product=response.data;
+        res.render('product', { product: product });
+        return;
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+});
+
 
 app.get('/login', async (req, res) => {
     res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
-}
-);
+});
+
 app.post('/seller_authorize', async (req, res)=>
 {
     console.log('post request');
@@ -237,9 +251,6 @@ app.post('/authorize', async (req, res) => {
             .catch(error => {
                 console.log(error);
             });
-            
-            
-
         })
 
     }
@@ -259,7 +270,20 @@ app.post('/signup', async (req, res) => {
     const userid= await addCustomer(name, e_mail,phone, password,gender,dob,street, postal_code,city, division);
     console.log('userid post signup');
     console.log(userid);
-    res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
+    // res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
+    const result=  axios.get(`http://localhost:5000/products/all`).then(response => {
+            products=response.data;
+            const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
+                const categories=response.data;
+                const arr= { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid, products: products, categories: categories};
+                // console.log(arr);
+                res.render('home', arr);
+                return;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        })
 }
 );
 

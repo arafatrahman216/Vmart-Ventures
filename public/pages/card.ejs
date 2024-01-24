@@ -12,32 +12,33 @@
 <body class="card-body">
     
             <div style="margin: 2px;"  >
+                <a href="/product/<%= id %>">
                 <div class="card" style="width: 250px; height:auto;display: inline-block; border-radius: 10px; border-color: sienna;">
-                    
                     <img src="../images/product/product1.jpg" style="width: 180px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
                     <script>
                         var img = document.querySelector('.card-img-top');
                         img.src =  `<%= image %>`;
                         img.alt = '<%= PRODUCT_NAME %>';
                         
-
-                    </script>
+                        
+                        </script>
                     <div class="card-body">
                         <% if (PRODUCT_NAME.length > 45) { %>
                             <h6 class="card-title"><%= PRODUCT_NAME.substring(0, 45) %>...</h6>
-                        <% } else { %>
-                            <h6 class="card-title"><%= PRODUCT_NAME %></h6>
-                        <% } %>
-                        <p style="display: block;" class="card-text"><%= SHOP_NAME %></p> 
-                        <s class="striked" style="margin-left: 8px;" ><%= PRODUCT_PRICE %> ৳ </s> 
-                        <span class="badge bg-success" id="disc" style="margin-left: 50px;">10% off</span>
-                    </div>
-                    <div class="mb-5 d-flex justify-content-around">
-                        <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
-                        <button class="btn btn-primary">Add to Cart</button>
-                    </div>
+                            <% } else { %>
+                                <h6 class="card-title"><%= PRODUCT_NAME %></h6>
+                                <% } %>
+                                <p style="display: block;" class="card-text"><%= SHOP_NAME %></p> 
+                                <s class="striked" style="margin-left: 8px;" ><%= PRODUCT_PRICE %> ৳ </s> 
+                                <span class="badge bg-success" id="disc" style="margin-left: 50px;">10% off</span>
+                            </div>
+                            <div class="mb-5 d-flex justify-content-around">
+                                <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
+                                <button class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
             
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
