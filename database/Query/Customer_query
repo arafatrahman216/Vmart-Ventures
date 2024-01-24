@@ -5,7 +5,7 @@ const { authorize } = require('./LoginAuthorization');
 
 const addCustomer=async (name,email,phone,password,gender,dob, street, postal_code,city, division )=>
 {
-    const e= await Seller_authorize(email,password);
+    const e= await authorize(email,password);
     
     if (e.length>0)
     {
@@ -13,7 +13,7 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
         return e[0].USER_ID ;  
     }
 
-    var shopid= await query_checker();
+    var userId= await query_checker();
     userId++;
     console.log('userId')
 
