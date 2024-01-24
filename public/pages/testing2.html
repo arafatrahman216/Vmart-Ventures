@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/ProfileStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <title>User Profile</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white; /* Optional: Background color for the page */
+        }
+        
+        .glass-box {
+            display: flex;
+            width: 1200px; /* Adjust the width as needed */
+            height: 600px; /* Adjust the height as needed */
+            background-color: white;
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
+            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+        }
+        
+        .container-fluid {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .glass-box .col-md-2 {
+            position: fixed;
+            top: 1px;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 20px;
+            background-color: black;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 650px;
+        }
+        
+        .glass-box .profile-picture {
+            width: 800px !important;
+            height: 150px;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        .glass-box .container-center {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        
+        .glass-box .main-content {
+            margin-top: 20px;
+        }
+        
+        .glass-box .sidebar-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+        }
+        
+        .glass-box .nav-item {
+            padding: 5px 0;
+        }
+        
+        .glass-box .nav-link {
+            color: #333;
+        }
+        
+        .glass-box .nav-link:hover {
+            color: #007bff;
+        }
+        
+        .glass-box .border-bottom {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .glass-box h1,
+        .glass-box h2,
+        .glass-box h3 {
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-box">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <!-- ... Your sidebar content ... -->
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Your Profile
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Your Products
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Add New Product
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Most Valued Products
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Change Password
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <!-- ... Your main content ... -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Your Profile</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Shop Information</h3>
+                    <form id="profileForm">
+
+                        <div class="form-group">
+                            <label for="name"><strong>Shop Name:</strong></label>
+                            <input type="text" class="form-control" id="name" value="John Doe" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"><strong>Shop Email:</strong></label>
+                            <input type="email" class="form-control" id="email" value="john.doe@example.com" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone"><strong>Shop Contact Number:</strong></label>
+                            <input type="tel" class="form-control" id="phone" value="01919721621" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description"><strong>Description:</strong></label>
+                            <input type="text" class="form-control" id="description" value="123 Main St, Cityville" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="revenue"><strong>Total Revenue:</strong></label>
+                            <input type="number" class="form-control" id="revenue" value = "10000" readonly>
+                        </div>
+
+                        <!-- Add more form fields as needed -->
+            
+                        <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
+                        <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
