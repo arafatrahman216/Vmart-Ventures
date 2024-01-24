@@ -238,40 +238,51 @@ app.get('/addproducts/:shopname/:shopid', async (req, res) => {
  
     res.render('SellerAddProducts', { shopname: shopname, shopid: shopid });
 });
- 
+
 app.post('/addproducts/:shopname/:shopid', async (req, res) => {
-    try {
- 
- 
+
       const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
       const shopname = req.params.shopname;
       const shopid = req.params.shopid;
- 
-      // Assuming you have a table named 'products' with appropriatecolumns
-      const query = `
-        INSERT INTO PRODUCTS (shopname, shopid, productname, productdescrip, productprice, productquantity, promocode)
-        VALUES (:shopname, :shopid, :productname, :productdescrip, :productprice, :productquantity, :promocode)
-      `;
- 
-      const params = {
-        shopname,
-        shopid,
-        productname,
-        productdescrip: productDescrip,
-        productprice: productPrice,
-        productquantity: productQuantity,
-        promocode: promoCode
-      };
- 
-      const result = await db_query(sql, params);
- 
-      console.log("Product added successfully to the database");
-      res.status(200).send("Product added successfully to the database");
-    } catch (error) {
-      console.error("Error adding product to the database:", error);
-      res.status(500).send("Internal Server Error");
+
+      console.log(req.body);
+
     }
-  });
+);
+ 
+// app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+//     try {
+ 
+ 
+//       const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
+//       const shopname = req.params.shopname;
+//       const shopid = req.params.shopid;
+ 
+//       // Assuming you have a table named 'products' with appropriatecolumns
+//       const query = `
+//         INSERT INTO PRODUCTS (shopname, shopid, productname, productdescrip, productprice, productquantity, promocode)
+//         VALUES (:shopname, :shopid, :productname, :productdescrip, :productprice, :productquantity, :promocode)
+//       `;
+ 
+//       const params = {
+//         shopname,
+//         shopid,
+//         productname,
+//         productdescrip: productDescrip,
+//         productprice: productPrice,
+//         productquantity: productQuantity,
+//         promocode: promoCode
+//       };
+ 
+//       const result = await db_query(sql, params);
+ 
+//       console.log("Product added successfully to the database");
+//       res.status(200).send("Product added successfully to the database");
+//     } catch (error) {
+//       console.error("Error adding product to the database:", error);
+//       res.status(500).send("Internal Server Error");
+//     }
+//   });
  
  
 app.listen(5000, () => {
