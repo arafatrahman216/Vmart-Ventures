@@ -18,7 +18,7 @@ const Seller_authorize= async (email, password)=>{
     console.log('in seller authorize');
     console.log(email);
     console.log(password);
-    const query= `SELECT * FROM HR.SELLER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE \'${password}\'`;
+    const query= `SELECT * FROM SELLER_USER WHERE EMAIL LIKE \'${email}\' AND PASSWORD LIKE \'${password}\'`;
     const params=[];
     const r= await db_query(query,params);
     console.log(r);
