@@ -143,6 +143,7 @@ app.post('/user/:userid', async (req, res) => {
     } catch (error) {
         console.error('Error updating data:', error);
     }
+    res.redirect('/user/'+req.params.userid);
 });
  
 //after submitting login page
