@@ -174,20 +174,32 @@ app.post('/seller_authorize', async (req, res)=>
 
 );
 
+
 app.post('/user/:userid', async (req, res) => {
  
     console.log("Profile Post");
  
-    const query = `UPDATE CUSTOMER_USER SET NAME = \'${req.body.name}\', PHONE = \'${req.body.phone}\', EMAIL = \'${req.body.email}\' WHERE USER_ID= ${req.params.userid} `;
-    console.log(query);
-    // try {
-    //     const result = await db_query(query, []);
-    // } catch (error) {
-    //     console.error('Error updating data:', error);
-    // }
-    res.redirect('/user/'+req.params.userid);
-
+    const query = `
+        UPDATE CUSTOMER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email 
+        WHERE USER_ID LIKE :userid
+    `;
+    const params = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        userId: req.params.userid
+    };
+ 
+    try {
+        const result = await db_query(query, params);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+    
+    res.redirect(`/user/${req.params.userid}`);
 });
+ 
     
 app.get('/user/:userid', async (req, res) => {
 
