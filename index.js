@@ -43,6 +43,56 @@ app.get('/categories',  async (req, res) => {
 }
 );
 
+app.get('/filter', async (req, res) => { 
+    const { priceUnder5000, categoryId } = req.query;
+    console.log(priceUnder5000);
+    console.log(categoryId);
+
+    // Filtering logic based on your requirements
+    let query= ``;
+    if (categoryId) {
+        // Apply category filter logic here based on the provided categoryId
+        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
+        +` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`+
+        ` WHERE P.CATAGORY_ID LIKE ${categoryId}`
+    }
+    
+    if (priceUnder5000 === 'true') {
+        // query= `SELECT * FROM CUSTOMER_USER `;
+        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
+        ` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`
+        +` WHERE P.PRICE < 5000`    
+        // query+= ` INTERSECTION ${union_query}`;
+        if (categoryId) query+= ` INTERSECT ${union_query}`;
+        else query+= union_query;
+    }
+    console.log(query);
+    const params=[];
+    let filtered_products = await db_query(query,params);
+
+    let products = [];
+    for (let i = 0; i < filtered_products.length; i++) {
+        const product = {
+            product_id: filtered_products[i].PRODUCT_ID,
+            PRODUCT_NAME: filtered_products[i].PRODUCT_NAME,
+            PRODUCT_PRICE: filtered_products[i].PRICE,
+            product_stock: filtered_products[i].STOCK,
+            product_description: filtered_products[i].DESCRIPTION,
+            PRODUCT_IMAGE: filtered_products[i].PRODUCT_IMAGE,
+            product_rating: filtered_products[i].RATING,
+            product_catagory: filtered_products[i].CATAGORY_NAME,
+            SHOP_NAME: filtered_products[i].SHOP_NAME,
+            product_shop_id: filtered_products[i].SHOP_ID
+        };
+        products.push(product);
+    }
+
+    // Pass the filtered categories to the EJS template
+    // res.json({CATAGORY_ID: 1, CATAGORY_NAME: 'Electronics'});
+    // res.json(products);
+    res.render('filter', { products: products });   
+});
+
 
 app.get('/products/:id', async (req, res) => {
     // console.log('get request');
@@ -140,6 +190,8 @@ app.get('/user/:userid', async (req, res) => {
     return;
 }
 );
+
+app.get('filter/')
 
 
 

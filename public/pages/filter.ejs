@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link  href="../styles/FilterStyle.css" rel="stylesheet">
+</head>
+<body>
+    <div class="product-section">
+        <% if (products.length == 0) { %>
+            <h1 style="text-align: center;">No Products Found</h1>
+        <% } else{ %>
+            <h1 style="text-align: left;">Products</h1>
+            <br>
+            <% for (var i = 0; i < products.length; i++) { %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE}) %>
+            <% } %>
+        <% } %>
+
+        <br>
+    </div>
+</body>
+</html>

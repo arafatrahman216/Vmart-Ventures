@@ -2,78 +2,7 @@
 <html>
 <head>
     <title>E-Commerce Home Page</title>
-    <style>
-        /* CSS styles for the navigation bar */
-        .navbar {
-            background-color: #333;
-            position: fixed;
-            overflow: hidden;
-        }
-        
-        .navbar a {
-            float: left;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        
-        /* CSS styles for the product section */
-        .product-section {
-            
-            /* margin-left: 300px;
-            margin-top: 100px;
-            margin-right: 50px;
-            margin-bottom: 50px; */
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        input[type=text] {
-            width: 150px;
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 30px;
-            font-size: 16px;
-            background-color: white;
-            background-position: 10px 10px; 
-            background-repeat: no-repeat;
-            padding: 12px 20px 12px 40px;
-            -webkit-transition: width 0.4s ease-in-out;
-            transition: width 0.4s ease-in-out;
-          }
-
-          /* h3:hover{
-            cursor: pointer;
-          } */
-          
-          input[type=text]:focus {
-            width:250px;
-            border-radius: 30px;
-          }
-          input[type=text]:hover {
-            width: 250px;
-            border-radius: 30px;
-          }
-          #profile-link:hover .profile-dropdown{
-            visibility: visible;
-            display: inline-block;
-            position:fixed;
-            margin-top: 50px;
-            margin-left: -50px;
-            background-color: #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            z-index: 1;
-
-          }
-    </style>
+    <link rel="stylesheet" href="../styles/HomeStyle.css">
 </head>
 <body>
     <!-- <% var userID= 'user/1' %> -->
@@ -111,7 +40,7 @@
                     <a href="#">Orders</a>
                     <a href="#">Wishlist</a>
                     <a href="#">Settings</a>
-                    <a href="#">Logout</a>
+                    <a href="/login">Logout</a>
                 </div>
     </div>
     </div>
@@ -132,11 +61,47 @@
 
         <br>
     </div>
+    <h3>Filter</h3>
+    <label >
+        <input type="checkbox" id="filter_price" name="priceUnder5000" >
+        Price Under 5000
+    </label>
+    <br>
 
-    
+    <label for="categoryId">Select Category:</label>
+    <select name="categoryName" id="categoryId">
+        <% categories.forEach(category => { %>
+            <option value="<%= category.CATEGORY_ID %>"><%= category.CATEGORY_NAME %></option>
+        <% }); %>
+    </select>
+    <button id="filter" type="submit">Filter</button>
+    <br>
+
     <%- include("footer") %>
+
     <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
+    
     <script>
+        var filter_price = document.getElementById('filter_price');
+        var categoryId = document.getElementById('categoryId');
+        var filter = document.getElementById('filter');
+
+        filter.addEventListener('click', function () {
+            var url = '/filter?';
+
+            if (filter_price.checked) {
+                url += 'priceUnder5000=true';
+            } else {
+                url += 'priceUnder5000=false';
+            }
+
+            if (categoryId.value) {
+                url += '&categoryId=' + categoryId.value;
+            }
+
+            // Set the window location
+            window.location.href = url;
+        });
 
         // Get the product data from the server
         
