@@ -8,8 +8,7 @@ async function db_query(query , params){
         connection = await oracledb.getConnection({
             user: 'VMART_VENTURES',
             password: '123',
-            //connectionString: 'localhost/orcldb',
-            connectString: 'localhost/orcl'
+            connectString: 'localhost/orcldb'
             
         });
         console.log("connected to database");
@@ -20,9 +19,7 @@ async function db_query(query , params){
         let result = await connection.execute(query,params);
         oracledb.autoCommit=true;
         return result.rows; 
-    } 
-    
-    catch(err){
+    } catch(err){
         console.log(err);
     }
 }

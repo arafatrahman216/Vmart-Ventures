@@ -43,9 +43,7 @@
                     <a href="/login">Logout</a>
                 </div>
     </div>
-
     </div>
-
     <aside style="float: inline-start;">
         <h3 id="cat_header" onclick="getCategories()" >Categories</h3>
         <ul id="unordered">
@@ -55,7 +53,6 @@
         </ul >
         
     </aside>
-
     <div class="product-section">
         <% for (var i = 0; i < products.length; i++) { %>
             <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE}) %>
@@ -119,8 +116,8 @@
             profileLink.href = url;
             // document.getElementById('homelink').href = url;
         }
-
-    </script>
+        
+        </script>
         
 </body>
 </html>

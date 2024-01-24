@@ -15,7 +15,6 @@
     <div class="container-fluid">
 
         <form class="mx-auto" action="/signup" method="post">
-
             <h3 class="text-center" class="mb-2 mt-1">Signup</h3>
 
             <div class="mb-3 mt-1">
@@ -24,7 +23,7 @@
             </div>
 
             <div class="mb-3 mt-1">
-                <label for="email">Email</label>
+                <label for="exampleInputEmail1">Email</label>
                 <input type="email" name="e_mail" class="form-control" id="email" autocomplete="email" required>
             </div>
 
@@ -37,19 +36,15 @@
                 <label for="address">Address Details</label>
 
                 <div class="address-fields">
-
                     <div class="street-field">
                         <label for="street">Street Name</label>
                         <input type="text" id="street" class="form-control" name="street" required>
                     </div>
-
                     <div class="postal-code-field">
                         <label for="postal_code">Postal Code</label>
                         <input type="text" id="postal_code" class="form-control" name="postal_code" required>
                     </div>
-                    
                 </div>
-
             </div>
 
             <div class="mb-3 mt-1">
@@ -85,7 +80,6 @@
             <div class="mb-3 mt-1">
                 <label>Country: <span style="font-weight: lighter;">Bangladesh</span></label>
             </div>
-
             <div class="form-group">
                 <label for="gender">Gender:</label>
                 <input type="radio" id="male" name="gender" value="male" required>
@@ -127,22 +121,17 @@
             , confirm_password = document.getElementById("confirm-password");
 
             const validatePassword=()=>{
-
             if(password.value != confirm_password.value) {
                 confirm_password.setCustomValidity("Passwords Don't Match");
                 document.getElementById("message").style.display = "block";
-            } 
-            
-            else {
+            } else {
                 confirm_password.setCustomValidity('');
                 document.getElementById("message").style.display = "none";
             }
-
             }
 
             password.onchange = validatePassword;
             confirm_password.onkeyup = validatePassword;
-
             const bangladeshDivisions = [
             { name: "Dhaka",districts: ["Dhaka", "Narayanganj", "Narsingdi", "Munshiganj", "Manikganj", "Gazipur", "Kishoreganj", "Tangail", "Faridpur", "Madaripur", "Rajbari", "Shariatpur", "Gopalganj"]},
             { name: "Chittagong", districts: ["Chittagong", "Cox's Bazar", "Comilla", "Chandpur", "Noakhali", "Lakshmipur", "Brahmanbaria", "Feni", "Bandarban", "Khagrachari", "Rangamati"] },
