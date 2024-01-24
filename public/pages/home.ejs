@@ -48,6 +48,10 @@
             -webkit-transition: width 0.4s ease-in-out;
             transition: width 0.4s ease-in-out;
           }
+
+          /* h3:hover{
+            cursor: pointer;
+          } */
           
           input[type=text]:focus {
             width:250px;
@@ -99,11 +103,11 @@
 
         <div >
             
-            <a style="margin-left: auto; float: right;" onclick="link_to_profile()" id="profile-link" href="#">Hello <%= Name %> </a>
+            <a style="margin-left: auto; float: right;"  href="#">Hello <%= Name %> </a>
             <a style="margin-left: auto; float: right;" href="#">Phone <%= Phone %> </a>
             <!-- <img src="../images/login/arafatFB.jpg" style="width: 80px; border-radius: 50px;" alt="Avatar" class="profile-image"> -->
                 <div class="profile-dropdown" style=" background-color:#ddd;">
-                    <a href="#">Profile</a>
+                    <a onclick="link_to_profile()" id="profile-link" href="#" >Profile</a>
                     <a href="#">Orders</a>
                     <a href="#">Wishlist</a>
                     <a href="#">Settings</a>
@@ -112,23 +116,24 @@
     </div>
     </div>
     <aside style="float: inline-start;">
-        <h3>Categories</h3>
-        <ul>
-            <li>Category 1</li>
-            <li>Category 2</li>
-            <li>Category 3</li>
-            <li>Category 4</li>
-            <li>Category 5</li> 
-        </ul>
+        <h3 id="cat_header" onclick="getCategories()" >Categories</h3>
+        <ul id="unordered">
+             <% for (var i = 0; i < categories.length; i++) { %>
+                <li class="list" id="list" ><%= categories[i].CATEGORY_NAME %></li>
+            <% } %>
+        </ul >
+        
     </aside>
     <div class="product-section">
         <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, PRODUCT_IMAGE : products[i].PRODUCT_IMAGE}) %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE}) %>
 
         <% } %>
 
         <br>
     </div>
+
+    
     <%- include("footer") %>
     <label style="display: none;" id="testurl" for="searchbox"> <%= link%> </label>
     <script>

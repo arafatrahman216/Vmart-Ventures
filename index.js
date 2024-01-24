@@ -20,11 +20,34 @@ const { log } = require('console');
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 const {addCustomer, query_checker} = require('./database/Query/Customer_query');
 
+app.get('/categories',  async (req, res) => {
+    console.log('get request');
+    const query= `SELECT * FROM CATAGORY`; 
+    const params=[];
+    const result= await db_query(query,params); 
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    const categories = [];
+    for (let i = 0; i < result.length; i++) {
+        const category = {
+            CATEGORY_ID: result[i].CATAGORY_ID,
+            CATEGORY_NAME: result[i].CATAGORY_NAME,
+        };
+        categories.push(category);
+    }
+    res.json(categories);
+    return;
+}
+);
+
 
 app.get('/products/:id', async (req, res) => {
-    console.log('get request');
+    // console.log('get request');
     const id= (req.params.id);
-    console.log(id);
+    // console.log(id);
     var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
     +`WHERE P.PRODUCT_ID LIKE ${id}`;   
     if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
@@ -120,28 +143,36 @@ app.get('/user/:userid', async (req, res) => {
 
 
 
+
+
+
 app.post('/authorize', async (req, res) => {
-    console.log('post request');
-    console.log(req.body.username);
-    console.log(req.body.password);
+    // console.log('post request');
+    // console.log(req.body.username);
+    // console.log(req.body.password);
     var email=req.body.username;
     var password=req.body.password;
     var r= await authorize(email,password);
-    console.log(r.length);
+    // console.log(r.length);
     if (r.length>0) 
     {
         console.log('OK');
         var linkurl='/user/'+r[0].USER_ID;
         var products = [];
-        const result= axios.get(`http://localhost:5000/products/all`).then(response => {
+        const result=  axios.get(`http://localhost:5000/products/all`).then(response => {
             products=response.data;
-            console.log("logging things ");
-            let arr= { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products};
-            console.log(arr);
-            res.render('home', arr);
-            // res.json({Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products})
-            // res.json(arr);
-            return;
+            const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
+                const categories=response.data;
+                const arr= { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products, categories: categories};
+                // console.log(arr);
+                res.render('home', arr);
+                return;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+            
+            
 
         })
 
