@@ -13,14 +13,14 @@ const db_query= require('./database/connection');
 
 
 const path = require('path');
-const { lowerCase, isNumber, result } = require('lodash');
+const { lowerCase, isNumber, result, get } = require('lodash');
 const { log } = require('console');
 
 
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
-const {addCustomer, query_checker} = require('./database/Query/Customer_query');
+const {addCustomer, query_checker, set_products,Filter_Products, get_products, Search_products_by_name} = require('./database/Query/Customer_query');
 
-app.get('/categories',  async (req, res) => {
+app.get('/categories',  async (req, res) => { 
     console.log('get request');
     const query= `SELECT * FROM CATAGORY`; 
     const params=[];
@@ -47,49 +47,10 @@ app.get('/filter', async (req, res) => {
     const { priceUnder5000, categoryId } = req.query;
     console.log(priceUnder5000);
     console.log(categoryId);
-
     // Filtering logic based on your requirements
-    let query= ``;
-    if (categoryId) {
-        // Apply category filter logic here based on the provided categoryId
-        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
-        +` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`+
-        ` WHERE P.CATAGORY_ID LIKE ${categoryId}`
-    }
-    
-    if (priceUnder5000 === 'true') {
-        // query= `SELECT * FROM CUSTOMER_USER `;
-        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
-        ` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`
-        +` WHERE P.PRICE < 5000`    
-        // query+= ` INTERSECTION ${union_query}`;
-        if (categoryId) query+= ` INTERSECT ${union_query}`;
-        else query+= union_query;
-    }
-    console.log(query);
-    const params=[];
-    let filtered_products = await db_query(query,params);
-
-    let products = [];
-    for (let i = 0; i < filtered_products.length; i++) {
-        const product = {
-            product_id: filtered_products[i].PRODUCT_ID,
-            PRODUCT_NAME: filtered_products[i].PRODUCT_NAME,
-            PRODUCT_PRICE: filtered_products[i].PRICE,
-            product_stock: filtered_products[i].STOCK,
-            product_description: filtered_products[i].DESCRIPTION,
-            PRODUCT_IMAGE: filtered_products[i].PRODUCT_IMAGE,
-            product_rating: filtered_products[i].RATING,
-            product_catagory: filtered_products[i].CATAGORY_NAME,
-            SHOP_NAME: filtered_products[i].SHOP_NAME,
-            product_shop_id: filtered_products[i].SHOP_ID
-        };
-        products.push(product);
-    }
-
-    // Pass the filtered categories to the EJS template
-    // res.json({CATAGORY_ID: 1, CATAGORY_NAME: 'Electronics'});
-    // res.json(products);
+    let filtered_products = await Filter_Products(priceUnder5000, categoryId);
+    let products = await set_products(filtered_products);
+    console.log(products);
     res.render('filter', { products: products });   
 });
 
@@ -97,38 +58,41 @@ app.get('/filter', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
     // console.log('get request');
     const id= (req.params.id);
-    // console.log(id);
-    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
-    +`WHERE P.PRODUCT_ID LIKE ${id}`;   
-    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
-    const params=[];
-    const result= await db_query(query,params); 
+    
+    const result = await get_products(id);
     // console.log(result.length);
     if (result.length<1)
     {
         res.json({Product_error: '404'});
         return;
     }
-    const products = [];
-    for (let i = 0; i < result.length; i++) {
-        const product = {
-            PRODUCT_ID: result[i].PRODUCT_ID,
-            PRODUCT_NAME : result[i].PRODUCT_NAME,
-            PRODUCT_PRICE: result[i].PRICE,
-            PRODUCT_STOCK: result[i].STOCK,
-            PRODUCT_DESCRIPTION: result[i].DESCRIPTION,
-            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
-            PRODUCT_RATING : result[i].RATING,
-            PRODUCT_CATAGORY : result[i].CATAGORY_NAME,
-            SHOP_NAME: result[i].SHOP_NAME,
-            PRODUCT_SHOP_ID : result[i].SHOP_ID
-        };
-        products.push(product);
-    }
+    const products =  await set_products(result);
     res.json(products);
     return;
 }
 );
+
+app.get('/search/product/:name', async (req, res) => {
+    // console.log('get request');
+    const name= (req.params.name);
+    const result = await Search_products_by_name(name);
+    // console.log(result.length);
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    const products =  await set_products(result);
+    if (result.length==1) res.redirect(`/product/${products[0].PRODUCT_ID}`);
+    else
+    {
+        res.render('filter', { products: products });
+    }
+    return;
+}
+);
+
+
 
 app.get('/product/:id', async (req, res) => {
     // console.log('get request');

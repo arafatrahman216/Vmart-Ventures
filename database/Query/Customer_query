@@ -32,5 +32,74 @@ const query_checker= async ()=>
     return r[0].MID;
 }
 
+const set_products= async (result) =>
+{
+    const products = [];
 
-module.exports= {addCustomer, query_checker};
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME : result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            PRODUCT_STOCK: result[i].STOCK,
+            PRODUCT_DESCRIPTION: result[i].DESCRIPTION,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+            PRODUCT_RATING : result[i].RATING,
+            PRODUCT_CATAGORY : result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            PRODUCT_SHOP_ID : result[i].SHOP_ID
+        };
+        products.push(product);
+    }
+    return products;
+}
+
+const get_products= async (id)=>
+{
+    // console.log(id);
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
+    +`WHERE P.PRODUCT_ID LIKE ${id} ORDER BY PRODUCT_ID`;   
+    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
+    const params=[];
+    const result= await db_query(query,params); 
+    return result;
+}
+
+const Search_products_by_name= async (name)=>
+{
+    const query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID WHERE LOWER(P.PRODUCT_NAME) LIKE LOWER(\'%${name}%\')`;
+    const params=[];
+    console.log(query);
+    const result= await db_query(query,params); 
+    console.log(result);    
+    return result;
+}
+
+const Filter_Products= async (priceUnder5000, categoryId)=>
+{
+    let query= ``;
+    if (categoryId) {
+        // Apply category filter logic here based on the provided categoryId
+        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
+        +` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`+
+        ` WHERE P.CATAGORY_ID LIKE ${categoryId}`
+    }
+    
+    if (priceUnder5000 === 'true') {
+        // query= `SELECT * FROM CUSTOMER_USER `;
+        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
+        ` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`
+        +` WHERE P.PRICE < 5000`    
+        // query+= ` INTERSECTION ${union_query}`;
+        if (categoryId) query+= ` INTERSECT ${union_query}`;
+        else query+= union_query;
+    }
+    const params=[];
+    let filtered_products = await db_query(query,params);
+    return filtered_products;
+
+}
+
+
+
+module.exports= {addCustomer, query_checker,set_products, Filter_Products, get_products, Search_products_by_name};

@@ -14,7 +14,7 @@
             <h1 style="text-align: left;">Products</h1>
             <br>
             <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE}) %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE,id : products[i].PRODUCT_ID}) %>
             <% } %>
         <% } %>
 

@@ -14,11 +14,11 @@
             <div style="margin: 2px;"  >
                 <a href="/product/<%= id %>">
                 <div class="card" style="width: 250px; height:auto;display: inline-block; border-radius: 10px; border-color: sienna;">
-                    <img src="../images/product/product1.jpg" style="width: 180px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
+                    <img src="<%= image %>" style="width: 180px; height: 150px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
                     <script>
                         var img = document.querySelector('.card-img-top');
                         img.src =  `<%= image %>`;
-                        img.alt = '<%= PRODUCT_NAME %>';
+                        img.alt = '<%= id %>';
                         
                         
                         </script>
