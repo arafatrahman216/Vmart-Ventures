@@ -6,6 +6,7 @@ const { authorize } = require('./LoginAuthorization');
 const addCustomer=async (name,email,phone,password,gender,dob, street, postal_code,city, division )=>
 {
     const e= await authorize(email,password);
+    
     if (e.length>0)
     {
         console.log('user already exists');

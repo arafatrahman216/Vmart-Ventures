@@ -1,9 +1,11 @@
+
+
 body {
-    padding-top: 56px; /* Adjust for fixed navbar height */
-    justify-content:center ;
+     padding-top: 56px; 
+    justify-content:center ; 
 
 }
-
+ 
 .page-limit{
     width: 300px;
     height: 200px;
@@ -12,10 +14,11 @@ body {
 }
 
 .container-center {
-    max-width: 800px; /* Set your desired maximum width */
-    margin: 0 auto; /* Center the container horizontally */
-    padding-top: 20px; /* Add some top padding for space */
-}
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding-top: 20px; 
+} 
+
 
 .sidebar {
     position: fixed;
