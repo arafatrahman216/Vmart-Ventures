@@ -70,9 +70,11 @@
 
     <label for="categoryId">Select Category:</label>
     <select name="categoryName" id="categoryId">
-        <% categories.forEach(category => { %>
-            <option value="<%= category.CATEGORY_ID %>"><%= category.CATEGORY_NAME %></option>
-        <% }); %>
+        
+        <% for (var i = 0; i < categories.length; i++) { %>
+            <option value="<%= categories[i].CATEGORY_ID %>"><%= categories[i].CATEGORY_NAME %></option>
+        <% } %>
+
     </select>
     <button id="filter" type="submit">Filter</button>
     <br>
