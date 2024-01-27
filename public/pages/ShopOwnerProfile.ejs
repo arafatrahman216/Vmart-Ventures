@@ -19,35 +19,32 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
 
-                        <!-- <div class="col-md-3">
-                            <img src="../images/UserProfile/account.png" alt="Profile Picture" class="img-fluid rounded-circle profile-picture">
-                        </div> -->
+                        <div class="col-md-3">
+                            <!-- Profile Picture -->
+                            <img src="../images/UserProfile/account.png" alt="Profile Picture" style="height: 100px; width: 100px;" >
+                        </div>
 
                         <li class="nav-item">
                             <a class="nav-link active" href="#">
                                 Your Profile
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Order History
+                            <a class="nav-link active" href="#">
+                                Your Products
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Wishlist
+                            <a class="nav-link active" href="/addproducts/<%= SHOP_NAME%>/<%= SHOP_ID%>">
+                                Add New Product
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                Favourite Products
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Favourite Shops
+                                Most Valued Products
                             </a>
                         </li>
 
@@ -56,6 +53,7 @@
                                 Change Password
                             </a>
                         </li>
+
                     </ul>
                 </div>
             </nav>
@@ -67,48 +65,36 @@
                     <h1 class="h2">Your Profile</h1>
                 </div>
 
-
-                <!-- <div class="row">
-                    <div class="col-md-6">
-
-                        <h3>Personal Information</h3>
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> john.doe@example.com</p>
-                        <p><strong>Phone Number:</strong> 01919721621 </p>
-                        <p><strong>Address:</strong> 123 Main St, Cityville</p>
-                        <p><strong>Gender:</strong> Male </p>
-                        <p><strong>Postal Code:</strong> 1234</p>
-                        <p><strong>Date of Birth:</strong> 19 /1/ 2002 </p>
-
-                    </div>
-                </div>
-
-                <button type="button">Edit Information</button> -->
-
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>Personal Information</h3>
-                        <form id="profileForm" action="/user/<%= userID %>" method="post" enctype="application/x-www-form-urlencoded">
+                        <h3>Shop Information</h3>
+                        <form id="profileForm">
 
                             <div class="form-group">
-                                <label for="name"><strong>Name:</strong></label>
-                                <input type="text" class="form-control" id="name" name="name" value="<%= Name %>" readonly>
+                                <label for="name"><strong>Shop Name:</strong></label>
+                                <input type="text" class="form-control" id="name" name = "shopname" value="<%= SHOP_NAME %>" readonly>
                             </div>
 
                             <div class="form-group">
-                                <label for="email"><strong>Email:</strong></label>
-                                <input type="email" class="form-control" id="email" name ="email" value="<%= email %>" readonly>
+                                <label for="email"><strong>Shop Email:</strong></label>
+                                <input type="email" class="form-control" id="email" name="email" value="<%= EMAIL %>" readonly>
                             </div>
 
                             <div class="form-group">
-                                <label for="phone"><strong>Phone Number:</strong></label>
-                                <input type="tel" class="form-control" id="phone"  name = "phone" value="<%= Phone %>" readonly>
+                                <label for="phone"><strong>Shop Contact Number:</strong></label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="<%= PHONE %>" readonly>
                             </div>
 
                             <div class="form-group">
-                                <label for="address"><strong>Address:</strong></label>
-                                <input type="text" class="form-control" id="address" value="BUET" readonly>
+                                <label for="description"><strong>Description:</strong></label>
+                                <input type="text" class="form-control" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
                             </div>
+
+                            <div class="form-group">
+                                <label for="revenue"><strong>Total Revenue:</strong></label>
+                                <input type="number" class="form-control" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>" readonly>
+                            </div>
+
                             <!-- Add more form fields as needed -->
                 
                             <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
@@ -143,7 +129,6 @@
 
         $("#saveBtn").on("click", function () {
             // Submit the form when Save Changes button is clicked
-
             $("#profileForm").submit();
         });
 

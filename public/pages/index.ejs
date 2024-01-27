@@ -1,3 +1,4 @@
+@ -1,156 +1,112 @@
 <html>
 <head>
     <title>Login Page</title>
@@ -107,30 +108,26 @@
         </form>
     </div>
     <%- include('./footer') %>
-</body>
-</html>
-
-
-<script>
+    <script>
     
 
-    const eyeon= (password, TogglePassword)=>
-    {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        // toggle the eye slash icon
-        if (type==='text') password.setAttribute('autocomplete','off');
-        TogglePassword.classList.toggle('fa-eye-slash');
-    }
-
-    const mouseover= (butt)=>
-    {
-        // var butt= document.getElementById("login");
-        butt.style.backgroundColor= "red";
-        // butt.style.width="45%"
-        // butt.style.height="40px"
-    }
-    const mouseout= (butt)=>
+        const eyeon= (password, TogglePassword)=>
+        {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            if (type==='text') password.setAttribute('autocomplete','off');
+            TogglePassword.classList.toggle('fa-eye-slash');
+        }
+    
+        const mouseover= (butt)=>
+        {
+            // var butt= document.getElementById("login");
+            butt.style.backgroundColor= "red";
+            // butt.style.width="45%"
+            // butt.style.height="40px"
+        }
+        const mouseout= (butt)=>
     {
         // var butt= document.getElementById("login");
         butt.style.backgroundColor= "blue";
@@ -156,8 +153,6 @@
         document.getElementById("Seller").style.border="2px solid #ffffff";
         document.getElementById("Customer").style.border="none";
     }
-
-
     const RedButton= (butt)=>
     {
         // var butt= document.getElementById("login");
@@ -173,52 +168,7 @@
         butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
     }
 
+    </script>
+</body>
+</html>
 
-    const getinfo= async()=>
-    {
-        const options ={
-            method: 'GET'
-        };
-        const url= "http://localhost:5000/login"
-        const response= await fetch(url,options)
-        const data= await response.json()
-        console.log(data);
-        const show= document.getElementById("showInfo")
-        const username= document.getElementById("username").value
-        const password= document.getElementById("password").value
-        if (username!=="") showInfo.innerText= username
-        if (password!=="") var para= document.createElement("p")
-        para.innerText= password
-        showInfo.appendChild(para)
-
-    }
-
-    const  showInfos= async(showInfo)=>
-    {
-       
-    }
-
-    const linkHover=(links)=>
-    {
-        var img= document.getElementById("hoveringImg");
-        var yy= document.getElementById("username");
-        img.style.display= "inline-block";    
-        yy.value= links.innerText;
-        if (links.innerText==="Arafat Rahman") {
-            yy.value= "arafatrahman219@gmail.com";
-            img.src= "../images/login/arafatFB.jpg";
-        }
-        else if (links.innerText==="Tahmidul Islam Omi") {
-            yy.value= "tahmidulislamomi09@gmail.com";
-            img.src= "../images/login/omiFB.jpg";
-        }
-        links.style.color= "blue";
-    }
-    const linkHoverOut=(links)=>
-    {
-        var img= document.getElementById("hoveringImg");
-        img.style.display= "none";
-        links.style.color= "#a8fa05f3";
-    }
-
-</script>

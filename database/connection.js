@@ -16,8 +16,8 @@ async function db_query(query , params){
 
     try{
 
-        let result = await connection.execute(query,params);
         oracledb.autoCommit=true;
+        let result = await connection.execute(query,params);
         return result.rows; 
     } catch(err){
         console.log(err);
