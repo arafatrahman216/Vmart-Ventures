@@ -170,9 +170,8 @@ app.get('/user/:userid', async (req, res) => {
     console.log('get request');
     const id= (req.params.userid);
     console.log(id);
-
-    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${id}`; 
-    const params=[];
+    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE :userid`;
+    const params= {userid: id}
     const result= await db_query(query,params); 
 
     console.log(result.length);
@@ -190,7 +189,6 @@ app.get('/user/:userid', async (req, res) => {
     console.log(phone);
 
     const Gender = result[0].GENDER ;
-    
     res.render('profile', { Name: user_name, Phone : phone , userID: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
     return;
 }
