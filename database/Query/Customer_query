@@ -23,6 +23,14 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
     
 }
 
+const get_user= async (id)=>
+{
+    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID=${id}`;
+    const params=[];
+    const result= await db_query(query,params);
+    return result;
+}
+
 const query_checker= async ()=>
 {
     const query= `SELECT MAX(USER_ID) as MID FROM CUSTOMER_USER`;
@@ -101,5 +109,34 @@ const Filter_Products= async (priceUnder5000, categoryId)=>
 }
 
 
+const update_user= async (userid, name, email, phone) =>
+{
+    const params = {
+        name: name,
+        phone: phone,
+        email: email,
+        userId: userid
+    };
+    const query = `
+        UPDATE CUSTOMER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email 
+        WHERE USER_ID LIKE :userid
+    `;
+ 
+    try {
+        const result = await db_query(query, params);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+}
 
-module.exports= {addCustomer, query_checker,set_products, Filter_Products, get_products, Search_products_by_name};
+
+module.exports= {  addCustomer,
+    query_checker,
+    set_products,
+     Filter_Products,
+     get_products,
+    Search_products_by_name,
+    get_user,
+    update_user
+};

@@ -9,8 +9,8 @@
     <div class="navbar">
         <a href="#" id="homelink">Home</a>
         <a href="#">Products</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="#">Shops</a>
+        <a href="#">New Items</a>
 
 
         <input type="text" id="searchbox" placeholder="Search">
@@ -24,7 +24,7 @@
                     // Cancel the default action, if needed
                     event.preventDefault();
                     // Trigger the button element with a click
-                    window.location.href = "/search/product/" + input.value;
+                    window.location.href = "/<%= userID%>/search/product/" + input.value;
                 }
             });
         
@@ -55,7 +55,7 @@
     </aside>
     <div class="product-section">
         <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID}) %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID, userid : userID}) %>
 
         <% } %>
 
@@ -87,7 +87,7 @@
         var filter = document.getElementById('filter');
 
         filter.addEventListener('click', function () {
-            var url = '/filter?';
+            var url = '/<%= userID %>/filter?';
 
             if (filter_price.checked) {
                 url += 'priceUnder5000=true';

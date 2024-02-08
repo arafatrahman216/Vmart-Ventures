@@ -1,101 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/ProfileStyle.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>User Profile</title>
+    <title>Product Search Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
 
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            margin: 10px;
+            width: 300px;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .product-details {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            color: #007bff;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="container-fluid" class = "page-limit">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
 
-                        <div class="col-md-3">
-                            <!-- Profile Picture -->
-                            <img src="../images/UserProfile/account.png" alt="Profile Picture" class="img-fluid rounded-circle profile-picture">
-                        </div>
+    <header>
+        <h1>Product Search Results</h1>
+    </header>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                Your Profile
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Order History
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Wishlist
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Favourite Products
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Favourite Shops
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Change Password
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Main content -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Your Profile</h1>
-                </div>
-
-                <!-- User Information -->
-                <div class="row">
-                    <div class="col-md-6">
-
-                        <h3>Personal Information</h3>
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> john.doe@example.com</p>
-                        <p><strong>Phone Number:</strong> 01919721621 </p>
-                        <p><strong>Address:</strong> 123 Main St, Cityville</p>
-                        <p><strong>Gender:</strong> Male </p>
-                        <p><strong>Postal Code:</strong> 1234</p>
-                        <p><strong>Date of Birth:</strong> 19 /1/ 2002 </p>
-
-                    </div>
-                </div>
-
-                <!-- Additional Content Goes Here -->
-
-                <button type="button">Edit Information</button>
-
-            </main>
+    <section>
+        <!-- Example Product Card 1 -->
+        <div class="product-card">
+            <img src="../images/product/product3.png" alt="Product 1" class="product-image">
+            <div class="product-details">
+                <div class="product-title">Elegant Product Title 1</div>
+                <div class="product-description">High-quality product description providing details about the item.</div>
+                <div class="product-price">$99.99</div>
+            </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <!-- Example Product Card 2 -->
+        <div class="product-card">
+            <img src="../images/product/product1.jpg" alt="Product 2" class="product-image">
+            <div class="product-details">
+                <div class="product-title">Sophisticated Product Title 2</div>
+                <div class="product-description">Detailed description for this amazing product that customers will love.</div>
+                <div class="product-price">$129.99</div>
+            </div>
+        </div>
+
+        <!-- Add more product cards as needed -->
+
+    </section>
 
 </body>
-
 </html>

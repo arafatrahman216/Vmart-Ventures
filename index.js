@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const router= express.Router();
+const session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
+const { Server } = require('socket.io');
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
@@ -17,8 +20,20 @@ const { lowerCase, isNumber, result, get } = require('lodash');
 const { log } = require('console');
 
 
+const UserRoute= require('./routes/User');
+app.use('/user', UserRoute);
+
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
-const {addCustomer, query_checker, set_products,Filter_Products, get_products, Search_products_by_name} = require('./database/Query/Customer_query');
+const {
+        addCustomer,
+        query_checker, 
+        set_products,
+        Filter_Products,
+        get_products, 
+        Search_products_by_name,
+        get_user
+    } = require('./database/Query/Customer_query');
+
 
 app.get('/categories',  async (req, res) => { 
     console.log('get request');
@@ -43,16 +58,33 @@ app.get('/categories',  async (req, res) => {
 }
 );
 
-app.get('/filter', async (req, res) => { 
-    const { priceUnder5000, categoryId } = req.query;
-    console.log(priceUnder5000);
-    console.log(categoryId);
-    // Filtering logic based on your requirements
-    let filtered_products = await Filter_Products(priceUnder5000, categoryId);
-    let products = await set_products(filtered_products);
-    console.log(products);
-    res.render('filter', { products: products });   
-});
+
+
+app.get('/home/:userid', async (req, res) => {
+    console.log('get request');
+    const id= (req.params.userid);
+    const result = await get_user(id);
+    const user_name=result[0].NAME;
+    console.log(user_name);
+    
+    const phone = result[0].PHONE;
+    console.log(phone);
+    const products = await axios.get(`http://localhost:5000/products/all`).then(response => {
+        const products=response.data;
+        const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
+            const categories=response.data;
+            const arr= { Name: user_name, Phone : phone , userID: id, link: '/user/'+id, products: products, categories: categories};
+            res.render('home', arr);
+            return;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    })
+    .catch(error => {
+        console.log(error);
+    });
+} );
 
 
 app.get('/products/:id', async (req, res) => {
@@ -72,41 +104,9 @@ app.get('/products/:id', async (req, res) => {
 }
 );
 
-app.get('/search/product/:name', async (req, res) => {
-    // console.log('get request');
-    const name= (req.params.name);
-    const result = await Search_products_by_name(name);
-    // console.log(result.length);
-    if (result.length<1)
-    {
-        res.json({Product_error: '404'});
-        return;
-    }
-    const products =  await set_products(result);
-    if (result.length==1) res.redirect(`/product/${products[0].PRODUCT_ID}`);
-    else
-    {
-        res.render('filter', { products: products });
-    }
-    return;
-}
-);
 
 
 
-app.get('/product/:id', async (req, res) => {
-    // console.log('get request');
-    const id= (req.params.id);
-    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
-        const product=response.data;
-        res.render('product', { product: product });
-        return;
-    })
-    .catch(error => {
-        console.log(error);
-    });
-
-});
 
 
 app.get('/login', async (req, res) => {
@@ -139,60 +139,6 @@ app.post('/seller_authorize', async (req, res)=>
 );
 
 
-app.post('/user/:userid', async (req, res) => {
- 
-    console.log("Profile Post");
- 
-    const query = `
-        UPDATE CUSTOMER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email 
-        WHERE USER_ID LIKE :userid
-    `;
-    const params = {
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        userId: req.params.userid
-    };
- 
-    try {
-        const result = await db_query(query, params);
-    } catch (error) {
-        console.error('Error updating data:', error);
-    }
-    
-    res.redirect(`/user/${req.params.userid}`);
-});
- 
-    
-app.get('/user/:userid', async (req, res) => {
-
-    console.log('get request');
-    const id= (req.params.userid);
-    console.log(id);
-    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE :userid`;
-    const params= {userid: id}
-    const result= await db_query(query,params); 
-
-    console.log(result.length);
-
-    if (result.length<1)
-    {
-        res.send(`<h1> User with id ${id} not found </h1>`);
-        return;
-    }
-
-    const user_name=result[0].NAME;
-    console.log(user_name);
-
-    const phone = result[0].PHONE;
-    console.log(phone);
-
-    const Gender = result[0].GENDER ;
-    res.render('profile', { Name: user_name, Phone : phone , userID: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
-    return;
-}
-);
 
 
 
@@ -200,32 +146,21 @@ app.get('/user/:userid', async (req, res) => {
 
 
 
-app.post('/authorize', async (req, res) => {
-    // console.log('post request');
-    // console.log(req.body.username);
-    // console.log(req.body.password);
+
+
+app.post('/login', async (req, res) => {
     var email=req.body.username;
     var password=req.body.password;
+    console.log(req.body);
     var r= await authorize(email,password);
     // console.log(r.length);
     if (r.length>0) 
     {
         console.log('OK');
-        var linkurl='/user/'+r[0].USER_ID;
-        var products = [];
-        const result=  axios.get(`http://localhost:5000/products/all`).then(response => {
-            products=response.data;
-            const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
-                const categories=response.data;
-                const arr= { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl, products: products, categories: categories};
-                // console.log(arr);
-                res.render('home', arr);
-                return;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        })
+        var homeurl='/home/'+r[0].USER_ID;
+        res.redirect(homeurl);
+        return;
+
 
     }
     else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
@@ -245,21 +180,8 @@ app.post('/signup', async (req, res) => {
     console.log('userid post signup');
     console.log(userid);
     // res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
-    const result=  axios.get(`http://localhost:5000/products/all`).then(response => {
-            products=response.data;
-            const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
-                const categories=response.data;
-                const arr= { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid, products: products, categories: categories};
-                // console.log(arr);
-                res.render('home', arr);
-                return;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        })
-}
-);
+    res.redirect('/home/'+userid);
+});
 
 app.listen(5000, () => {
     console.log('Server on port 5000');

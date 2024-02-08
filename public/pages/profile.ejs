@@ -26,8 +26,8 @@
                         </div> -->
 
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                Your Profile
+                            <a class="nav-link active" href="/home/<%= userID%>">
+                                Home
                             </a>
                         </li>
                         <li class="nav-item">
@@ -122,7 +122,6 @@
             </main>
         </div>
     </div>
-    <%- include("toast", { notification_link : '/product/<%=userID%>', Header_message : 'Profile Updated', Body_message : 'Your profile has been updated successfully'}) %>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
