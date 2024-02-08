@@ -7,11 +7,6 @@ app.use(express.urlencoded({ extended: true }));
 const { Server } = require('socket.io');
 
 
-app.set('view engine', 'ejs');
-app.set('views', 'public/pages/');
-app.use(express.static('./public'));  
-app.use('/',router);
-
 const db_query= require('./database/connection');
 
 
@@ -23,6 +18,12 @@ const { log } = require('console');
 const UserRoute= require('./routes/User');
 app.use('/user', UserRoute);
 
+app.set('view engine', 'ejs');
+app.set('views', 'public/pages/');
+app.use(express.static('./public'));  
+app.use('/',router);
+
+
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 const {
         addCustomer,
@@ -31,7 +32,8 @@ const {
         Filter_Products,
         get_products, 
         Search_products_by_name,
-        get_user
+        get_user,
+        get_seller
     } = require('./database/Query/Customer_query');
 
 
@@ -58,17 +60,54 @@ app.get('/categories',  async (req, res) => {
 }
 );
 
+app.get('/ShopOwnerSignup' , async(req ,res) => {
+ 
+    res.render('ShopOwnerSignup');    
+});
+ 
+app.post('/ShopOwnerSignup', async (req, res) => {
+ 
+    console.log(req.body);  
+    //const {name, email, phone, shopname , street, postal_code,city, division , password , description }= req.body;
+    const shopid= await addSeller( email, phone, shopname , street, postal_code,city, division , password , description);
+    console.log('Shop Owner post signup');
+    console.log(shopid);
+    //res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
+    res.render('ShopOwnerProfile' , {shopname: req.body.shopname , email: req.body.email , description: req.body.description , shopid: req.body.shopid , phone: req.body.phone , revenue: req.body.revenue});
+}
+ 
+);
+ 
+ 
+app.get('/addproducts/:shopname/:shopid', async (req, res) => {
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+ 
+    res.render('SellerAddProducts', { shopname: shopname, shopid: shopid });
+});
+
+app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+
+      const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
+      const shopname = req.params.shopname;
+      const shopid = req.params.shopid;
+
+      console.log(req.body);
+
+    }
+);
+
 
 
 app.get('/home/:userid', async (req, res) => {
-    console.log('get request');
+    // console.log('get request');
     const id= (req.params.userid);
     const result = await get_user(id);
     const user_name=result[0].NAME;
-    console.log(user_name);
+    // console.log(user_name);
     
     const phone = result[0].PHONE;
-    console.log(phone);
+    // console.log(phone);
     const products = await axios.get(`http://localhost:5000/products/all`).then(response => {
         const products=response.data;
         const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
@@ -91,8 +130,9 @@ app.get('/products/:id', async (req, res) => {
     // console.log('get request');
     const id= (req.params.id);
     
-    const result = await get_products(id);
-    // console.log(result.length);
+    var result = await get_products(id);
+    // console.log(result);
+
     if (result.length<1)
     {
         res.json({Product_error: '404'});
@@ -101,8 +141,10 @@ app.get('/products/:id', async (req, res) => {
     const products =  await set_products(result);
     res.json(products);
     return;
-}
-);
+
+});
+
+
 
 
 
@@ -126,9 +168,9 @@ app.post('/seller_authorize', async (req, res)=>
         if (r.length>0) 
         {
             console.log('OK');
-            var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
+            var linkurl='/user/seller/'+r[0].SHOP_ID;
 
-            res.render('ShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            res.redirect(linkurl);
             return;
         }
 
@@ -182,6 +224,10 @@ app.post('/signup', async (req, res) => {
     // res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
     res.redirect('/home/'+userid);
 });
+
+
+
+
 
 app.listen(5000, () => {
     console.log('Server on port 5000');

@@ -2,15 +2,19 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const db_query= require('../database/connection');
+
+const db_query= require('../database/Query/Customer_query');
 
 const {
     update_user, 
     Filter_Products, 
     set_products,
-    Search_products_by_name
+    Search_products_by_name,
+    get_seller,
+    set_seller
     } = require('../database/Query/Customer_query');
 
+    
 
 router.get('/:userid', async (req, res) => {
 
@@ -95,7 +99,6 @@ router.get('/:userid/search/product/:name', async (req, res) => {
 });
 
 
-
 router.get('/:userid/filter', async (req, res) => { 
     console.log('get request filter');
     const userid= (req.params.userid);
@@ -105,8 +108,35 @@ router.get('/:userid/filter', async (req, res) => {
     // Filtering logic based on your requirements
     let filtered_products = await Filter_Products(priceUnder5000, categoryId);
     let products = await set_products(filtered_products);
-    console.log(products);
+    // console.log(products);
     res.render('filter', { products: products, userid: userid });   
+});
+
+
+router.get('/seller/:sellerid', async (req, res) => {
+    // console.log('get request');
+    const id= (req.params.sellerid);
+    const result = await get_seller(id);
+    // console.log(result.length);
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    console.log(result[0]);
+    const seller = await set_seller(result[0]);
+
+    // res.json(seller);
+    res.render('ShopOwnerProfile', 
+    { 
+        SHOP_ID: seller.SHOP_ID, 
+        SHOP_NAME: seller.SHOP_NAME, 
+        PHONE: seller.PHONE, 
+        EMAIL: seller.EMAIL, 
+        DESCRIPTION: seller.DESCRIPTION,
+        TOTAL_REVENUE: seller.TOTAL_REVENUE
+    })
+    return;
 });
 
 

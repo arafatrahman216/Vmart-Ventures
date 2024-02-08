@@ -23,6 +23,8 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
     
 }
 
+
+
 const get_user= async (id)=>
 {
     const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID=${id}`;
@@ -69,8 +71,16 @@ const get_products= async (id)=>
     +`WHERE P.PRODUCT_ID LIKE ${id} ORDER BY PRODUCT_ID`;   
     if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
     const params=[];
-    const result= await db_query(query,params); 
-    return result;
+
+    try{
+        const result= await db_query(query,params);
+        // console.log(result);
+        return result;
+    } 
+    catch (error) {
+        console.log("Error getting data:");
+        return params;
+    }
 }
 
 const Search_products_by_name= async (name)=>
@@ -130,13 +140,37 @@ const update_user= async (userid, name, email, phone) =>
     }
 }
 
+const set_seller= async ( seller_info )=>
+{
+    const seller = {
+        SHOP_ID: seller_info.SHOP_ID ,
+        SHOP_NAME: seller_info.SHOP_NAME,
+        EMAIL: seller_info.EMAIL,
+        PHONE: seller_info.PHONE,
+        DESCRIPTION : seller_info.DESCRIPTION,
+        TOTAL_REVENUE : seller_info.TOTAL_REVENUE
+    };
+    return seller;   
+}
+
+const get_seller= async (id)=>
+    {
+        const query= `SELECT * FROM SELLER_USER WHERE SHOP_ID=${id}`;
+        const params=[];
+        const result = await db_query(query,params);
+        return result;
+    }
+
+
 
 module.exports= {  addCustomer,
     query_checker,
     set_products,
-     Filter_Products,
-     get_products,
+    Filter_Products,
+    get_products,
     Search_products_by_name,
     get_user,
-    update_user
+    update_user,
+    set_seller,
+    get_seller
 };
