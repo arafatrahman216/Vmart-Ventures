@@ -66,7 +66,7 @@ app.post('/seller_authorize', async (req, res)=>
             console.log('OK');
             var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
  
-            res.render('ShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
             return;
         }
  
@@ -75,6 +75,33 @@ app.post('/seller_authorize', async (req, res)=>
     }
  
 );
+
+// when seller updating his information
+app.post('/:userid/seller_authorize', async (req, res) => {
+ 
+    console.log("Profile Post from Seller Update");
+ 
+    const query = `
+        UPDATE SELLER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email 
+        WHERE USER_ID LIKE :userid
+    `;
+ 
+    const params = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        userId: req.params.userid
+    };
+ 
+    try {
+        const result = await db_query(query, params);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+    res.redirect('/user/'+req.params.userid);
+});
+ 
  
 // arafat code
 // app.get('/user/:userid', async (req, res) => {
