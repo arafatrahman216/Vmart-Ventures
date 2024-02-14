@@ -52,19 +52,15 @@ app.get('/login', async (req, res) => {
  
 app.post('/seller_authorize', async (req, res)=>
 {
-    console.log('post request');
- 
-        console.log(req.body);
- 
-        var email=req.body.username2;
-        var password=req.body.password2;
- 
-        var r = await Seller_authorize(email,password);
+    console.log("Request body:", req.body); 
+
+    if(req.body.username2 && req.body.password2) {
+
+        var r = await Seller_authorize(req.body.username2,req.body.password2);
  
         if (r.length>0) 
         {
             console.log('OK');
-            var linkurl='/seller/'+r[0].SHOP_NAME+'/'+r[0].SHOP_ID;
  
             res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
             return;
@@ -73,34 +69,54 @@ app.post('/seller_authorize', async (req, res)=>
         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
+
+    else {
+
+        console.log("Profile Post from Seller Update");
+        let shopId = req.body.shopId;
+ 
+        const query = `
+            UPDATE SELLER_USER 
+            SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
+            WHERE SHOP_ID LIKE =:shopId
+        `;
+    
+        //res.redirect('/seller_authorize');
+        res.send("Profile Updated Successfully!");
+    
+   }
+
+}
  
 );
 
 // when seller updating his information
-app.post('/:userid/seller_authorize', async (req, res) => {
+// app.post('/seller_authorize', async (req, res) => {
  
-    console.log("Profile Post from Seller Update");
+//     console.log("Profile Post from Seller Update");
+//     let shopId = req.params.shopId;
  
-    const query = `
-        UPDATE SELLER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email 
-        WHERE USER_ID LIKE :userid
-    `;
+//     const query = `
+//         UPDATE SELLER_USER 
+//         SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
+//         WHERE SHOP_ID LIKE =:shopId
+//     `;
  
-    const params = {
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        userId: req.params.userid
-    };
+//     // const params = {
+//     //     name: req.body.name,
+//     //     phone: req.body.phone,
+//     //     email: req.body.email,
+//     //     userId: req.params.userid
+//     // };
  
-    try {
-        const result = await db_query(query, params);
-    } catch (error) {
-        console.error('Error updating data:', error);
-    }
-    res.redirect('/user/'+req.params.userid);
-});
+//     // try {
+//     //     const result = await db_query(query, params);
+//     // } catch (error) {
+//     //     console.error('Error updating data:', error);
+//     // }
+
+//     res.redirect('/seller_authorize');
+// });
  
  
 // arafat code
@@ -277,8 +293,26 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
 
     }
 );
+
+app.get('/products/:shopname/:shopid', async (req, res) => {
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+
+    const query = `
+        SELECT * FROM PRODUCTS 
+        WHERE SHOP_ID =:shopid
+    `;
+
+    const params = {
+        shopid: req.params.shopid
+    };
  
-// app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+    const products = await db_query(query,params) ;
+
+
+    res.render('SellerProducts', { shopname: shopname, shopid: shopid, products: products });
+});
+
 //     try {
  
  

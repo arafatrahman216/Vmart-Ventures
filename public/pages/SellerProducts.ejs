@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= shopname %> Products</title>
+</head>
+<body>
+    <h1>Welcome, <%= shopname %>!</h1>
+    <h2>Your Products:</h2>
+    <% if (products.length > 0) { %>
+        <ul>
+            <% products.forEach(product => { %>
+                <li>
+                    <h3><%= product.PRODUCT_NAME %></h3>
+                    <p>Description: <%= product.DESCRIPTION %></p>
+                    <p>Quantity: <%= product.STOCK_QUANTITY%></p>
+                    <p>Price: <%= product.PRICE %></p>
+                    <p>PromoCode: <%= product.PROMO_CODE %></p>
+                    <!-- Add more details as needed -->
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No products found.</p>
+    <% } %>
+</body>
+</html>

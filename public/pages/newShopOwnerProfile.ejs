@@ -100,7 +100,8 @@
             <img src="#" alt="Your Logo" class="sidebar-logo">
 
             <div class="sidebar-text" href="#">Your Profile</div>
-            <div class="sidebar-text" href="#">Your Products</div>
+            <!-- <div class="sidebar-text" href="/products/<%= SHOP_NAME%>/<%= SHOP_ID%>">Your Products</div> -->
+            <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
             <div class="sidebar-text" href="/addproducts/<%= SHOP_NAME%>/<%= SHOP_ID%>">Add New Product</div>
             <div class="sidebar-text" href="#">Most Valued Products</div>
             <div class="sidebar-text" href="#">Change Password</div>
@@ -132,10 +133,14 @@
                     <input type="text" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
                 </div>
 
+                <!-- updating shop logo info will be applied here -->
+
                 <div class="FormAttribute">
                     <label for="revenue"><strong>Total Revenue:</strong></label>
-                    <input type="number" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>">
+                    <input type="text" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>">
                 </div>
+
+                <input type="hidden" name="shopId" value="<%= SHOP_ID %>">
     
                 <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
                 <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
@@ -156,6 +161,7 @@
         // Edit Information button click event
         $("#editBtn").on("click", function () {
             // Enable editing
+            console.log("Editing...");
             $("input[readonly]").prop("readonly", false);
             
             // Show Save Changes button and hide Edit Information button
@@ -166,6 +172,7 @@
 
         $("#saveBtn").on("click", function () {
             // Submit the form when Save Changes button is clicked
+            console.log("Save button clicked");
             $("#profileForm").submit();
         });
 
