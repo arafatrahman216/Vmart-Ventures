@@ -49,6 +49,45 @@ app.get('/login', async (req, res) => {
 // );
  
 // omi's code
+
+app.get('/seller_authorize', async (req, res)=>
+{
+    console.log("Request body:", req.body); 
+
+    if(req.body.username2 && req.body.password2) {
+
+        var r = await Seller_authorize(req.body.username2,req.body.password2);
+ 
+        if (r.length>0) 
+        {
+            console.log('OK');
+ 
+            res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            return;
+        }
+ 
+        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
+        console.log('not ok');
+    }
+
+    else {
+
+        console.log("Profile Post from Seller Update");
+        let shopId = req.body.shopId;
+ 
+        const query = `
+            UPDATE SELLER_USER 
+            SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
+            WHERE SHOP_ID LIKE =:shopId
+        `;
+    
+        //res.redirect('/seller_authorize');
+        res.send("Profile Updated Successfully!");
+    
+   }
+
+}
+);
  
 app.post('/seller_authorize', async (req, res)=>
 {
