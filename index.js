@@ -25,67 +25,26 @@ app.get('/login', async (req, res) => {
 }
 );
  
-// arafat's code
-// app.post('/seller_authorize', async (req, res)=>
-// {
-//     console.log('post request');
-//         console.log(req.body.username2);
-//         console.log(req.body.password2);
-//         var email=req.body.username2;
-//         var password=req.body.password2;
-//         var r= await Seller_authorize(email,password);
-//         console.log(r.length);
-//         if (r.length>0) 
-//         {
-//             console.log('OK');
-//             var linkurl='/user/'+r[0].USER_ID;
-//             res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE_NUMBER , userID: r[0].USER_ID, link: linkurl});
-//             return;
-//         }
-//         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
-//         console.log('not ok');
-//     }
- 
-// );
  
 // omi's code
 
-app.get('/seller_authorize', async (req, res)=>
+// this route is used to go from any section to other section in profile sidebar pane
+app.get('/seller_authorize/:shopname/:shopid', async (req, res)=>
 {
-    console.log("Request body:", req.body); 
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
 
-    if(req.body.username2 && req.body.password2) {
+    const query = `SELECT * 
+    FROM SELLER_USER
+    WHERE SHOP_ID = :shopid `;
 
-        var r = await Seller_authorize(req.body.username2,req.body.password2);
+    const params = {
+        shopid: req.params.shopid
+    };
  
-        if (r.length>0) 
-        {
-            console.log('OK');
- 
-            res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
-            return;
-        }
- 
-        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
-        console.log('not ok');
-    }
+    const r = await db_query(query,params); 
 
-    else {
-
-        console.log("Profile Post from Seller Update");
-        let shopId = req.body.shopId;
- 
-        const query = `
-            UPDATE SELLER_USER 
-            SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
-            WHERE SHOP_ID LIKE =:shopId
-        `;
-    
-        //res.redirect('/seller_authorize');
-        res.send("Profile Updated Successfully!");
-    
-   }
-
+    res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
 }
 );
  
@@ -117,7 +76,7 @@ app.post('/seller_authorize', async (req, res)=>
         const query = `
             UPDATE SELLER_USER 
             SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
-            WHERE SHOP_ID LIKE =:shopId
+            WHERE SHOP_ID =:shopId
         `;
     
         //res.redirect('/seller_authorize');
@@ -129,67 +88,6 @@ app.post('/seller_authorize', async (req, res)=>
  
 );
 
-// when seller updating his information
-// app.post('/seller_authorize', async (req, res) => {
- 
-//     console.log("Profile Post from Seller Update");
-//     let shopId = req.params.shopId;
- 
-//     const query = `
-//         UPDATE SELLER_USER 
-//         SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
-//         WHERE SHOP_ID LIKE =:shopId
-//     `;
- 
-//     // const params = {
-//     //     name: req.body.name,
-//     //     phone: req.body.phone,
-//     //     email: req.body.email,
-//     //     userId: req.params.userid
-//     // };
- 
-//     // try {
-//     //     const result = await db_query(query, params);
-//     // } catch (error) {
-//     //     console.error('Error updating data:', error);
-//     // }
-
-//     res.redirect('/seller_authorize');
-// });
- 
- 
-// arafat code
-// app.get('/user/:userid', async (req, res) => {
- 
-//     console.log('get request');
-//     const id= (req.params.userid);
-//     console.log(id);
- 
-//     const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${id}`; 
-//     const params=[];
-//     const result= await db_query(query,params); 
- 
-//     console.log(result.length);
- 
-//     if (result.length<1)
-//     {
-//         res.send(`<h1> User with id ${id} not found </h1>`);
-//         return;
-//     }
- 
-//     const user_name=result[0].NAME;
-//     console.log(user_name);
- 
-//     const phone = result[0].PHONE_NUMBER;
-//     console.log(phone);
- 
-//     const Gender = result[0].GENDER ;
- 
-//     res.render('profile', { Name: user_name, Phone : phone , id: id, gender : Gender, email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH});
-//     return;
-// }
-// );
- 
  
 app.get('/user/:userid', async (req, res) => {
  
@@ -256,27 +154,6 @@ app.post('/authorize', async (req, res) => {
 });
  
  
-// app.post('/home', async (req, res) => {
- 
-//     var email=req.body.username;
-//     var password=req.body.password;
- 
-//     var r= await authorize(email,password);
- 
-//     if (r.length>0) 
-//     {
-//         console.log('OK');
-//         var linkurl='/user/'+r[0].USER_ID;
-//         res.render('home', { Name: r[0].NAME, Phone : r[0].PHONE , userID: r[0].USER_ID, link: linkurl});
-//         return;
-//     }
- 
-//     else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
- 
-//     console.log('not ok');
-// });
- 
- 
 app.get('/signup' , async(req ,res) => {
  
     res.render('signup');    
@@ -319,16 +196,48 @@ app.get('/addproducts/:shopname/:shopid', async (req, res) => {
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
  
-    res.render('SellerAddProducts', { shopname: shopname, shopid: shopid });
+    res.render('newSellerAddProduct', { SHOP_NAME: shopname, SHOP_ID: shopid });
 });
 
 app.post('/addproducts/:shopname/:shopid', async (req, res) => {
 
-      const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
-      const shopname = req.params.shopname;
-      const shopid = req.params.shopid;
+    const { productname, productDescrip, Category , productPrice, productImage, productQuantity, promoCode } = req.body;
+    console.log(req.body);
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+    console.log("Hi1");  
+    const maxProductIdQuery = `SELECT MAX(PRODUCT_ID) AS MAX_PRODUCT_ID FROM PRODUCTS`;
+    const params = [];
+    
+    const maxProductIdResult = await db_query(maxProductIdQuery, params);
+    const maxProductId = maxProductIdResult[0].MAX_PRODUCT_ID + 1;
 
-      console.log(req.body);
+    console.log("Hi2"); 
+    const CategoryIdQuery = `SELECT CATAGORY_ID FROM CATAGORY WHERE CATAGORY_NAME = :Category`;
+    const params2 = {
+        Category: Category
+    }
+    const CategoryIdResult = await db_query(CategoryIdQuery, params2);
+
+    const CategoryId = CategoryIdResult[0].CATAGORY_ID;
+
+    console.log("Hi3"); 
+    const addProductquery = `INSERT INTO PRODUCTS (PRODUCT_ID, PRODUCT_NAME , CATAGORY_ID ,DESCRIPTION, PRODUCT_IMAGE ,STOCK_QUANTITY,PRICE, PROMO_CODE , SHOP_ID)
+    VALUES (:maxProductId, :productname, :CategoryId, :productDescrip, :productImage, :productQuantity, :productPrice, :promoCode , :shopid)`;
+
+    const params3 = {
+        maxProductId: maxProductId,
+        productname: productname,
+        CategoryId: CategoryId,
+        productDescrip: productDescrip,
+        productImage: productImage,
+        productQuantity: productQuantity,
+        productPrice: productPrice,
+        promoCode: promoCode,
+        shopid: shopid
+    };
+
+    const result = await db_query(addProductquery, params3);
 
     }
 );
@@ -349,42 +258,11 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
     const products = await db_query(query,params) ;
 
 
-    res.render('SellerProducts', { shopname: shopname, shopid: shopid, products: products });
+    res.render('SellerProducts', { SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
 });
 
-//     try {
  
- 
-//       const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;
-//       const shopname = req.params.shopname;
-//       const shopid = req.params.shopid;
- 
-//       // Assuming you have a table named 'products' with appropriatecolumns
-//       const query = `
-//         INSERT INTO PRODUCTS (shopname, shopid, productname, productdescrip, productprice, productquantity, promocode)
-//         VALUES (:shopname, :shopid, :productname, :productdescrip, :productprice, :productquantity, :promocode)
-//       `;
- 
-//       const params = {
-//         shopname,
-//         shopid,
-//         productname,
-//         productdescrip: productDescrip,
-//         productprice: productPrice,
-//         productquantity: productQuantity,
-//         promocode: promoCode
-//       };
- 
-//       const result = await db_query(sql, params);
- 
-//       console.log("Product added successfully to the database");
-//       res.status(200).send("Product added successfully to the database");
-//     } catch (error) {
-//       console.error("Error adding product to the database:", error);
-//       res.status(500).send("Internal Server Error");
-//     }
-//   });
- 
+
  
 app.listen(5000, () => {
     console.log('Server on port 5000');
