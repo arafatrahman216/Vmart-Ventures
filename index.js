@@ -263,7 +263,55 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
     res.render('SellerProducts', { SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
 });
 
- 
+ // password routing
+app.get('/password/:shopname/:shopid', async (req, res) => {
+
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+
+    const query = `DECLARE
+    v_shopid NUMBER;
+    v_password VARCHAR2(20);
+    
+    BEGIN
+      v_shopid := shopid ;
+        SELECT PASSWORD INTO v_password
+      FROM SELLER_USER
+      WHERE SHOP_ID = v_shopid;
+    END;`;
+
+    const result = await db_query(query,[shopid]) ;
+
+    console.log(result);
+
+    res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result[0].PASSWORD });
+});
+
+app.post('/password/:shopname/:shopid', async (req,res) => {
+    
+        const shopname = req.params.shopname;
+        const shopid = req.params.shopid;
+        const newPassword = req.body.newPassword;
+    
+        const query = `DECLARE
+        v_password VARCHAR2(20);
+        v_shopid NUMBER;
+        
+        BEGIN
+            v_shopid :=shopid;
+            v_password := newPassword;
+            
+            UPDATE SELLER_USER 
+            SET PASSWORD = v_password
+            WHERE SHOP_ID = v_shopid;
+            
+        END;`;
+
+        const result = await db_query(query,[shopid,newPassword]) ;
+
+        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: newPassword });
+
+});
 
  
 app.listen(5000, () => {
