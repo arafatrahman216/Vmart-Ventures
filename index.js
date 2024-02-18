@@ -211,6 +211,7 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
     
     const maxProductIdResult = await db_query(maxProductIdQuery, params);
     const maxProductId = maxProductIdResult[0].MAX_PRODUCT_ID + 1;
+    //console.log(maxProductId);
 
     console.log("Hi2"); 
     const CategoryIdQuery = `SELECT CATAGORY_ID FROM CATAGORY WHERE CATAGORY_NAME = :Category`;
@@ -220,6 +221,7 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
     const CategoryIdResult = await db_query(CategoryIdQuery, params2);
 
     const CategoryId = CategoryIdResult[0].CATAGORY_ID;
+    //console.log(CategoryId);
 
     console.log("Hi3"); 
     const addProductquery = `INSERT INTO PRODUCTS (PRODUCT_ID, PRODUCT_NAME , CATAGORY_ID ,DESCRIPTION, PRODUCT_IMAGE ,STOCK_QUANTITY,PRICE, PROMO_CODE , SHOP_ID)
@@ -238,6 +240,8 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
     };
 
     const result = await db_query(addProductquery, params3);
+
+    //res.redirect('/addproducts' + req.params.shopname + '/' + req.params.shopid);
 
     }
 );
