@@ -1,5 +1,5 @@
 .product-section {
-            
+
     /* margin-left: 300px;
     margin-top: 100px;
     margin-right: 50px;
@@ -7,4 +7,109 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+/* .filter-info
+{
+    background-image: linear-gradient(45deg, #77f00d, #391681);
+    background-size: 200% 200%;
+    animation: gradientAnimation 1s infinite;
+
+}
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+        text-align: center;
+    }
+    50% {
+        background-position: 100% 50%;
+        text-align: center;
+    }
+    100% {
+        background-position: 0% 50%;
+        text-align: left;
+    }
+}
+ */
+
+.product {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #0f0300;
+}
+img {
+    width: 100%;
+    border-radius: 5px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+
+}
+
+.card {
+    max-width: 250px;
+    width: 220px;
+    height: 350px;
+    /* max-height: 400px; */
+    display: inline-block;
+    border-radius: 10px;
+    border-color: sienna;
+    border : 1px solid sienna;
+    justify-content: center;
+    padding: 10px;
+}
+
+.card-img-top {
+    width: 180px;
+    height: 150px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-title {
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.card-text {
+    text-align: center;
+    color: rgb(51, 26, 26);
+    font-size: 16px;
+    font-weight: 450;
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+
+.btn-primary{
+    border-radius: 50px;
+    width: 90px;
+    height: 30px;
+    font-size: 12px;
+}
+.btn-primary:hover{
+    background-color: rgb(221, 48, 45);
+    border: none;
 }

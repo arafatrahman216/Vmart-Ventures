@@ -4,17 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link  href="../styles/FilterStyle.css" rel="stylesheet">
+    <link  href="/filter/../styles/FilterStyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="product-section">
+    <header>
+        <h1>Your filter Results</h1>
+    </header>
+    <label for="price-filter">Filter selected:</label>
+    <div class="filter-info">
+        <% if (PU5000) { %>
+            <p>Price: 0 - 5000</p>
+        <% } %>
+        <% if (CatID) { %>
+            <p>Category: <%= CatID %></p>
+        <% } %>
+    </div>
         <% if (products.length == 0) { %>
-            <h1 style="text-align: center;">No Products Found</h1>
+        <h1 style="text-align: center;">No Products Found</h1>
         <% } else{ %>
-            <h1 style="text-align: left;">Products</h1>
-            <br>
+            <h1 style="text-align: left; display: block;">Products</h1>
+            
+        <div class="product-section">
             <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE,id : products[i].PRODUCT_ID}) %>
+                <div style="margin: 2px;"  >
+                    <a href="/<%= userid %>/product/<%= products[i].PRODUCT_ID %>" style="text-decoration: none;">
+                        <div class="card" >
+                            <img src="/../images/product/<%= products[i].PRODUCT_IMAGE%>" class="card-img-top" alt="...">
+                            <script>
+                                var img = document.querySelector('.card-img-top');
+                                img.alt = '<%= products[i].PRODUCT_ID %>';
+                            </script>
+                            <div class="card-body">
+                                <% if (products[i].PRODUCT_NAME.length > 45) { %>
+                                    <h6 class="card-title" >
+                                        <%= products[i].PRODUCT_NAME.substring(0, 45) %>...
+                                    </h6>
+                                <% } else { %>
+                                    <h6 class="card-title
+                                    "><%= products[i].PRODUCT_NAME %></h6>
+                                <% } %>
+                                <p style="display: block;" class="card-text"><%= products[i].SHOP_NAME %></p>
+                                <s class="striked" style="margin-left: 8px;" ><%= products[i].PRODUCT_PRICE %> ৳ </s>
+                                <span class="badge bg-success" id="disc" style="margin-left: 50px;">10% off</span>
+                            </div>
+                            <div class="mb-5 d-flex justify-content-around">
+                                <b class = "price"><%= products[i].PRODUCT_PRICE - (products[i].PRODUCT_PRICE * 0.1) %> ৳</b>
+                            </a>
+                                <button class="btn-primary">Add to Cart</button>
+                                </div>
+                            </div>
+                </div>           
             <% } %>
         <% } %>
 

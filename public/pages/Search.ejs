@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/search/../styles/SearchStyle.css" type="text/css">
+    <title>Search Results</title>
+</head>
+
+<body>
+    <header>
+        <h1>Your Search Results</h1>
+    </header>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button onclick="search()">Search</button>
+    </div>
+
+    <section class="filter-options">
+        <label for="price-filter">Filter by Price:</label>
+        <select id="price-filter" onchange="filterByPrice()">
+            <option value="all">All Prices</option>
+            <option value="0-50">$0 - $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100-200">$100 - $200</option>
+            <!-- Add more price ranges as needed -->
+        </select>
+
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" onchange="sortAndRender()">
+            <option value="rating">Rating</option>
+            <option value="price">Price</option>
+        </select>
+    </section>
+
+    <div class="search-results" id="products-section">
+        <!-- Product articles go here as in the previous examples -->
+        <% for (var i = 0; i < products.length; i++) { %>
+            <div class="card">
+                <a href="product/<%= products[i].PRODUCT_ID %>"  >
+                <img src="/../images/product/<%= products[i].PRODUCT_IMAGE %>" alt="Product Image" class="product-image">
+                <h2 class="product-title"><%= products[i].PRODUCT_NAME %></h2>
+                <p class="product-description"><%= products[i].PRODUCT_DESCRIPTION %></p>
+                <p class="product-price">$<%= products[i].PRODUCT_PRICE %></p>
+                </a>
+                <button class="btn-primary">Add to Cart</button>
+            </div>
+        <% } %>
+
+
+    </section>
+
+    <script>
+        // Assume you have an array of products
+
+        var products = document.getElementById('products-section').innerHTML;   
+        var filteredProducts = products;
+        
+        function sortAndRender() {
+            const sortBy = document.getElementById('sort-by').value;
+
+            if (sortBy === 'rating') {
+                filteredProducts.sort((a, b) => b.PRODUCT_RATING - a.PRODUCT_RATING);
+            } else if (sortBy === 'price') {
+                filteredProducts.sort((a, b) => a.PRODUCT_PRICE - b.PRODUCT_PRICE);
+            }
+
+            renderProducts();
+        }
+
+        function search() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            filteredProducts = products.filter(product => product.PRODUCT_NAME.toLowerCase().includes(searchInput));
+            sortAndRender();
+
+        }
+
+        function filterByPrice() {
+            const priceFilter = document.getElementById('price-filter').value;
+            if (priceFilter === 'all') {
+                filteredProducts = products;
+            } else {
+                const [min, max] = priceFilter.split('-');
+                filteredProducts = products.filter(product => product.PRODUCT_PRICE >= min && product.PRODUCT_PRICE <= max);
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', search) ;
+
+
+        // Initial rendering on page load
+        renderProducts();
+    </script>
+</body>
+
+</html>

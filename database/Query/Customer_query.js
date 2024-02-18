@@ -1,6 +1,7 @@
 const OracleDB = require('oracledb');
 const db_query= require('../connection');
 const { authorize } = require('./LoginAuthorization');
+const { result } = require('lodash');
 
 
 const addCustomer=async (name,email,phone,password,gender,dob, street, postal_code,city, division )=>
@@ -74,11 +75,10 @@ const get_products= async (id)=>
 
     try{
         const result= await db_query(query,params);
-        // console.log(result);
         return result;
     } 
     catch (error) {
-        console.log("Error getting data:");
+        console.log("Error getting data:", error);
         return params;
     }
 }
@@ -98,14 +98,14 @@ const Filter_Products= async (priceUnder5000, categoryId)=>
     let query= ``;
     if (categoryId) {
         // Apply category filter logic here based on the provided categoryId
-        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
+        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
         +` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`+
-        ` WHERE P.CATAGORY_ID LIKE ${categoryId}`
+        ` WHERE P.CATAGORY_ID = ${categoryId}`
     }
     
     if (priceUnder5000 === 'true') {
         // query= `SELECT * FROM CUSTOMER_USER `;
-        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
+        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
         ` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`
         +` WHERE P.PRICE < 5000`    
         // query+= ` INTERSECTION ${union_query}`;
@@ -113,7 +113,10 @@ const Filter_Products= async (priceUnder5000, categoryId)=>
         else query+= union_query;
     }
     const params=[];
+    console.log(query);
     let filtered_products = await db_query(query,params);
+    // console.log("Filtered products: ");
+    // console.log(filtered_products);
     return filtered_products;
 
 }

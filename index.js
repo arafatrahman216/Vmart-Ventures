@@ -1,13 +1,28 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
-const router= express.Router();
+// const router= express.Router();
 const session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
-const { Server } = require('socket.io');
 
+
+const http = require('http');
+const server= http.createServer(app);
+const { Server } = require("socket.io");
+const io= new Server(server);
+io.on('connection',(socket)=>
+{
+    socket.on('time',(time)=>
+    {
+        io.emit('update',time);
+    })
+}
+);
 
 const db_query= require('./database/connection');
+
+const { addSeller, update_user} = require('./database/Query/Customer_query');
+
 
 
 const path = require('path');
@@ -15,13 +30,171 @@ const { lowerCase, isNumber, result, get } = require('lodash');
 const { log } = require('console');
 
 
-const UserRoute= require('./routes/User');
-app.use('/user', UserRoute);
+// const UserRoute= require('./routes/User');
 
 app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
-app.use('/',router);
+// app.use('/user', UserRoute);
+// app.use('/',router);
+
+app.get('/user/:userid/search/', async (req, res) => {
+// console.log('get request');
+const name= (req.query.search);
+log(name);
+const result = await Search_products_by_name(name);
+console.log(result);
+if (result.length<1)
+{   
+    res.json({Product_error: '404'});
+    return;
+}
+const products =  await set_products(result);
+
+    res.render('Search', { products: products , userid: req.params.userid});
+
+return;
+});
+
+app.get('/user/:userid', async (req, res) => {
+
+    console.log('get request');
+    const id= (req.params.userid);
+    console.log(id);
+    const query= "SELECT * FROM CUSTOMER_USER WHERE USER_ID = "+ id;
+    const params=[];
+    const result= await db_query(query,params);
+    if (result===undefined || result.length<1)
+    {
+        res.send(`<h1> User with id ${id} not found </h1>`);
+        return;
+    }
+    // res.json(result);
+    // return;
+    const user_name=result[0].NAME;
+    console.log(user_name);
+
+    const phone = result[0].PHONE;
+    console.log(phone);
+
+    const Gender = result[0].GENDER ;
+    res.render('profile', 
+    {   Name: user_name, 
+        Phone : phone ,
+        userID: id, 
+        gender : Gender,
+        email : result[0].EMAIL, dob : result[0].DATE_OF_BIRTH
+    });
+    return;
+});
+
+
+app.post('/user/:userid', async (req, res) => {
+ 
+    console.log("Profile Post");
+    const id= (req.params.userid);
+    const name = req.body.name;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    update_user(id, name, email, phone);
+    res.redirect(`/user/${req.params.userid}`);
+});
+ 
+
+
+app.get('/user/:userid/product/:id', async (req, res) => {
+    // console.log('get request');
+    const id= (req.params.id);
+    const userid= (req.params.userid);
+    
+    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
+        const product=response.data;
+        res.render('product', { product: product , userid: userid});
+        return;
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
+app.get('/user/:userid/search/product/:name', async (req, res) => {
+    // console.log('get request');
+    const name= (req.params.name);
+    const result = await Search_products_by_name(name);
+    // console.log(result.length);
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    const products =  await set_products(result);
+    if (result.length==1) res.redirect(`user/`+ req.params.userid +`/product/${products[0].PRODUCT_ID}`);
+    else
+    {
+        res.render('filter', { products: products , userid: req.params.userid});
+    }
+    return;
+});
+
+
+app.get('/user/:userid/filter', async (req, res) => { 
+    console.log('get request filter');
+    const userid= (req.params.userid);
+    const { priceUnder5000, categoryId } = req.query;
+    console.log(priceUnder5000);
+    console.log(categoryId);
+    // Filtering logic based on your requirements
+    let filtered_products = await Filter_Products(priceUnder5000, categoryId);
+    let products = [];
+    // console.log(filtered_products);
+    for (let i = 0; i < filtered_products.length; i++) {
+        const product = {
+            PRODUCT_ID: filtered_products[i].PRODUCT_ID,
+            PRODUCT_NAME: filtered_products[i].PRODUCT_NAME,
+            PRODUCT_PRICE: filtered_products[i].PRICE,
+            PRODUCT_IMAGE: filtered_products[i].IMAGE,
+            CATAGORY_NAME: filtered_products[i].CATAGORY_NAME,
+            SHOP_NAME: filtered_products[i].SHOP_NAME,
+            SHOP_ID: filtered_products[i].SHOP_ID
+        };
+        // console.log(product.PRODUCT_PRICE);
+        products.push(product);
+    }
+
+    console.log(products);
+    log("hi")
+    // console.log(products);
+    res.render('filter', { products: products, userid: "user/"+userid , PU5000 : priceUnder5000, CatID : categoryId});   
+    // res.json(products);
+
+});
+
+
+app.get('/user/seller/:sellerid', async (req, res) => {
+    // console.log('get request');
+    const id= (req.params.sellerid);
+    const result = await get_seller(id);
+    // console.log(result.length);
+    if (result.length<1)
+    {
+        res.json({Product_error: '404'});
+        return;
+    }
+    console.log(result[0]);
+    const seller = await set_seller(result[0]);
+
+    // res.json(seller);
+    res.render('ShopOwnerProfile', 
+    { 
+        SHOP_ID: seller.SHOP_ID, 
+        SHOP_NAME: seller.SHOP_NAME, 
+        PHONE: seller.PHONE, 
+        EMAIL: seller.EMAIL, 
+        DESCRIPTION: seller.DESCRIPTION,
+        TOTAL_REVENUE: seller.TOTAL_REVENUE
+    })
+    return;
+});
 
 
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
@@ -38,7 +211,7 @@ const {
 
 
 app.get('/categories',  async (req, res) => { 
-    console.log('get request');
+    console.log('get request cat');
     const query= `SELECT * FROM CATAGORY`; 
     const params=[];
     const result= await db_query(query,params); 
@@ -127,21 +300,16 @@ app.get('/home/:userid', async (req, res) => {
 
 
 app.get('/products/:id', async (req, res) => {
-    // console.log('get request');
-    const id= (req.params.id);
+    const id = req.params.id;
     
-    var result = await get_products(id);
-    // console.log(result);
-
-    if (result.length<1)
-    {
-        res.json({Product_error: '404'});
+    const result = await get_products(id); // Call the get_products function
+    if ( result.length < 1) {
+        res.json({ Product_error: '404' });
         return;
     }
-    const products =  await set_products(result);
+    const products = await set_products(result);
     res.json(products);
     return;
-
 });
 
 
@@ -152,6 +320,7 @@ app.get('/products/:id', async (req, res) => {
 
 
 app.get('/login', async (req, res) => {
+    console.log('get request');
     res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
 });
 
@@ -161,10 +330,7 @@ app.post('/seller_authorize', async (req, res)=>
 
         var email=req.body.username2;
         var password=req.body.password2;
-
         var r = await Seller_authorize(email,password);
-
-
         if (r.length>0) 
         {
             console.log('OK');
@@ -173,11 +339,9 @@ app.post('/seller_authorize', async (req, res)=>
             res.redirect(linkurl);
             return;
         }
-
         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
-
 );
 
 
@@ -194,6 +358,7 @@ app.post('/login', async (req, res) => {
     var email=req.body.username;
     var password=req.body.password;
     console.log(req.body);
+
     var r= await authorize(email,password);
     // console.log(r.length);
     if (r.length>0) 

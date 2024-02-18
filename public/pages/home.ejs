@@ -24,7 +24,9 @@
                     // Cancel the default action, if needed
                     event.preventDefault();
                     // Trigger the button element with a click
-                    window.location.href = "/<%= userID%>/search/product/" + input.value;
+                    var url = '/<%= userID %>/search?search=' + input.value;
+                    window.location.href = url;
+                    
                 }
             });
         
@@ -39,7 +41,7 @@
                     <a onclick="link_to_profile()" id="profile-link" href="#" >Profile</a>
                     <a href="#">Orders</a>
                     <a href="#">Wishlist</a>
-                    <a href="#">Settings</a>
+                    <a href="#">Cart</a>
                     <a href="/login">Logout</a>
                 </div>
     </div>
@@ -55,7 +57,7 @@
     </aside>
     <div class="product-section">
         <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID, userid : userID}) %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : "../images/product/"+products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID, userid : userID}) %>
 
         <% } %>
 
