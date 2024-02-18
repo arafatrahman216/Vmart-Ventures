@@ -25,7 +25,6 @@ app.get('/login', async (req, res) => {
 }
 );
  
- 
 // omi's code
 
 // this route is used to go from any section to other section in profile sidebar pane
@@ -263,29 +262,61 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
     res.render('SellerProducts', { SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
 });
 
- // password routing
 app.get('/password/:shopname/:shopid', async (req, res) => {
-
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
 
     const query = `DECLARE
-    v_shopid NUMBER;
-    v_password VARCHAR2(20);
-    
+        v_shopid NUMBER;
+        v_password VARCHAR2(20);
     BEGIN
-      v_shopid := shopid ;
+        v_shopid := :shopid;
         SELECT PASSWORD INTO v_password
-      FROM SELLER_USER
-      WHERE SHOP_ID = v_shopid;
+        FROM SELLER_USER
+        WHERE SHOP_ID = v_shopid;
+        :password := v_password;
     END;`;
 
-    const result = await db_query(query,[shopid]) ;
+    const result = await db_query(query, { shopid: shopid, password: { dir: oracl.BIND_OUT, type: oracledb.STRING, maxSize: 20 } });
 
-    console.log(result);
+    console.log(result); // Log the entire result object
 
-    res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result[0].PASSWORD });
+    if (result && result.outBinds.password) {
+        console.log("Password:", result.outBinds.password); // Log the password value
+        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result.outBinds.password });
+    } else {
+        console.log("No password found for shop ID:", shopid);
+        res.send('No password found for shop ID: ' + shopid);
+    }
 });
+
+ // password routing
+// app.get('/password/:shopname/:shopid', async (req, res) => {
+
+//     const shopname = req.params.shopname;
+//     const shopid = req.params.shopid;
+//     var password;
+
+//     console.log(shopid);
+
+//     const query = `DECLARE
+//     v_shopid NUMBER;
+//     v_password VARCHAR2(20);
+    
+//     BEGIN
+//       v_shopid := :shopid ;
+//       SELECT PASSWORD INTO v_password
+//       FROM SELLER_USER
+//       WHERE SHOP_ID = v_shopid;
+//       :password := v_password;
+//     END;`;
+
+//     const result = await db_query(query, { shopid: shopid }) ;
+
+//     console.log(result);
+
+//     res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result[0].PASSWORD });
+// });
 
 app.post('/password/:shopname/:shopid', async (req,res) => {
     
@@ -306,6 +337,11 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
             WHERE SHOP_ID = v_shopid;
             
         END;`;
+
+        const params = {
+            shopid: shopid,
+            newPassword: newPassword
+        }
 
         const result = await db_query(query,[shopid,newPassword]) ;
 
