@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/arafa/AppData/Local/Microsoft/Windows/INetCache/IE/B1380RAN",
-      "program": "c:/Users/arafa/AppData/Local/Microsoft/Windows/INetCache/IE/B1380RAN/build/Debug/outDebug",
+      "cwd": ".",
+      "program": "build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

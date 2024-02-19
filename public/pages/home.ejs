@@ -50,7 +50,10 @@
         <h3 id="cat_header" onclick="getCategories()" >Categories</h3>
         <ul id="unordered">
              <% for (var i = 0; i < categories.length; i++) { %>
+                <a href="/<%= userID%>/catagory/<%= categories[i].CATEGORY_ID %>">
+                    
                 <li class="list" id="list" ><%= categories[i].CATEGORY_NAME %></li>
+                </a>
             <% } %>
         </ul >
         

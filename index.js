@@ -56,6 +56,22 @@ const products =  await set_products(result);
 return;
 });
 
+app.get('/user/:userid/catagory/:catid', async (req, res) => {
+    // console.log('get request');
+    const catid= (req.params.catid);
+    const userid= (req.params.userid);
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
+    +`WHERE P.CATAGORY_ID LIKE ${catid} ORDER BY PRODUCT_ID`;
+
+    const params=[];
+    const result= await db_query(query,params);
+    
+    const products =  await set_products(result);
+    res.render('Search', { products: products , userid: userid});
+    return;
+}
+);
+
 app.get('/user/:userid', async (req, res) => {
 
     console.log('get request');
@@ -98,6 +114,15 @@ app.post('/user/:userid', async (req, res) => {
     const email = req.body.email;
     update_user(id, name, email, phone);
     res.redirect(`/user/${req.params.userid}`);
+});
+
+app.post('/user/:userid/cart', aync (req, res) => {
+    console.log("Cart Post");
+    const id= (req.params.userid);
+    var query= `UPDATE CART`
+    + 
+    
+
 });
  
 

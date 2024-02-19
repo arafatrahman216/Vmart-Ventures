@@ -33,12 +33,26 @@
 
     <div class="search-results" id="products-section">
         <!-- Product articles go here as in the previous examples -->
+
+        <% if (products.length==0) {%>
+            <h1 > No Product Found</h1>
+            <% }%>
         <% for (var i = 0; i < products.length; i++) { %>
             <div class="card">
-                <a href="product/<%= products[i].PRODUCT_ID %>"  >
+                <a href="/user/<%=userid  %>/product/<%= products[i].PRODUCT_ID %>"  >
                 <img src="/../images/product/<%= products[i].PRODUCT_IMAGE %>" alt="Product Image" class="product-image">
-                <h2 class="product-title"><%= products[i].PRODUCT_NAME %></h2>
-                <p class="product-description"><%= products[i].PRODUCT_DESCRIPTION %></p>
+                <% if (products[i].PRODUCT_NAME.length > 45) { %>
+                    <h3 class="product-title"><%= products[i].PRODUCT_NAME.substring(0, 45) %>...</h3>
+                <% } else { %>
+                    <h3 class="product-title"><%= products[i].PRODUCT_NAME %></h3>
+                    <% } %>
+                    <% if (products[i].PRODUCT_DESCRIPTION.length > 50) { %>
+                    <p class="product-description"><%= products[i].PRODUCT_DESCRIPTION.substring(0, 50) %>...
+                    <b>  See More  </b></p>
+                    <% } else { %>
+                        <p class="product-description"><%= products[i].PRODUCT_DESCRIPTION %></p>
+                    <% } %>
+
                 <p class="product-price">$<%= products[i].PRODUCT_PRICE %></p>
                 </a>
                 <button class="btn-primary">Add to Cart</button>
