@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <title>Seller Profile</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white; /* Optional: Background color for the page */
+        }
+
+        .glass-box {
+            display: flex;
+            position: relative;
+            width: 900px; /* Adjust the width as needed */
+            height: 600px; /* Adjust the height as needed */
+            background-color: white;
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
+            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            border-radius: 10%;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 175px;
+            height: 100%;
+            padding: 20px;
+            background-color: black;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+        }
+
+        .sidebar-text {
+            font-family: Roboto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .sidebar-text:hover {
+            color: blue;
+        }
+
+        .HeadLine {
+            margin-left: 370px;
+            padding: 10px;
+        }
+
+        .formContent {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+        }
+
+        .FormAttribute {
+            padding: 2px;
+        }
+
+        .FormInputBox {
+            margin-left: 10px;
+        }
+
+        .btn-primary {
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 90px;
+        }
+
+        .sidebar-logo {
+            width: 100%; /* Make the image fill the entire width of the sidebar */
+            max-height: 100px; /* Set a maximum height for the image */
+            margin-bottom: 20px; /* Adjust as needed for spacing */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-box">
+
+        <div class="sidebar">
+            <img src="#" alt="Your Logo" class="sidebar-logo">
+
+            <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
+            <a class="sidebar-text" href="#">Order History</a>
+            <a class="sidebar-text" href="#">Wishlist Products</a>
+            <a class="sidebar-text" href="#">Favourite Products</a>
+            <a class="sidebar-text" href="#">Favourite Shops</a>
+            <a class="sidebar-text" href="#">Change Password</a>
+
+        </div>
+
+        <div >
+            <h2 class="HeadLine">Your Profile</h2>
+
+            <form class="formContent" action="/user/<%= userID %>" method="post" enctype="application/x-www-form-urlencoded">
+
+                <div class="FormAttribute">
+                    <label for="name"><strong>Name:</strong></label>
+                    <input type="text" class="FormInputBox" id="name" name = "name" value="<%=NAME%>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="email"><strong>Email:</strong></label>
+                    <input type="email" class="FormInputBox" id="email" name="email" value="<%= EMAIL %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="phone"><strong>Contact Number:</strong></label>
+                    <input type="tel" class="FormInputBox" id="phone" name="phone" value="<%= PHONE %>" readonly>
+                </div>
+                
+                <div class="FormAttribute">
+                    <label for="phone"><strong>Date of Birth:</strong></label>
+                    <input type="tel" class="FormInputBox" id="dob" name="dob" value="<%= DOB %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="phone"><strong>Gender:</strong></label>
+                    <input type="tel" class="FormInputBox" id="gender" name="gender" value="<%= GENDER %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>Street Name:</strong></label>
+                    <input type="text" class="FormInputBox" id="street" name="street" value="<%= STREET %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>Postal Code:</strong></label>
+                    <input type="text" class="FormInputBox" id="postCode" name="postCode" value="<%= POSTCODE %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>City:</strong></label>
+                    <input type="text" class="FormInputBox" id="city" name="city" value="<%= CITY %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>Division:</strong></label>
+                    <input type="text" class="FormInputBox" id="division" name="division" value="<%= DIVISION %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>Country:</strong></label>
+                    <input type="text" class="FormInputBox" id="country" name="country" value="<%= COUNTRY %>" readonly>
+                </div>
+
+                <div class="FormAttribute">
+                    <label for="description"><strong>Profile Picture:</strong></label>
+                    <input type="text" class="FormInputBox" id="profilePic" name="profilePic" value="<%= PROFILEPIC %>" readonly>
+                </div>
+    
+                <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
+                <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+<script>
+
+    $(document).ready(function () {
+        // Edit Information button click event
+        $("#editBtn").on("click", function () {
+            // Enable editing
+            $("input[readonly]").prop("readonly", false);
+            
+            // Show Save Changes button and hide Edit Information button
+            $("#saveBtn").removeClass("d-none");
+            $(this).addClass("d-none");
+
+        });
+
+        $("#saveBtn").on("click", function () {
+            // Submit the form when Save Changes button is clicked
+            $("#profileForm").submit();
+        });
+
+        // Save Changes button click event
+    });
+
+</script>
+</html>

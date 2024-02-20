@@ -10,10 +10,11 @@ app.use('/',router);
 app.use(express.json());
  
 const db_query= require('./database/connection');
- 
+const oracledb = require('oracledb');
+
  
 const path = require('path');
-const { lowerCase } = require('lodash');
+const { lowerCase, get } = require('lodash');
 const { log } = require('console');
  
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
@@ -87,15 +88,21 @@ app.post('/seller_authorize', async (req, res)=>
  
 );
 
+// Customer User Account
  
 app.get('/user/:userid', async (req, res) => {
  
-    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID LIKE ${req.params.userid}`; 
-    const params=[];
+    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY
+    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = : userid)
+    `; 
+
+    const params = {
+        userid: req.params.userid
+    } ;
  
     const result= await db_query(query,params); 
  
-    res.render('profile', { name: result[0].NAME , phone : result[0].PHONE  , email : result[0].EMAIL , userID : result[0].USER_ID});
+    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILEPIC: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
 );                      
@@ -106,22 +113,47 @@ app.post('/user/:userid', async (req, res) => {
  
     const query = `
         UPDATE CUSTOMER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email 
-        WHERE USER_ID LIKE :userid
+        SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender , DATE_OF_BIRTH = :dob
+        WHERE USER_ID =:userid
     `;
  
     const params = {
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email,
-        userId: req.params.userid
+        dob: req.body.dob,
+        gender: req.body.gender,
+        profilePic: req.body.profilePic
     };
  
     try {
         const result = await db_query(query, params);
+        console.log("done1");
     } catch (error) {
         console.error('Error updating data:', error);
     }
+
+    const query1 = `
+        UPDATE ADDRESS 
+        SET STREET_NAME = :street, POSTAL_CODE = :postCode , CITY = :city , DIVISION = :division , COUNTRY = :country
+        WHERE USER_ID =:userid
+    `;
+
+    const params1 = {
+        street: req.body.street,
+        postCode: req.body.postCode,
+        city: req.body.city,
+        division: req.body.division,
+        country: req.body.country
+    };
+
+    try {
+        const result1 = await db_query(query1, params1);
+        console.log("done2");
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+
     res.redirect('/user/'+req.params.userid);
 });
  
@@ -199,8 +231,9 @@ app.get('/addproducts/:shopname/:shopid', async (req, res) => {
 });
 
 app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+    // Promo Code availiability should handle
 
-    const { productname, productDescrip, Category , productPrice, productImage, productQuantity, promoCode } = req.body;
+    const { productname, productDescrip, Category , productPrice, discount , productImage, productQuantity, promoCode } = req.body;
     console.log(req.body);
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
@@ -211,6 +244,14 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
     const maxProductIdResult = await db_query(maxProductIdQuery, params);
     const maxProductId = maxProductIdResult[0].MAX_PRODUCT_ID + 1;
     console.log(maxProductId);
+
+    const addDiscountQuery = `INSERT INTO DISCOUNTS (PROMO_CODE, DISCOUNT_AMOUNT, IS_EXPIRED) VALUES (:promoCode, :discount , 1)`;
+    const params4 = {
+        promoCode: promoCode,
+        discount: discount
+    };
+
+    const DiscountQueryresult = await db_query(addDiscountQuery, params4);
  
     const CategoryIdQuery = `SELECT CATAGORY_ID FROM CATAGORY WHERE CATAGORY_NAME = :Category`;
     const params2 = {
@@ -263,92 +304,133 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
 });
 
 app.get('/password/:shopname/:shopid', async (req, res) => {
+
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
 
-    const query = `DECLARE
-        v_shopid NUMBER;
-        v_password VARCHAR2(20);
-    BEGIN
-        v_shopid := :shopid;
-        SELECT PASSWORD INTO v_password
-        FROM SELLER_USER
-        WHERE SHOP_ID = v_shopid;
-        :password := v_password;
-    END;`;
+    const query = `
+        DECLARE
+            v_shopid NUMBER;
+            v_password VARCHAR2(20);
+        BEGIN
+            v_shopid := :shopid;
+            SELECT PASSWORD INTO :password
+            FROM SELLER_USER
+            WHERE SHOP_ID = v_shopid;
+        END;
+    `;
 
-    const result = await db_query(query, { shopid: shopid, password: { dir: oracl.BIND_OUT, type: oracledb.STRING, maxSize: 20 } });
+    const params = {
+        shopid: { dir: oracledb.BIND_IN, val: shopid },
+        password: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 20 }
+    };
 
-    console.log(result); // Log the entire result object
 
-    if (result && result.outBinds.password) {
-        console.log("Password:", result.outBinds.password); // Log the password value
-        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result.outBinds.password });
-    } else {
-        console.log("No password found for shop ID:", shopid);
-        res.send('No password found for shop ID: ' + shopid);
-    }
+    const result = await db_query(query, params);
+    console.log(params.password);
+        
+    res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params.password });
 });
-
- // password routing
-// app.get('/password/:shopname/:shopid', async (req, res) => {
-
-//     const shopname = req.params.shopname;
-//     const shopid = req.params.shopid;
-//     var password;
-
-//     console.log(shopid);
-
-//     const query = `DECLARE
-//     v_shopid NUMBER;
-//     v_password VARCHAR2(20);
-    
-//     BEGIN
-//       v_shopid := :shopid ;
-//       SELECT PASSWORD INTO v_password
-//       FROM SELLER_USER
-//       WHERE SHOP_ID = v_shopid;
-//       :password := v_password;
-//     END;`;
-
-//     const result = await db_query(query, { shopid: shopid }) ;
-
-//     console.log(result);
-
-//     res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: result[0].PASSWORD });
-// });
 
 app.post('/password/:shopname/:shopid', async (req,res) => {
     
+    const shopname = req.params.shopname;
+    const shopid = req.params.shopid;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const confirmPassword = req.body.confirmPassword;
+
+    const query1 = `
+        SELECT PASSWORD FROM SELLER_USER
+        WHERE SHOP_ID = :shopid;
+    `;
+
+    const params1 = {
+        shopid: shopid
+    };
+
+    const result1 = await db_query(query1, params1);
+    console.log(result1);
+
+    if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
+    
         const shopname = req.params.shopname;
         const shopid = req.params.shopid;
+        const oldPassword = req.body.oldPassword;
         const newPassword = req.body.newPassword;
+        const confirmPassword = req.body.confirmPassword;
     
-        const query = `DECLARE
-        v_password VARCHAR2(20);
-        v_shopid NUMBER;
+        const query1 = `
+            DECLARE
+                v_shopid NUMBER;
+                v_password VARCHAR2(20);
+            BEGIN
+                v_shopid := :shopid;
+                SELECT PASSWORD INTO :password
+                FROM SELLER_USER
+                WHERE SHOP_ID = v_shopid;
+            END;
+        `;
+    
+        const params1 = {
+            shopid: { dir: oracledb.BIND_IN, val: shopid },
+            password: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 20 }
+        };
+    
+    
+        const result1 = await db_query(query1, params1);
+    
+        console.log("Password Change Failed!");
+        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params1.password });
+    } 
         
-        BEGIN
-            v_shopid :=shopid;
-            v_password := newPassword;
-            
-            UPDATE SELLER_USER 
-            SET PASSWORD = v_password
-            WHERE SHOP_ID = v_shopid;
-            
-        END;`;
-
-        const params = {
-            shopid: shopid,
-            newPassword: newPassword
+        else {
+            const query = `
+            DECLARE
+                v_password VARCHAR2(20);
+                v_shopid NUMBER;
+            BEGIN
+                v_shopid := :shopid;
+                v_password := :newPassword;
+                    
+                UPDATE SELLER_USER 
+                SET PASSWORD = v_password
+                WHERE SHOP_ID = v_shopid;
+                END;
+            `;
+    
+            const params = {
+                shopid: shopid,
+                newPassword: newPassword
+            };
+    
+            const result = await db_query(query, params);
+    
+            console.log("Password Changed Successfully!");
+    
+            res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid ,  PASSWORD: params.newPassword});
+    
         }
-
-        const result = await db_query(query,[shopid,newPassword]) ;
-
-        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: newPassword });
-
+    
 });
 
+// order history routing
+app.get('/order/:userid', async (req, res) => {
+ 
+    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY
+    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = : userid)
+    `; 
+
+    const params = {
+        userid: req.params.userid
+    } ;
+ 
+    const result= await db_query(query,params); 
+ 
+    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILEPIC: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
+    return;
+}
+); 
  
 app.listen(5000, () => {
     console.log('Server on port 5000');
