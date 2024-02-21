@@ -125,6 +125,8 @@ app.post('/user/:userid', async (req, res) => {
         gender: req.body.gender,
         profilePic: req.body.profilePic
     };
+
+    console.log(params);
  
     try {
         const result = await db_query(query, params);
@@ -146,6 +148,8 @@ app.post('/user/:userid', async (req, res) => {
         division: req.body.division,
         country: req.body.country
     };
+
+    console.log(params1);
 
     try {
         const result1 = await db_query(query1, params1);
@@ -417,17 +421,29 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 // order history routing
 app.get('/order/:userid', async (req, res) => {
  
-    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY
-    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = : userid)
-    `; 
+    const query= `SELECT O.ORDER_ID, O.TOTAL_PRICE, O.DELIVERY_STATUS, O.PAYMENT_TYPE
+    FROM ORDERS O
+    WHERE O.ORDER_ID IN (
+        SELECT C.CART_ID
+        FROM CART C
+        WHERE C.USER_ID IN (
+            SELECT CUS.USER_ID
+            FROM CUSTOMER_USER CUS
+            WHERE CUS.USER_ID = :userid
+        )
+    )`; 
 
     const params = {
         userid: req.params.userid
-    } ;
+    };
+
+    console.log("Params: ");
+    console.log(params);
  
-    const result= await db_query(query,params); 
+    const orderHistory = await db_query(query,params); 
+    console.log(orderHistory);
  
-    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILEPIC: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
+    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
     return;
 }
 ); 
