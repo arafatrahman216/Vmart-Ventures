@@ -190,7 +190,6 @@ app.post('/authorize', async (req, res) => {
  
  
 app.get('/signup' , async(req ,res) => {
- 
     res.render('signup');    
 }); 
  
@@ -203,7 +202,6 @@ app.post('/signup', async (req, res) => {
     console.log(userid);
     res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
 }
- 
 );
  
 // working right now
@@ -223,10 +221,9 @@ app.post('/ShopOwnerSignup', async (req, res) => {
     //res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
     res.render('ShopOwnerProfile' , {shopname: req.body.shopname , email: req.body.email , description: req.body.description , shopid: req.body.shopid , phone: req.body.phone , revenue: req.body.revenue});
 }
- 
 );
  
- 
+
 app.get('/addproducts/:shopname/:shopid', async (req, res) => {
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
@@ -346,7 +343,7 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 
     const query1 = `
         SELECT PASSWORD FROM SELLER_USER
-        WHERE SHOP_ID = :shopid;
+        WHERE SHOP_ID = :shopid
     `;
 
     const params1 = {
@@ -358,63 +355,37 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 
     if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
     
-        const shopname = req.params.shopname;
-        const shopid = req.params.shopid;
-        const oldPassword = req.body.oldPassword;
-        const newPassword = req.body.newPassword;
-        const confirmPassword = req.body.confirmPassword;
-    
-        const query1 = `
-            DECLARE
-                v_shopid NUMBER;
-                v_password VARCHAR2(20);
-            BEGIN
-                v_shopid := :shopid;
-                SELECT PASSWORD INTO :password
-                FROM SELLER_USER
-                WHERE SHOP_ID = v_shopid;
+        console.log("Password Change Failed!");
+        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+    } 
+        
+    else {
+        const query = `
+        DECLARE
+            v_password VARCHAR2(20);
+            v_shopid NUMBER;
+        BEGIN
+            v_shopid := :shopid;
+            v_password := :newPassword;
+                    
+            UPDATE SELLER_USER 
+            SET PASSWORD = v_password
+            WHERE SHOP_ID = v_shopid;
             END;
         `;
     
-        const params1 = {
-            shopid: { dir: oracledb.BIND_IN, val: shopid },
-            password: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 20 }
+        const params = {
+            shopid: shopid,
+            newPassword: newPassword
         };
     
+        const result = await db_query(query, params);
     
-        const result1 = await db_query(query1, params1);
+        console.log("Password Changed Successfully!");
     
-        console.log("Password Change Failed!");
-        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params1.password });
-    } 
-        
-        else {
-            const query = `
-            DECLARE
-                v_password VARCHAR2(20);
-                v_shopid NUMBER;
-            BEGIN
-                v_shopid := :shopid;
-                v_password := :newPassword;
-                    
-                UPDATE SELLER_USER 
-                SET PASSWORD = v_password
-                WHERE SHOP_ID = v_shopid;
-                END;
-            `;
+        res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid ,  PASSWORD: params.newPassword , message: "Password Changed Successfully!"});
     
-            const params = {
-                shopid: shopid,
-                newPassword: newPassword
-            };
-    
-            const result = await db_query(query, params);
-    
-            console.log("Password Changed Successfully!");
-    
-            res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid ,  PASSWORD: params.newPassword});
-    
-        }
+    }
     
 });
 
@@ -433,7 +404,7 @@ app.get('/order/:userid', async (req, res) => {
         )
     )
 		GROUP BY O.ORDER_ID , O.DELIVERY_STATUS, O.PAYMENT_TYPE
-		`; 
+`; 
 
     const params = {
         userid: req.params.userid
