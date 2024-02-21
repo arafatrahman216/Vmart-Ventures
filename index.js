@@ -105,61 +105,90 @@ app.get('/user/:userid', async (req, res) => {
     res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILEPIC: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
-);                      
- 
+);   
+
 app.post('/user/:userid', async (req, res) => {
  
     console.log("Profile Post");
  
     const query = `
         UPDATE CUSTOMER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender , DATE_OF_BIRTH = :dob
+        SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
         WHERE USER_ID =:userid
     `;
- 
+
     const params = {
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email,
-        dob: req.body.dob,
         gender: req.body.gender,
-        profilePic: req.body.profilePic
+        profilePic: req.body.profilePic,
+        userid : req.params.userid
     };
 
-    console.log(params);
  
-    try {
+    try {  
         const result = await db_query(query, params);
-        console.log("done1");
-    } catch (error) {
-        console.error('Error updating data:', error);
-    }
-
-    const query1 = `
-        UPDATE ADDRESS 
-        SET STREET_NAME = :street, POSTAL_CODE = :postCode , CITY = :city , DIVISION = :division , COUNTRY = :country
-        WHERE USER_ID =:userid
-    `;
-
-    const params1 = {
-        street: req.body.street,
-        postCode: req.body.postCode,
-        city: req.body.city,
-        division: req.body.division,
-        country: req.body.country
-    };
-
-    console.log(params1);
-
-    try {
-        const result1 = await db_query(query1, params1);
-        console.log("done2");
     } catch (error) {
         console.error('Error updating data:', error);
     }
 
     res.redirect('/user/'+req.params.userid);
 });
+ 
+// app.post('/user/:userid', async (req, res) => {
+ 
+//     console.log("Profile Post");
+ 
+//     const query = `
+//         UPDATE CUSTOMER_USER 
+//         SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
+//         WHERE USER_ID =:userid
+//     `;
+
+//     const params = {
+//         name: req.body.name,
+//         phone: req.body.phone,
+//         email: req.body.email,
+//         gender: req.body.gender,
+//         profilePic: req.body.profilePic,
+//         userid : req.params.userid
+//     };
+
+ 
+//     try {
+//         console.log("done1");
+//         const result = await db_query(query, params);
+//         console.log("donedone");
+//     } catch (error) {
+//         console.error('Error updating data:', error);
+//     }
+
+//     const query1 = `
+//         UPDATE ADDRESS 
+//         SET STREET_NAME = :street, POSTAL_CODE = :postCode , CITY = :city , DIVISION = :division , COUNTRY = :country
+//         WHERE USER_ID =:userid
+//     `;
+
+//     const params1 = {
+//         street: req.body.street,
+//         postCode: req.body.postCode,
+//         city: req.body.city,
+//         division: req.body.division,
+//         country: req.body.country,
+//         userid : req.params.userid
+//     };
+
+
+//     try {
+//         console.log("done2");
+//         const result1 = await db_query(query1, params1);
+//     } catch (error) {
+//         console.error('Error updating data:', error);
+//     }
+
+//     res.redirect('/user/'+req.params.userid);
+// });
  
 //after submitting login page
  
@@ -231,7 +260,10 @@ app.get('/addproducts/:shopname/:shopid', async (req, res) => {
     res.render('newSellerAddProduct', { SHOP_NAME: shopname, SHOP_ID: shopid });
 });
 
+
+
 app.post('/addproducts/:shopname/:shopid', async (req, res) => {
+    
     // Promo Code availiability should handle
 
     const { productname, productDescrip, Category , productPrice, discount , productImage, productQuantity, promoCode } = req.body;
