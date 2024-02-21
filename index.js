@@ -421,7 +421,7 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 // order history routing
 app.get('/order/:userid', async (req, res) => {
  
-    const query= `SELECT O.ORDER_ID, O.TOTAL_PRICE, O.DELIVERY_STATUS, O.PAYMENT_TYPE
+    const query= `SELECT O.ORDER_ID, SUM (O.TOTAL_PRICE) AS TOTAL_PRICE , O.DELIVERY_STATUS, O.PAYMENT_TYPE
     FROM ORDERS O
     WHERE O.ORDER_ID IN (
         SELECT C.CART_ID
@@ -431,22 +431,36 @@ app.get('/order/:userid', async (req, res) => {
             FROM CUSTOMER_USER CUS
             WHERE CUS.USER_ID = :userid
         )
-    )`; 
+    )
+		GROUP BY O.ORDER_ID , O.DELIVERY_STATUS, O.PAYMENT_TYPE
+		`; 
 
     const params = {
         userid: req.params.userid
     };
-
-    console.log("Params: ");
-    console.log(params);
  
     const orderHistory = await db_query(query,params); 
-    console.log(orderHistory);
  
     res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
     return;
 }
 ); 
+
+// wishlist routing
+app.get('/wishlist/:userid', async (req, res) => {
+     
+        const query= `SELECT P.PRODUCT_NAME , (SELECT CATAGORY_NAME FROM CATAGORY C WHERE P.CATAGORY_ID = C.CATAGORY_ID ) AS CATAGORY ,P.PRICE
+        FROM WISHLIST W JOIN PRODUCTS P ON W.PRODUCT_ID = P.PRODUCT_ID AND W.USER_ID = :userid`; 
+    
+        const params = {
+            userid: req.params.userid
+        };
+     
+        const wishlist = await db_query(query,params); 
+     
+        res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
+        return;
+});
  
 app.listen(5000, () => {
     console.log('Server on port 5000');

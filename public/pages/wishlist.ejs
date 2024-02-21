@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>Order History</title>
+    <title>Wishlist Product</title>
 
     <style>
         body {
@@ -70,7 +70,7 @@
         }
 
         /* Add additional styles for the table */
-        .orderHistory-table {
+        .Wishlist-table {
             flex: 1; /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
@@ -87,43 +87,46 @@
             <img src="#" alt="Your Logo" class="sidebar-logo">
             <a class="sidebar-text" href="/user/<%= USER_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
-            <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
+            <a class="sidebar-text" href="/wishlist/<%= USER_ID%>">Wishlist Products</a>
             <a class="sidebar-text" href="#">Favourite Products</a>
             <a class="sidebar-text" href="#">Favourite Shops</a>
             <a class="sidebar-text" href="#">Change Password</a>
         </div>
 
-        <!-- Order Table -->
-        <div class="orderHistory-table">
-            <h2 class="HeadLine">Your Order</h2>
+        <!-- Products Table -->
+        <div class="Wishlist-table">
+            <h2 class="HeadLine">Your Wishlist Products</h2>
             <table class="table">
+
                 <thead>
                     <tr>
-                        <th>ORDER ID</th>
-                        <th>TOTAL PRICE</th>
-                        <th>DELIVERY STATUS</th>
-                        <th>PAYMENT_TYPE</th>
+                        <th>Product Name</th>
+                        <th>Category Name</th>
+                        <th>Price</th>
+                        <th>    </th>
+                        <th>    </th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (orderHistory.length > 0) { %>
-                        <% orderHistory.forEach(order => { %>
+                    <% if (wishlist.length > 0) { %>
+                        <% wishlist.forEach(product => { %>
                             <tr>
-                                <td><%= order.ORDER_ID %></td>
-                                <td><%= order.TOTAL_PRICE %></td>
-                                <td><%= order.DELIVERY_STATUS %></td>
-                                <td><%= order.PAYMENT_TYPE %></td>
+                                <td><%= product.PRODUCT_NAME %></td>
+                                <td><%= product.CATAGORY %></td>
+                                <td><%= product.PRICE %></td>
+                                <td><a href="/product/<%= product.PRODUCT_ID %>">View & Order</a></td>
+                                <td><a href="/removeWishlist/<%= USER_ID %>/<%= product.PRODUCT_ID %>">Remove</a></td>
                                 <!-- Add more columns as needed -->
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="5">No Order Histoty.</td>
+                            <td colspan="5">No Wishlist Products.</td>
                         </tr>
                     <% } %>
-                </tbody>
+                <tbody>
             </table>
         </div>
     </div>
