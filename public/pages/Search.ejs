@@ -2,7 +2,6 @@
 
 <head>
     <link rel="stylesheet" href="/search/../styles/SearchStyle.css" type="text/css">
-    <link rel="stylesheet" href="/search/../styles/HomeStyle.css" type="text/css">
     <title>Search Results</title>
     
 </head>
@@ -12,22 +11,6 @@
         <a href="#">Products</a>
         <a href="#">Shops</a>
         <a href="#">New Items</a>
-        <input type="text" id="searchbox" placeholder="Search">
-        <script>
-            // Get the input field
-            var input = document.getElementById("searchbox");
-            // Execute a function when the user releases a key on the keyboard
-            input.addEventListener("keyup", function (event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    var url = '/user/<%=userid%>/search?search=' + input.value;
-                    window.location.href = url;
-                }
-            });
-        </script>
         <div>
             <div class="profile-dropdown" style=" background-color:#ddd;">
                 <a id="profile-link" href="/user/<%=userid%>" >Profile</a>
