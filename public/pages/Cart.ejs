@@ -80,10 +80,10 @@
                 <p>Shipping: 0 USD</p>
                 <hr class="cart-hr">
             <p>Total: <%= cost  %> USD</p>
-            <% } else if (cost<20000) { %>
-                <p>Shipping: 10 USD</p>
+            <% } else if (cost<100000) { %>
+                <p>Shipping: 50 USD</p>
                 <hr class="cart-hr">
-            <p>Total: <%= cost + 10 %> USD</p>
+            <p>Total: <%= cost + 50 %> USD</p>
             <% } else { %>
                 <p>Shipping: Free</p>
                 <hr class="cart-hr">

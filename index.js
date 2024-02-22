@@ -44,11 +44,11 @@ const name= (req.query.search);
 log(name);
 const result = await Search_products_by_name(name);
 console.log(result);
-if (result.length<1)
-{   
-    res.json({Product_error: '404'});
-    return;
-}
+// if (result.length<1)
+// {   
+//     res.json({Product_error: '404'});
+//     return;
+// }
 const products =  await set_products(result);
 
     res.render('Search', { products: products , userid: req.params.userid});
