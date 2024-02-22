@@ -19,7 +19,7 @@ io.on('connection',(socket)=>
 }
 );
 
-const db_query= require('./database/connection');
+const db_query = require('./database/connection');
 
 const { addSeller, update_user} = require('./database/Query/Customer_query');
 
@@ -116,12 +116,110 @@ app.post('/user/:userid', async (req, res) => {
     res.redirect(`/user/${req.params.userid}`);
 });
 
-app.post('/user/:userid/cart', aync (req, res) => {
-    console.log("Cart Post");
+
+app.get('/user/:userid/cart', async (req, res) => {
+    console.log('get request');
     const id= (req.params.userid);
-    var query= `UPDATE CART`
-    + 
-    
+    let subquery= `SELECT MAX(CART_ID) AS MAXIMUM FROM CART WHERE USER_ID = ${id}`;
+    let CARTID= await db_query(subquery,[]);
+    let cartid= CARTID[0].MAXIMUM;
+    log(CARTID[0].MAXIMUM);
+    if (CARTID.length<1) 
+    {
+        res.render('Cart', { products: [] , userid: id, cost: 0});
+    }
+    const query= `SELECT * FROM CART C JOIN PRODUCTS P ON C.PRODUCT_ID=P.PRODUCT_ID WHERE USER_ID = ${id} AND CART_ID = ${cartid}`;
+    const params=[];
+    const result= await db_query(query,params);
+    // const products =  await set_products(result);
+    let products = [];
+    let total_cost=0;
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME: result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+            CATAGORY_NAME: result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            SHOP_ID: result[i].SHOP_ID,
+            QUANTITY: result[i].QUANTITY
+        };
+        total_cost+=product.PRODUCT_PRICE*product.QUANTITY;
+        products.push(product);
+    }
+    res.render('Cart', { products: products , userid: id, cost: total_cost});
+    return;
+}
+);
+
+app.post('/user/:userid/addCart/:productid', async (req, res) => {
+    console.log('Cart Post');
+    const productid= req.params.productid;
+    const quantity= 1;
+    const id= (req.params.userid);
+    var query= `
+    BEGIN
+        ADDTOCART(${id},${productid});
+    END;
+    `;
+    const params=[];
+    const result = await db_query(query,params);
+    log('user/'+id+'/addCart/'+productid);
+    res.redirect(`/user/${id}/cart`);
+});
+
+app.get('/user/:userid/deleteCart/:productid', async (req, res) => {
+    console.log('Cart Delete');
+    const productid= req.params.productid;
+    const id= (req.params.userid);
+    var query= `DELETE FROM CART WHERE USER_ID = ${id} AND PRODUCT_ID = ${productid}`;
+    const params=[];
+    const result = await db_query(query,params);
+    res.redirect(`/user/${id}/cart`);
+});
+
+
+app.post('/user/:userid/updateCart', async (req, res) => {
+    console.log('Cart Update');
+    const productid= req.body.productid;
+    let quantity= parseInt(req.body.quantity); 
+    let typef= parseInt(req.body.type);
+    const id= (req.params.userid); 
+    var update= '+';
+    if (typef==1) update='-';
+    // log(id);
+    var query= `UPDATE CART SET QUANTITY = ${quantity} ` + update+ ` 1 WHERE USER_ID = ${id} AND PRODUCT_ID = ${productid}`;
+    const params=[];
+    log(query);
+    const result = await db_query(query,params);
+    res.redirect(`/user/${id}/cart`);
+});
+
+
+app.post('/user/:userid/cart', async (req, res) => {
+    console.log("Cart Post");
+    const productid= req.body.productid;
+    // const quantity= req.body.quantity;
+    const quantity= 1;
+    var subquery = ' SELECT * FROM CART WHERE USER_ID = '+req.params.userid+' AND PRODUCT_ID = '+productid;
+    var subresult = await db_query(subquery,[]);
+    if (subresult.length>0)
+    {
+        log("hi");
+        subquery = 'SELECT NVL(MAX(CART_ID),0) AS MAXIMUM FROM CART WHERE USER_ID = '+req.params.userid;
+        subresult = await db_query(subquery,[]);
+        var cartid= subresult[0].MAXIMUM;
+        subquery= 'UPDATE CART SET QUANTITY = QUANTITY + 1 WHERE USER_ID = '+req.params.userid+' AND PRODUCT_ID = '+productid + ' AND CART_ID = '+cartid;
+        subresult = await db_query(subquery,[]);
+        res.redirect(`/user/${req.params.userid}/cart`);
+        return;
+    }
+    log(productid);
+    log(quantity);
+    const id= (req.params.userid);
+    // log(productid);
+    res.redirect(`/user/${id}/addCart/${productid}`);
 
 });
  
@@ -321,6 +419,40 @@ app.get('/home/:userid', async (req, res) => {
     .catch(error => {
         console.log(error);
     });
+} );
+
+app.get('/user/:userid/checkout', async (req, res) => {
+    console.log('get request');
+    const id= (req.params.userid);
+    let subquery= `SELECT MAX(CART_ID) AS MAXIMUM FROM CART WHERE USER_ID = ${id}`;
+    let CARTID= await db_query(subquery,[]);
+    let cartid= CARTID[0].MAXIMUM;
+    log(CARTID[0].MAXIMUM);
+    if (CARTID.length<1) 
+    {
+        res.render('Cart', { products: [] , userid: id, cost: 0});
+    }
+    const query= `SELECT * FROM CART C JOIN PRODUCTS P ON C.PRODUCT_ID=P.PRODUCT_ID WHERE USER_ID = ${id} AND CART_ID = ${cartid}`;
+    const params=[];
+    const result= await db_query(query,params);
+    let products = [];
+    let total_cost=0;
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME: result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+            CATAGORY_NAME: result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            SHOP_ID: result[i].SHOP_ID,
+            QUANTITY: result[i].QUANTITY
+        };
+        total_cost+=product.PRODUCT_PRICE*product.QUANTITY;
+        products.push(product);
+    }
+    res.render('Checkout', { products: products , userid: id, cost: total_cost});
+    return;
 } );
 
 

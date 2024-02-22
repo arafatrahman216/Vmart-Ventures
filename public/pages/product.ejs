@@ -27,10 +27,21 @@
                 <p><strong>Discount:</strong> 10% off</p>
                 <p><strong>Final Price:</strong> $<%= (product[0].PRODUCT_PRICE - (product[0].PRODUCT_PRICE * 10 / 100)) %></p>
                 <!-- Add more details as needed -->
-                <button class="btn btn-primary">Add to Cart</button>
+                <button class="btn btn-primary" onclick="addtocart('<%=product[0].PRODUCT_ID%>')">Add to Cart</button>
             </div>
         </div>
     </div>
+
+    <script>
+        async function addtocart(id){
+            var form = await document.createElement('form');
+            form.method = 'post';
+            form.action = '/user/<%= userid %>/addCart/'+id;
+            document.body.appendChild(form);
+            form.submit();
+
+        }
+    </script>
 
     <!-- Bootstrap JS and additional scripts here -->
 

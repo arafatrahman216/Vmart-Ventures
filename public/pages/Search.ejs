@@ -11,7 +11,23 @@
     </header>
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Search...">
-        <button onclick="search()">Search</button>
+        <script>
+            // Get the input field
+            var input = document.getElementById("searchInput");
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    var url = '/<%= userid %>/search?search=' + input.value;
+                    window.location.href = url;
+                    
+                }
+            });
+        
+        </script>
     </div>
 
     <section class="filter-options">
@@ -55,9 +71,20 @@
 
                 <p class="product-price">$<%= products[i].PRODUCT_PRICE %></p>
                 </a>
-                <button class="btn-primary">Add to Cart</button>
+                <button onclick="addtocart('<%= products[i].PRODUCT_ID%>')" class="btn-primary">Add to Cart</button>
             </div>
         <% } %>
+
+        <script>
+            async function addtocart(id){
+                var form = await document.createElement('form');
+                form.method = 'post';
+                form.action = '/user/<%= userid %>/addCart/'+id;
+                document.body.appendChild(form);
+                form.submit();
+
+            }
+        </script>
 
 
     </section>
@@ -81,9 +108,7 @@
         }
 
         function search() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            filteredProducts = products.filter(product => product.PRODUCT_NAME.toLowerCase().includes(searchInput));
-            sortAndRender();
+            window.location.href = '/search?search=' + document.getElementById('searchInput').value;
 
         }
 

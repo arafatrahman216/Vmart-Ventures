@@ -1,194 +1,152 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #35363C;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .cart {
-            width: 40%;
-            background-color: #90b062;
-            border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #bcd0a0;
-        }
-        .cart-item button {
-            margin-right: 10px;
-        }
-        button {
-            background-color: 	#464d35;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: 	#5c6b38;
-        }
-        .summary {
-            background-color: 	#6b784d;
-            color: white;
-            padding-bottom: 10px;
-            padding-top: 10px;
-            /* padding: 20px; */
-            margin-top: 20px;
-            border-radius: 5px;
-            text-align: center;
-            width: 100%;
-            /* margin: 0 auto; */
-            
+<!-- cart.ejs -->
 
-            
-        }
-    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/../styles/CartStyle.css">
+    <link rel="stylesheet" href="/../styles/HomeStyle.css">
+    <title>Shopping Cart</title>
 </head>
-<body>
+<header>
+    <!-- Your navbar code here -->
+    <div class="navbar">
+        <a href="/home/<%=userid%>" id="homelink">Home</a>
+        <a href="#">Products</a>
+        <a href="#">Shops</a>
+        <a href="#">New Items</a>
+        <input type="text" id="searchbox" placeholder="Search">
+        <script>
+            // Get the input field
+            var input = document.getElementById("searchbox");
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    var url = 'search?search=' + input.value;
+                    window.location.href = url;
+                }
+            });
+        </script>
+        <div >
+            <div class="profile-dropdown" style=" background-color:#ddd;">
+                <a onclick="link_to_profile()" id="profile-link" href="#" >Profile</a>
+                <a href="#">Orders</a>
+                <a href="#">Wishlist</a>
+                <a href="/<%= userid%>/cart">Cart</a>
+                <a href="/login">Logout</a>
+            </div>
+        </div>
+    </div>
+</header>
+<body id="cart-body">
     <div class="cart">
-        <h1>Your Cart</h1>
-        <div id="cart"></div>
-        <button onclick="addItem()">Add Item</button>
+        <h1>Your Shopping Cart</h1>
+        <div id="cart-items">
+            <% for (let item of products) { %>
+                <div class="cart-item">
+                    <div class="item-details">
+                        <a href="/user/<%= userid %>/product/<%= item.PRODUCT_ID %>">
+                            <img src="/../images/product/<%= item.PRODUCT_IMAGE %>" alt="<%= item.PRODUCT_IMAGE%>" class="product-image">  
+                        <h3><%= item.PRODUCT_NAME %></h3>
+                        </a>
+                        <p><%= item.PRODUCT_PRICE %> USD</p>
+                        <form id="pform<%= item.PRODUCT_ID %>" action="/user/<%= userid %>/deleteCart/<%= item.PRODUCT_ID %>" method="delete">
+                        <p>Quantity: 
+                            <button class="cart-button" type="button" onclick="ChangeQuantity('<%= item.PRODUCT_ID %>', '<%= item.QUANTITY %>',1)">-</button>
+                            <%= item.QUANTITY %>
+                            <button class="cart-button" type="button" onclick="ChangeQuantity('<%= item.PRODUCT_ID %>', '<%= item.QUANTITY %>',0)">+</button>
+                        </p>
+                            <input type="hidden" name="productid" value="<%= item.PRODUCT_ID %>">
+                            <input type="hidden" name="quantity" value=" <%= item.QUANTITY %>">
+                            <input type="hidden" name="_method" value="delete">
+                            <button class="cart-button" onclick="removeproduct()">Remove</button>
+                        </form>
+
+                        <!-- <button onclick="removeItem('<%= item.PRODUCT_ID %>')">Remove</button> -->
+                    </div>
+                </div>
+            <% } %>
+        </div>
         <div class="summary">
-            <h2>Payment Summary</h2>
-            <hr
-            <p>Subtotal: $<span id="subtotal"></span></p>
-            <p>Shipping: $<span id="shipping">5.00</span></p>
-            <p>Total: $<span id="total"></span></p>
+            <h2>Order Summary</h2>
+            <hr class="cart-hr">
+            <p>Sub Total: <%= cost %> USD</p>
+            <% if (cost==0) { %>
+                <p>Shipping: 0 USD</p>
+                <hr class="cart-hr">
+            <p>Total: <%= cost  %> USD</p>
+            <% } else if (cost<20000) { %>
+                <p>Shipping: 10 USD</p>
+                <hr class="cart-hr">
+            <p>Total: <%= cost + 10 %> USD</p>
+            <% } else { %>
+                <p>Shipping: Free</p>
+                <hr class="cart-hr">
+            <p>Total: <%= cost %> USD</p>
+            <% } %>
+
         </div>
         <button onclick="checkout()">Checkout</button>
     </div>
 
     <script>
-        // Sample cart items
-        var cartItems = [
-            { name: 'Item 1', price: 10, quantity: 1 },
-            { name: 'Item 2', price: 20, quantity: 2 },
-            { name: 'Item 3', price: 30, quantity: 1 },
-        ];
+        // JavaScript functions to interact with the cart
+    //     async function removeItem(itemId) {
+    //         // Implement removal logic (update cartItems array and refresh the view)
+    //         const response = await fetch(`/user/${userid}/deleteCart/${itemId}`, {
+    //     method: 'get'
+    // });
 
-        // Function to display cart items
-        function displayCartItems() {
-            var cartDiv = document.getElementById('cart');
-            cartDiv.innerHTML = '';  // Clear the cart
+    // if (!response.ok) {
+    //     console.error('Failed to remove item from cart');
+    //     return;
+    // }
+    //     }
+    async function removeproduct(){
+        var form = document.getElementById('pform');
+        form.submit();
+    }
 
-            // Loop through each item in the cart
-            for (var i = 0; i < cartItems.length; i++) {
-                var item = cartItems[i];
-
-                // Create a div for the cart item
-                var itemDiv = document.createElement('div');
-                itemDiv.className = 'cart-item';
-
-                // Add a remove button
-                var removeButton = document.createElement('button');
-                removeButton.innerHTML = 'Remove';
-                removeButton.addEventListener('click', function(index) {
-                    return function() {
-                        removeItem(index);
-                    };
-                }(i));
-                itemDiv.appendChild(removeButton);
-
-                // Add increase and decrease buttons
-                var decreaseButton = document.createElement('button');
-                decreaseButton.innerHTML = '-';
-                decreaseButton.addEventListener('click', function(index) {
-                    return function() {
-                        decreaseQuantity(index);
-                    };
-                }(i));
-                itemDiv.appendChild(decreaseButton);
-
-                var increaseButton = document.createElement('button');
-                increaseButton.innerHTML = '+';
-                increaseButton.addEventListener('click', function(index) {
-                    return function() {
-                        increaseQuantity(index);
-                    };
-                }(i));
-                itemDiv.appendChild(increaseButton);
-
-                // Add the item details
-                var itemDetails = document.createElement('span');
-                itemDetails.innerHTML = ' Name: ' + item.name + ' Price: ' + item.price + ' Quantity: ' + item.quantity;
-                itemDiv.appendChild(itemDetails);
-
-                // Add the item div to the cart
-                cartDiv.appendChild(itemDiv);
-            }
-
-            // Update the subtotal
-            var subtotal = 0;
-            for (var i = 0; i < cartItems.length; i++) {
-                subtotal += cartItems[i].price * cartItems[i].quantity;
-            }
-            document.getElementById('subtotal').innerHTML = subtotal.toFixed(2);
-
-            // Update the total
-            var shipping = parseFloat(document.getElementById('shipping').innerHTML);
-            var total = subtotal + shipping;
-            document.getElementById('total').innerHTML = total.toFixed(2);
+        async function ChangeQuantity(productid, quantity, type) {
+                // window.location.href = `user/${userid}/product/${id}`;
+                // window.location.reload();
+                if (type == 1 && quantity == 1) {
+                    await removeproduct();
+                    return;
+                }
+                var form = await document.createElement('form');
+                form.method = 'post';
+                var prod_id_field = await document.createElement('input');
+                prod_id_field.type = 'hidden';
+                prod_id_field.name = 'productid';
+                prod_id_field.value = productid;
+                form.appendChild(prod_id_field);
+                var quantity_field= await document.createElement('input');
+                quantity_field.type = 'hidden';
+                quantity_field.name = 'quantity';
+                quantity_field.value = quantity;
+                form.appendChild(quantity_field);
+                var typefield= await document.createElement('input');
+                typefield.type = 'hidden';
+                typefield.name = 'type';
+                typefield.value =type;
+                form.appendChild(typefield);
+                form.action = '/user/<%= userid %>/updateCart/';
+                document.body.appendChild(form);
+                form.submit();
         }
 
-        // Function to add an item to the cart
-        function addItem() {
-            var name = prompt('Enter the item name');
-            var price = parseFloat(prompt('Enter the item price'));
-            var quantity = parseInt(prompt('Enter the quantity'));
-            cartItems.push({ name: name, price: price, quantity: quantity });
-            displayCartItems();
-        }
+        
 
-        // Function to remove an item from the cart
-        function removeItem(index) {
-            cartItems.splice(index, 1);
-            displayCartItems();
+        async function checkout() {
+            
         }
-
-        // Function to increase the quantity of an item
-        function increaseQuantity(index) {
-            cartItems[index].quantity++;
-            displayCartItems();
-        }
-
-        // Function to decrease the quantity of an item
-        function decreaseQuantity(index) {
-            if (cartItems[index].quantity > 1) {
-                cartItems[index].quantity--;
-            }
-            displayCartItems();
-        }
-
-        // Function to handle checkout
-        function checkout() {
-            alert('Thank you for your purchase!');
-            cartItems = [];
-            displayCartItems();
-        }
-
-        // Display the cart items when the page loads
-        displayCartItems();
     </script>
+
 </body>
 </html>

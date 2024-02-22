@@ -13,7 +13,7 @@
 <body class="card-body">
     
             <div style="margin: 2px;"  >
-                <a href="/<%= userid %>/product/<%= id %>">
+                <a href="<%= link %>/product/<%= id %>">
                 <div class="card" style="width: 250px; height:auto;display: inline-block; border-radius: 10px; border-color: sienna;">
                     <img src="<%= image %>" style="width: 180px; height: 150px; margin-left: auto; margin-right: auto;" class="card-img-top" alt="...">
                     <script>
@@ -36,7 +36,7 @@
                             <div class="mb-5 d-flex justify-content-around">
                                 <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
                             </a>
-                                <button class="btn btn-primary">Add to Cart</button>
+                                <button  onclick="addtocart('<%= id%>')" class="btn btn-primary">Add to Cart</button>
                             </div>
                         </div>
                 </div>
@@ -44,6 +44,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+        <script>
+            async function addtocart(id){
+                var form = await document.createElement('form');
+                form.method = 'post';
+                var url = '<%= link%>/addCart/'+id;
+                form.action = url;
+                document.body.appendChild(form);
+                form.submit();
+
+            }
+        </script>
 </body>
 
 </html>

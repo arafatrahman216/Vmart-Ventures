@@ -16,8 +16,8 @@
 }
 .card{
     width: 200px;
-    height: 250px;
-    max-height:350px;
+    height: 280px;
+    max-height:360px;
     border-radius: 30px;    
     margin: 5px;
     /* padding: 10px; */

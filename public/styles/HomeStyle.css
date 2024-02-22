@@ -3,6 +3,7 @@
     background-color: #333;
     position: fixed;
     overflow: hidden;
+    width: 100%;
 }
 
 .navbar a {

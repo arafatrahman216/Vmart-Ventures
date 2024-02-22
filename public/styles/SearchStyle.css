@@ -103,12 +103,13 @@ header {
     margin-bottom: 15px;
 }
 
-.price {
+.product-price {
     color: #e44d26;
     font-size: 1.2rem;
     font-weight: bold;
     display: block;
     margin-bottom: 15px;
+    padding-left: 20px;
 }
 
 .btn-primary {
@@ -119,6 +120,10 @@ header {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    
 }
 
 .btn-primary:hover {

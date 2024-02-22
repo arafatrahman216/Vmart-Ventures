@@ -4,8 +4,8 @@
     <title>E-Commerce Home Page</title>
     <link rel="stylesheet" href="../styles/HomeStyle.css">
 </head>
-<body>
-    <!-- <% var userID= 'user/1' %> -->
+
+<header>
     <div class="navbar">
         <a href="#" id="homelink">Home</a>
         <a href="#">Products</a>
@@ -24,7 +24,7 @@
                     // Cancel the default action, if needed
                     event.preventDefault();
                     // Trigger the button element with a click
-                    var url = '/<%= userID %>/search?search=' + input.value;
+                    var url = '/user/<%= userID %>/search?search=' + input.value;
                     window.location.href = url;
                     
                 }
@@ -41,11 +41,15 @@
                     <a onclick="link_to_profile()" id="profile-link" href="#" >Profile</a>
                     <a href="#">Orders</a>
                     <a href="#">Wishlist</a>
-                    <a href="#">Cart</a>
+                    <a href="/user/<%= userID%>/cart">Cart</a>
                     <a href="/login">Logout</a>
                 </div>
     </div>
     </div>
+</header>
+<body>
+    <!-- <% var userID= 'user/1' %> -->
+    
     <aside style="float: inline-start;">
         <h3 id="cat_header" onclick="getCategories()" >Categories</h3>
         <ul id="unordered">
@@ -60,7 +64,7 @@
     </aside>
     <div class="product-section">
         <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : "../images/product/"+products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID, userid : userID}) %>
+            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : "../images/product/"+products[i].PRODUCT_IMAGE, id : products[i].PRODUCT_ID, userid : userID, link : link}) %>
 
         <% } %>
 
