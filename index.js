@@ -111,11 +111,21 @@ app.post('/user/:userid', async (req, res) => {
  
     console.log("Profile Post");
  
-    const query = `
-        UPDATE CUSTOMER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
-        WHERE USER_ID =:userid
-    `;
+    // const query = `
+    //     UPDATE CUSTOMER_USER 
+    //     SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
+    //     WHERE USER_ID =:userid
+    // `;
+
+//     const query = `UPDATE CUSTOMER_USER 
+//     SET NAME = ${req.body.name}, PHONE = ${req.body.phone}, EMAIL =  ${req.body.email}, PROFILE_PICTURE =  ${req.body.profilePic}, GENDER =  ${req.body.gender}
+//     WHERE USER_ID = ${req.params.userid}
+// `;
+
+    const query = `UPDATE CUSTOMER_USER 
+    SET NAME = \'${req.body.name}\', PHONE = \'${req.body.phone}\', EMAIL =  \'${req.body.email}\', PROFILE_PICTURE =  \'${req.body.profilePic}\', GENDER =  \'${req.body.gender}\'
+    WHERE USER_ID = ${req.params.userid}
+`;
 
     const params = {
         name: req.body.name,
@@ -126,9 +136,12 @@ app.post('/user/:userid', async (req, res) => {
         userid : req.params.userid
     };
 
+    console.log(query);
+
  
     try {  
-        const result = await db_query(query, params);
+        const result = await db_query(query, []);
+
     } catch (error) {
         console.error('Error updating data:', error);
     }
@@ -278,13 +291,13 @@ app.post('/addproducts/:shopname/:shopid', async (req, res) => {
     const maxProductId = maxProductIdResult[0].MAX_PRODUCT_ID + 1;
     console.log(maxProductId);
 
-    const addDiscountQuery = `INSERT INTO DISCOUNTS (PROMO_CODE, DISCOUNT_AMOUNT, IS_EXPIRED) VALUES (:promoCode, :discount , 1)`;
-    const params4 = {
-        promoCode: promoCode,
-        discount: discount
-    };
+    // const addDiscountQuery = `INSERT INTO DISCOUNTS (PROMO_CODE, DISCOUNT_AMOUNT, IS_EXPIRED) VALUES (:promoCode, :discount , 1)`;
+    // const params4 = {
+    //     promoCode: promoCode,
+    //     discount: discount
+    // };
 
-    const DiscountQueryresult = await db_query(addDiscountQuery, params4);
+    // const DiscountQueryresult = await db_query(addDiscountQuery, params4);
  
     const CategoryIdQuery = `SELECT CATAGORY_ID FROM CATAGORY WHERE CATAGORY_NAME = :Category`;
     const params2 = {
