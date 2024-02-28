@@ -477,6 +477,25 @@ app.get('/wishlist/:userid', async (req, res) => {
         res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
         return;
 });
+
+
+// pending orders route
+
+app.get('/pendingOrders/:shopname/:userid', async (req, res) => {
+     
+    const query= `SELECT P.PRODUCT_NAME , (SELECT CATAGORY_NAME FROM CATAGORY C WHERE P.CATAGORY_ID = C.CATAGORY_ID ) AS CATAGORY ,P.PRICE
+    FROM WISHLIST W JOIN PRODUCTS P ON W.PRODUCT_ID = P.PRODUCT_ID AND W.USER_ID = :userid`; 
+
+    const params = {
+        userid: req.params.userid
+    };
+ 
+    const wishlist = await db_query(query,params); 
+ 
+    res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
+    return;
+});
+
  
 app.listen(5000, () => {
     console.log('Server on port 5000');
