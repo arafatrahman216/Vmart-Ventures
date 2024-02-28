@@ -447,7 +447,7 @@ app.get('/order/:userid', async (req, res) => {
             FROM CUSTOMER_USER CUS
             WHERE CUS.USER_ID = :userid
         )
-    )
+    ) AND DELIVERY_STATUS = 'DELIVERED'
 		GROUP BY O.ORDER_ID , O.DELIVERY_STATUS, O.PAYMENT_TYPE
 `; 
 
@@ -483,16 +483,41 @@ app.get('/wishlist/:userid', async (req, res) => {
 
 app.get('/pendingOrders/:shopname/:userid', async (req, res) => {
      
-    const query= `SELECT P.PRODUCT_NAME , (SELECT CATAGORY_NAME FROM CATAGORY C WHERE P.CATAGORY_ID = C.CATAGORY_ID ) AS CATAGORY ,P.PRICE
-    FROM WISHLIST W JOIN PRODUCTS P ON W.PRODUCT_ID = P.PRODUCT_ID AND W.USER_ID = :userid`; 
+    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , O.PAYMENT_TYPE , O.DELIVERY_STATUS
+    FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
+    WHERE SHOP_ID = :userid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
 
     const params = {
         userid: req.params.userid
     };
  
-    const wishlist = await db_query(query,params); 
+    const pendingOrders = await db_query(query,params); 
  
-    res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
+    res.render('pendingOrders', { pendingOrders: pendingOrders});
+    return;
+});
+
+app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
+     
+    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , O.PAYMENT_TYPE , O.DELIVERY_STATUS
+    FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
+    WHERE SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
+
+    const params = {
+        shopid: req.params.shopid
+    };
+ 
+    const pendingOrders = await db_query(query,params); 
+
+    console.log("Hello");
+    console.log(req.params.shopname);
+
+    res.render('pendingOrders', { 
+        pendingOrders: pendingOrders, 
+        SHOP_ID: req.params.shopid, 
+        SHOP_NAME: req.params.shopname
+    });
+
     return;
 });
 

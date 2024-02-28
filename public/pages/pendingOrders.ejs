@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>Seller Profile</title>
+    <title>Pending Orders</title>
 
     <style>
         body {
@@ -70,7 +70,7 @@
         }
 
         /* Add additional styles for the table */
-        .product-table {
+        .orderPending-table {
             flex: 1; /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
@@ -89,38 +89,40 @@
             <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
             <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME %>/<%= SHOP_ID %>">Add New Product</a>
             <a class="sidebar-text" href = "/pendingOrders/<%= SHOP_NAME %>/<%= SHOP_ID %>">Pending Orders</a>
-            <a class="sidebar-text" href="#">Most Valued Products</a>
+            <a class="sidebar-text" href ="#">Most Ordered Products</a>
             <a class="sidebar-text" href="/password/<%= SHOP_NAME %>/<%= SHOP_ID %>">Change Password</a>
         </div>
 
         <!-- Products Table -->
-        <div class="product-table">
-            <h2 class="HeadLine">Your Products</h2>
+        <div class="orderPending-table">
+            <h2 class="HeadLine">Pending Orders</h2>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Product Name</th>
-                        <th>Price</th>
                         <th>Quantity</th>
-                        <th>Promo Code</th>
+                        <th>Total Price</th>
+                        <th>Payment Type</th>
+                        <th>Delivery Status</th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (products.length > 0) { %>
-                        <% products.forEach(product => { %>
+                    <% if (pendingOrders.length > 0) { %>
+                        <% pendingOrders.forEach(orders => { %>
                             <tr>
-                                <td><%= product.PRODUCT_NAME %></td>
-                                <td><%= product.PRICE %></td>
-                                <td><%= product.STOCK_QUANTITY %></td>
-                                <td><%= product.PROMO_CODE %></td>
+                                <td><%= orders.PRODUCT_NAME %></td>
+                                <td><%= orders.QUANTITY %></td>
+                                <td><%= orders.TOTAL_PRICE %></td>
+                                <td><%= orders.PAYMENT_TYPE %></td>
+                                <td><%= orders.DELIVERY_STATUS %></td>
                                 <!-- Add more columns as needed -->
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="5">No products found.</td>
+                            <td colspan="5">No Pending Order.</td>
                         </tr>
                     <% } %>
                 </tbody>
@@ -132,8 +134,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
-
-<script>
-</script>
-
 </html>
