@@ -16,6 +16,10 @@ const oracledb = require('oracledb');
 const path = require('path');
 const { lowerCase, get } = require('lodash');
 const { log } = require('console');
+
+// omi's code 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
  
 const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
 const {addCustomer, query_checker} = require('./database/Query/Customer_query');
@@ -483,9 +487,9 @@ app.get('/wishlist/:userid', async (req, res) => {
 
 app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
      
-    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
+    const query= `SELECT O.ORDER_ID,P.PRODUCT_ID, O.USER_ID, P.SHOP_ID ,(SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID ) SHOP_NAME, P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
     FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
-    WHERE SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
+    WHERE P.SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
 
     const params = {
         shopid: req.params.shopid
@@ -493,7 +497,6 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
  
     const pendingOrders = await db_query(query,params); 
 
-    console.log("Hello");
     console.log(req.params.shopname);
 
     res.render('pendingOrders', { 
@@ -504,6 +507,87 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
 
     return;
 });
+
+app.post('/updateDeliveryStatus', async (req, res) => {
+    const { status, ORDER_ID, PRODUCT_ID, USER_ID } = req.body;
+    console.log(req.body);
+
+    const Status = req.body.status;
+    const orderId = req.body.ORDER_ID;
+    const productId = req.body.PRODUCT_ID;
+    const userId = req.body.USER_ID;
+    const shopId = req.body.SHOP_ID;
+    const shopName = req.body.SHOP_NAME;
+
+    const query = `UPDATE ORDERS
+    SET DELIVERY_STATUS = : Status
+    WHERE ORDER_ID = :orderId AND PRODUCT_ID= :productId AND USER_ID= :userId` ;
+
+    const params = {
+        Status: Status,
+        orderId: orderId,
+        productId: productId,
+        userId: userId
+    };
+
+    const result = await db_query(query, params);
+
+    res.redirect(`/pendingOrders/${shopName}/${shopId}`);
+
+});
+
+app.post('/OrderTrack', async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        // Ensure userId is properly extracted from the request body
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required' });
+        }
+
+        console.log('Hi');
+
+        // Construct the SQL query using named parameters (:USER_ID)
+        const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID AND C.USER_ID= :USER_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE
+        FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
+        WHERE O.USER_ID= :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)`;
+
+        const params = { USER_ID: userId }; // Provide named parameters as an object
+
+        // Execute the database query
+        const lastOrderTrack = await db_query(query, params);
+
+        console.log(lastOrderTrack); 
+
+        // Data found, render the template with the retrieved data
+        res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
+    } catch (error) {
+        console.error('Error retrieving last order track:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// app.post('/OrderTrack', async (req, res) => {
+//     const { userId } = req.body;
+//     console.log(req.body);
+
+//     const USER_ID = req.body.userId ;
+
+//     const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE
+//     FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
+//     WHERE O.USER_ID= :USER_ID AND O.ORDER_ID = (SELECT MAX(UNIQUE ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)` ;
+
+//     const params = {
+//         USER_ID: USER_ID
+//     };
+
+//     const lastOrderTrack = await db_query(query, params);
+
+//     console.log("Hi");
+
+//     res.render('OrderTrack', {OrderTrack : lastOrderTrack , USER_ID: USER_ID});
+
+// });
 
  
 app.listen(5000, () => {

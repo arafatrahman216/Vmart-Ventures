@@ -102,6 +102,7 @@
             <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= userID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= userID%>">Wishlist Products</a>
+            <a id="trackOrderLink" class="sidebar-text" href="/OrderTrack">Track Your Order</a>
             <a class="sidebar-text" href="#">Favourite Products</a>
             <a class="sidebar-text" href="#">Favourite Shops</a>
             <a class="sidebar-text" href="#">Change Password</a>
@@ -198,4 +199,35 @@
     });
 
 </script>
+
+<script>
+    const userId = '<%= userID %>'; // Assuming you're passing userId from the backend
+    document.getElementById('trackOrderLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        // Data to send in the request body
+        const requestData = {
+            userId: userId   // Use the userId from the backend
+        };
+
+        // Make AJAX POST request
+        fetch('/OrderTrack', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            // Handle response as needed
+            console.log('Order tracking request sent.');
+            // Optionally, redirect user or perform other actions
+        })
+        .catch(error => {
+            // Handle error if needed
+            console.error('Error sending order tracking request:', error);
+        });
+    });
+</script>
+
 </html>

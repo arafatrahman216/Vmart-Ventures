@@ -15,18 +15,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white; /* Optional: Background color for the page */
+            background-color: white;
+            /* Optional: Background color for the page */
         }
 
         .glass-box {
             display: flex;
             position: relative;
-            width: 900px; /* Adjust the width as needed */
-            height: 600px; /* Adjust the height as needed */
+            width: 900px;
+            /* Adjust the width as needed */
+            height: 600px;
+            /* Adjust the height as needed */
             background-color: white;
-            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
-            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
-            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
+            /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px);
+            /* Blur for the frosted glass effect */
+            overflow: hidden;
+            /* Ensure the content does not overflow outside the glass-box */
             border-radius: 10%;
         }
 
@@ -40,7 +46,8 @@
             background-color: black;
             color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+            z-index: 1;
+            /* Ensure the sidebar is above the glass-box content */
         }
 
         .sidebar-text {
@@ -64,18 +71,21 @@
         }
 
         .sidebar-logo {
-            width: 100%; /* Make the image fill the entire width of the sidebar */
-            max-height: 100px; /* Set a maximum height for the image */
-            margin-bottom: 20px; /* Adjust as needed for spacing */
+            width: 100%;
+            /* Make the image fill the entire width of the sidebar */
+            max-height: 100px;
+            /* Set a maximum height for the image */
+            margin-bottom: 20px;
+            /* Adjust as needed for spacing */
         }
 
         /* Add additional styles for the table */
         .orderPending-table {
-            flex: 1; /* Fill remaining space beside the sidebar */
+            flex: 1;
+            /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
         }
-
     </style>
 </head>
 
@@ -88,8 +98,8 @@
             <a class="sidebar-text" href="/seller_authorize/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
             <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME %>/<%= SHOP_ID %>">Add New Product</a>
-            <a class="sidebar-text" href = "/pendingOrders/<%= SHOP_NAME %>/<%= SHOP_ID %>">Pending Orders</a>
-            <a class="sidebar-text" href ="#">Most Ordered Products</a>
+            <a class="sidebar-text" href="/pendingOrders/<%= SHOP_NAME %>/<%= SHOP_ID %>">Pending Orders</a>
+            <a class="sidebar-text" href="#">Most Ordered Products</a>
             <a class="sidebar-text" href="/password/<%= SHOP_NAME %>/<%= SHOP_ID %>">Change Password</a>
         </div>
 
@@ -110,33 +120,51 @@
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (pendingOrders.length > 0) { %>
-                        <% pendingOrders.forEach(orders => { %>
+                    <% if (pendingOrders.length> 0) { %>
+                        <% pendingOrders.forEach(orders=> { %>
                             <tr>
-                                <td><%= orders.PRODUCT_NAME %></td>
-                                <td><%= orders.QUANTITY %></td>
-                                <td><%= orders.TOTAL_PRICE %></td>
-                                <td><%= orders.PAYMENT_TYPE %></td>
-                                <td><%= orders.DELIVERY_STATUS %></td>
                                 <td>
-                                    <select name="deliveryStatus" id="deliveryStatus<%= orders.DELIVERY_STATUS %>">
-                                        <option value="CANCELLED">Pending</option>
-                                        <option value="PROCESSING">Processing</option>
-                                        <option value="SHIPPED">Shipped</option>
-                                        <option value="DELIVERED">Delivered</option>
+                                    <%= orders.PRODUCT_NAME %>
+                                </td>
+                                <td>
+                                    <%= orders.QUANTITY %>
+                                </td>
+                                <td>
+                                    <%= orders.TOTAL_PRICE %>
+                                </td>
+                                <td>
+                                    <%= orders.PAYMENT_TYPE %>
+                                </td>
+                                <td>
+                                    <span id="staticDeliveryStatus<%= orders.DELIVERY_STATUS %>">
+                                        <%= orders.DELIVERY_STATUS %>
+                                    </span>
+                                    <select name="deliveryStatus" id="deliveryStatus<%= orders.DELIVERY_STATUS %>"
+                                        style="display: none;">
+                                        <option value="CANCELLED" <% if (orders.DELIVERY_STATUS==='CANCELLED' ) { %>
+                                            selected <% } %>>CANCELLED</option>
+                                        <option value="PROCESSING" <% if (orders.DELIVERY_STATUS==='PROCESSING' ) { %>
+                                            selected <% } %>>PROCESSING</option>
+                                        <option value="SHIPPED" <% if (orders.DELIVERY_STATUS==='SHIPPED' ) { %>
+                                            selected <% } %>>SHIPPED</option>
+                                        <option value="DELIVERED" <% if (orders.DELIVERY_STATUS==='DELIVERED' ) { %>
+                                            selected <% } %>>DELIVERED</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <button onclick="submitDeliveryStatus('<%= orders.ORDER_ID %>')">OK</button>
+                                    <button id="okButton<%= orders.DELIVERY_STATUS %>" style="display: none;"
+                                        onclick="saveDeliveryStatus('<%= orders.DELIVERY_STATUS %>' , '<%= orders.ORDER_ID %>', '<%= orders.PRODUCT_ID %>' , '<%= orders.USER_ID %>' , '<%= orders.SHOP_ID %>' , '<%= orders.SHOP_NAME %>')">OK</button>
+                                    <button id="changeStatusButton<%= orders.DELIVERY_STATUS %>"
+                                        onclick="submitDeliveryStatus('<%= orders.DELIVERY_STATUS %>')">Change</button>
                                 </td>
                                 <!-- Add more columns as needed -->
                             </tr>
-                        <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="5">No Pending Order.</td>
-                        </tr>
-                    <% } %>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5">No Pending Order.</td>
+                                    </tr>
+                                    <% } %>
                 </tbody>
             </table>
         </div>
@@ -146,4 +174,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
+<script>
+    function submitDeliveryStatus(DelStatus) {
+        console.log("Hello!");
+        const staticElement = document.getElementById(`staticDeliveryStatus${DelStatus}`);
+        const selectElement = document.getElementById(`deliveryStatus${DelStatus}`);
+        const okButton = document.getElementById(`okButton${DelStatus}`);
+        const changeStatusButton = document.getElementById(`changeStatusButton${DelStatus}`);
+
+        // Toggle visibility of select element and OK button
+        staticElement.style.display = 'none';
+        selectElement.style.display = 'inline-block';
+        okButton.style.display = 'inline-block';
+        changeStatusButton.style.display = 'none';
+    }
+
+    function saveDeliveryStatus(DelStatus, ORDER_ID, PRODUCT_ID, USER_ID, SHOP_ID, SHOP_NAME) {
+        const staticElement = document.getElementById(`staticDeliveryStatus${DelStatus}`);
+        const selectElement = document.getElementById(`deliveryStatus${DelStatus}`);
+        const okButton = document.getElementById(`okButton${DelStatus}`);
+        const changeStatusButton = document.getElementById(`changeStatusButton${DelStatus}`);
+    
+        // Hide the select element and OK button
+        selectElement.style.display = 'none';
+        okButton.style.display = 'none';
+        changeStatusButton.style.display = 'inline-block';
+    
+        // Show the static delivery status content again
+        staticElement.textContent = selectElement.value;
+        staticElement.style.display = 'inline-block';
+    
+        // Prepare data to send in the request body
+        const data = {
+            status: selectElement.value,
+            ORDER_ID: ORDER_ID,
+            PRODUCT_ID: PRODUCT_ID,
+            USER_ID: USER_ID,
+            SHOP_ID: SHOP_ID,
+            SHOP_NAME: SHOP_NAME
+        };
+    
+        // Fetch API POST request
+        fetch('/updateDeliveryStatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Handle success response if needed
+            console.log('Delivery status updated successfully.');
+        })
+        .catch(error => {
+            // Handle error if needed
+            console.error('Error updating delivery status:', error);
+        });
+    }
+
+</script>
 </html>
