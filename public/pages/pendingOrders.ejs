@@ -104,6 +104,7 @@
                         <th>Total Price</th>
                         <th>Payment Type</th>
                         <th>Delivery Status</th>
+                        <th>Action</th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
@@ -117,6 +118,17 @@
                                 <td><%= orders.TOTAL_PRICE %></td>
                                 <td><%= orders.PAYMENT_TYPE %></td>
                                 <td><%= orders.DELIVERY_STATUS %></td>
+                                <td>
+                                    <select name="deliveryStatus" id="deliveryStatus<%= orders.DELIVERY_STATUS %>">
+                                        <option value="CANCELLED">Pending</option>
+                                        <option value="PROCESSING">Processing</option>
+                                        <option value="SHIPPED">Shipped</option>
+                                        <option value="DELIVERED">Delivered</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button onclick="submitDeliveryStatus('<%= orders.ORDER_ID %>')">OK</button>
+                                </td>
                                 <!-- Add more columns as needed -->
                             </tr>
                         <% }); %>

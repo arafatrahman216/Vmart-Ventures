@@ -1,8 +1,181 @@
-<td>
-    <select class="form-control delivery-status-select">
-        <option value="Pending" <%= orders.DELIVERY_STATUS === "Pending" ? 'selected' : '' %>>Pending</option>
-        <option value="Processing" <%= orders.DELIVERY_STATUS === "Processing" ? 'selected' : '' %>>Processing</option>
-        <option value="Out for Delivery" <%= orders.DELIVERY_STATUS === "Out for Delivery" ? 'selected' : '' %>>Out for Delivery</option>
-        <option value="Delivered" <%= orders.DELIVERY_STATUS === "Delivered" ? 'selected' : '' %>>Delivered</option>
-    </select>
-</td>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <title>Pending Orders</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white; /* Optional: Background color for the page */
+        }
+
+        .glass-box {
+            display: flex;
+            position: relative;
+            width: 900px; /* Adjust the width as needed */
+            height: 600px; /* Adjust the height as needed */
+            background-color: white;
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
+            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            border-radius: 10%;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 175px;
+            height: 100%;
+            padding: 20px;
+            background-color: black;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+        }
+
+        .sidebar-text {
+            font-family: Roboto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .sidebar-text:hover {
+            color: blue;
+        }
+
+        .HeadLine {
+            margin-left: 370px;
+            padding: 40px;
+        }
+
+        .sidebar-logo {
+            width: 100%; /* Make the image fill the entire width of the sidebar */
+            max-height: 100px; /* Set a maximum height for the image */
+            margin-bottom: 20px; /* Adjust as needed for spacing */
+        }
+
+        /* Add additional styles for the table */
+        .orderPending-table {
+            flex: 1; /* Fill remaining space beside the sidebar */
+            padding: 10px;
+            margin-left: 170px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-box">
+
+        <div class="sidebar">
+            <img src="#" alt="Your Logo" class="sidebar-logo">
+            <a class="sidebar-text" href="/seller_authorize/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Profile</a>
+            <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
+            <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME %>/<%= SHOP_ID %>">Add New Product</a>
+            <a class="sidebar-text" href = "/pendingOrders/<%= SHOP_NAME %>/<%= SHOP_ID %>">Pending Orders</a>
+            <a class="sidebar-text" href ="#">Most Ordered Products</a>
+            <a class="sidebar-text" href="/password/<%= SHOP_NAME %>/<%= SHOP_ID %>">Change Password</a>
+        </div>
+
+        <!-- Products Table -->
+        <div class="orderPending-table">
+            <h2 class="HeadLine">Pending Orders</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Payment Type</th>
+                        <th>Delivery Status</th>
+                        <th>Action</th>
+                        <!-- Add more column headers as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through products to generate table rows -->
+                    <% if (pendingOrders.length > 0) { %>
+                        <% pendingOrders.forEach(orders => { %>
+                            <tr>
+                                <td><%= orders.PRODUCT_NAME %></td>
+                                <td><%= orders.QUANTITY %></td>
+                                <td><%= orders.TOTAL_PRICE %></td>
+                                <td><%= orders.PAYMENT_TYPE %></td>
+                                <td>
+                                    <select name="deliveryStatus" id="deliveryStatus<%= orders.ORDER_ID %>">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Shipped">Shipped</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button onclick="submitDeliveryStatus('<%= orders.ORDER_ID %>')">OK</button>
+                                </td>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">No Pending Order.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function submitDeliveryStatus(orderId) {
+            const selectElement = document.getElementById(`deliveryStatus${orderId}`);
+            const selectedStatus = selectElement.value;
+            
+            // Prepare data to send in the request body
+            const data = {
+                status: selectedStatus,
+                orderId: orderId
+            };
+
+            // Fetch API POST request
+            fetch('/updateDeliveryStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Handle success response if needed
+                console.log('Delivery status updated successfully.');
+            })
+            .catch(error => {
+                // Handle error if needed
+                console.error('Error updating delivery status:', error);
+            });
+        }
+    </script>
+</body>
+</html>

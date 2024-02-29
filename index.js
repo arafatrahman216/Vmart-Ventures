@@ -481,25 +481,9 @@ app.get('/wishlist/:userid', async (req, res) => {
 
 // pending orders route
 
-app.get('/pendingOrders/:shopname/:userid', async (req, res) => {
-     
-    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , O.PAYMENT_TYPE , O.DELIVERY_STATUS
-    FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
-    WHERE SHOP_ID = :userid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
-
-    const params = {
-        userid: req.params.userid
-    };
- 
-    const pendingOrders = await db_query(query,params); 
- 
-    res.render('pendingOrders', { pendingOrders: pendingOrders});
-    return;
-});
-
 app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
      
-    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , O.PAYMENT_TYPE , O.DELIVERY_STATUS
+    const query= `SELECT P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
     FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
     WHERE SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
 
