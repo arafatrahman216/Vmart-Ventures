@@ -15,18 +15,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white; /* Optional: Background color for the page */
+            background-color: white;
+            /* Optional: Background color for the page */
         }
 
         .glass-box {
             display: flex;
             position: relative;
-            width: 900px; /* Adjust the width as needed */
-            height: 600px; /* Adjust the height as needed */
+            width: 900px;
+            /* Adjust the width as needed */
+            height: 600px;
+            /* Adjust the height as needed */
             background-color: white;
-            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
-            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
-            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
+            /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px);
+            /* Blur for the frosted glass effect */
+            overflow: hidden;
+            /* Ensure the content does not overflow outside the glass-box */
             border-radius: 10%;
         }
 
@@ -40,7 +46,8 @@
             background-color: black;
             color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+            z-index: 1;
+            /* Ensure the sidebar is above the glass-box content */
         }
 
         .sidebar-text {
@@ -84,11 +91,13 @@
         }
 
         .sidebar-logo {
-            width: 100%; /* Make the image fill the entire width of the sidebar */
-            max-height: 100px; /* Set a maximum height for the image */
-            margin-bottom: 20px; /* Adjust as needed for spacing */
+            width: 100%;
+            /* Make the image fill the entire width of the sidebar */
+            max-height: 100px;
+            /* Set a maximum height for the image */
+            margin-bottom: 20px;
+            /* Adjust as needed for spacing */
         }
-
     </style>
 </head>
 
@@ -102,21 +111,22 @@
             <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= userID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= userID%>">Wishlist Products</a>
-            <a id="trackOrderLink" class="sidebar-text" href="/OrderTrack">Track Your Order</a>
+            <a class="sidebar-text" href="/OrderTrack/<%= userID%>">Track Your Order</a>
             <a class="sidebar-text" href="#">Favourite Products</a>
             <a class="sidebar-text" href="#">Favourite Shops</a>
-            <a class="sidebar-text" href="#">Change Password</a>
+            <a class="sidebar-text" href="/Password/<%= userID%>">Change Password</a>
 
         </div>
 
-        <div >
+        <div>
             <h2 class="HeadLine">Your Profile</h2>
 
-            <form class="formContent" action="/user/<%= userID %>" method="post" enctype="application/x-www-form-urlencoded">
+            <form class="formContent" action="/user/<%= userID %>" method="post"
+                enctype="application/x-www-form-urlencoded">
 
                 <div class="FormAttribute">
                     <label for="name"><strong>Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="name" name = "name" value="<%=NAME%>" readonly>
+                    <input type="text" class="FormInputBox" id="name" name="name" value="<%=NAME%>" readonly>
                 </div>
 
                 <div class="FormAttribute">
@@ -141,7 +151,8 @@
 
                 <div class="FormAttribute">
                     <label for="description"><strong>Postal Code:</strong></label>
-                    <input type="text" class="FormInputBox" id="postCode" name="postCode" value="<%= POSTCODE %>" readonly>
+                    <input type="text" class="FormInputBox" id="postCode" name="postCode" value="<%= POSTCODE %>"
+                        readonly>
                 </div>
 
                 <div class="FormAttribute">
@@ -151,7 +162,8 @@
 
                 <div class="FormAttribute">
                     <label for="description"><strong>Division:</strong></label>
-                    <input type="text" class="FormInputBox" id="division" name="division" value="<%= DIVISION %>" readonly>
+                    <input type="text" class="FormInputBox" id="division" name="division" value="<%= DIVISION %>"
+                        readonly>
                 </div>
 
                 <div class="FormAttribute">
@@ -161,9 +173,10 @@
 
                 <div class="FormAttribute">
                     <label for="description"><strong>Profile Picture:</strong></label>
-                    <input type="text" class="FormInputBox" id="profilePic" name="profilePic" value="<%= PROFILEPIC %>" readonly>
+                    <input type="text" class="FormInputBox" id="profilePic" name="profilePic" value="<%= PROFILEPIC %>"
+                        readonly>
                 </div>
-    
+
                 <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
                 <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
 
@@ -183,7 +196,7 @@
         $("#editBtn").on("click", function () {
             // Enable editing
             $("input[readonly]").prop("readonly", false);
-            
+
             // Show Save Changes button and hide Edit Information button
             $("#saveBtn").removeClass("d-none");
             $(this).addClass("d-none");
@@ -200,9 +213,9 @@
 
 </script>
 
-<script>
+<!-- <script>
     const userId = '<%= userID %>'; // Assuming you're passing userId from the backend
-    document.getElementById('trackOrderLink').addEventListener('click', function(event) {
+    document.getElementById('trackOrderLink').addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default link behavior
 
         // Data to send in the request body
@@ -218,16 +231,16 @@
             },
             body: JSON.stringify(requestData)
         })
-        .then(response => {
-            // Handle response as needed
-            console.log('Order tracking request sent.');
-            // Optionally, redirect user or perform other actions
-        })
-        .catch(error => {
-            // Handle error if needed
-            console.error('Error sending order tracking request:', error);
-        });
+            .then(response => {
+                // Handle response as needed
+                console.log('Order tracking request sent.');
+                // Optionally, redirect user or perform other actions
+            })
+            .catch(error => {
+                // Handle error if needed
+                console.error('Error sending order tracking request:', error);
+            });
     });
-</script>
+</script> -->
 
 </html>

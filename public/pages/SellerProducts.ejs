@@ -111,7 +111,7 @@
                     <% if (products.length > 0) { %>
                         <% products.forEach(product => { %>
                             <tr>
-                                <td><%= product.PRODUCT_NAME %></td>
+                                <td><%= product.PRODUCT_NAME.length > 12 ? product.PRODUCT_NAME.substring(0, 10) + '...' : product.PRODUCT_NAME %></td>
                                 <td><%= product.PRICE %></td>
                                 <td><%= product.STOCK_QUANTITY %></td>
                                 <td><%= product.PROMO_CODE %></td>

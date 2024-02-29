@@ -420,7 +420,7 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
             UPDATE SELLER_USER 
             SET PASSWORD = v_password
             WHERE SHOP_ID = v_shopid;
-            END;
+        END;
         `;
     
         const params = {
@@ -437,6 +437,74 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
     }
     
 });
+
+
+app.get('/Password/:userId', async (req, res) => {
+
+    const userId = req.params.userId;
+
+    // const query = `
+    // `;
+
+    // const params = {
+    //     shopid: { dir: oracledb.BIND_IN, val: shopid },
+    //     password: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 20 }
+    // };
+
+
+    const result = await db_query(query, params);
+        
+    res.render('ChangePasswordCustomerProfile', { userID: userId });
+});
+
+app.post('/Password/:userId', async (req,res) => {
+    
+    const userId = req.params.userId;
+
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const confirmPassword = req.body.confirmPassword;
+
+
+    const result1 = await db_query(query1, params1);
+    console.log(result1);
+
+    if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
+    
+        console.log("Password Change Failed!");
+        res.render('ChangePasswordCustomerProfile', {  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+    } 
+        
+    else {
+        const query = `
+        DECLARE
+            v_password VARCHAR2(20);
+            v_shopid NUMBER;
+        BEGIN
+            v_shopid := :shopid;
+            v_password := :newPassword;
+                    
+            UPDATE SELLER_USER 
+            SET PASSWORD = v_password
+            WHERE SHOP_ID = v_shopid;
+        END;
+        `;
+    
+        const params = {
+            shopid: shopid,
+            newPassword: newPassword
+        };
+    
+        const result = await db_query(query, params);
+    
+        console.log("Password Changed Successfully!");
+    
+        res.render('ChangePasswordCustomerProfile', {  userID: userId  ,  PASSWORD: params.newPassword , message: "Password Changed Successfully!"});
+    
+    }
+    
+});
+
 
 // order history routing
 app.get('/order/:userid', async (req, res) => {
@@ -489,7 +557,7 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
      
     const query= `SELECT O.ORDER_ID,P.PRODUCT_ID, O.USER_ID, P.SHOP_ID ,(SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID ) SHOP_NAME, P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
     FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
-    WHERE P.SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED'`; 
+    WHERE P.SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED' AND O.DELIVERY_STATUS <> 'CANCELLED'`; 
 
     const params = {
         shopid: req.params.shopid
@@ -536,35 +604,21 @@ app.post('/updateDeliveryStatus', async (req, res) => {
 
 });
 
-app.post('/OrderTrack', async (req, res) => {
-    try {
-        const { userId } = req.body;
+app.get('/OrderTrack/:userId', async (req, res) => {
+        
+        const userId = req.params.userId;
 
-        // Ensure userId is properly extracted from the request body
-        if (!userId) {
-            return res.status(400).json({ error: 'User ID is required' });
-        }
-
-        console.log('Hi');
-
-        // Construct the SQL query using named parameters (:USER_ID)
         const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID AND C.USER_ID= :USER_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE
         FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
         WHERE O.USER_ID= :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)`;
 
-        const params = { USER_ID: userId }; // Provide named parameters as an object
+        const params = { USER_ID: userId };
 
-        // Execute the database query
         const lastOrderTrack = await db_query(query, params);
 
         console.log(lastOrderTrack); 
 
-        // Data found, render the template with the retrieved data
         res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
-    } catch (error) {
-        console.error('Error retrieving last order track:', error);
-        res.status(500).send('Internal Server Error');
-    }
 });
 
 // app.post('/OrderTrack', async (req, res) => {
