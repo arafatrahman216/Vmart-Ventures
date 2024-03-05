@@ -109,12 +109,14 @@
                 <tbody>
                     <!-- Loop through products to generate table rows -->
                     <% if (products.length > 0) { %>
-                        <% products.forEach(product => { %>
+                        <% products.forEach(product => { %> 
                             <tr>
                                 <td><%= product.PRODUCT_NAME.length > 12 ? product.PRODUCT_NAME.substring(0, 10) + '...' : product.PRODUCT_NAME %></td>
                                 <td><%= product.PRICE %></td>
                                 <td><%= product.STOCK_QUANTITY %></td>
                                 <td><%= product.PROMO_CODE %></td>
+                                <td><button class="btn btn-primary view-details-btn" onclick="redirectToDetails('<%= product.PRODUCT_ID %>')">View Details</button></td>
+
                                 <!-- Add more columns as needed -->
                             </tr>
                         <% }); %>
@@ -134,6 +136,10 @@
 </body>
 
 <script>
+    function redirectToDetails(productId) {
+        window.location.href = "/product-details/" + productId;
+    }
+    
 </script>
 
 </html>

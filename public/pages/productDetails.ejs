@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>Seller Profile</title>
+    <title>Product Details</title>
 
     <style>
         body {
@@ -103,29 +103,22 @@
             <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
             <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME%>/<%= SHOP_ID%>">Add New Product</a>
             <a class="sidebar-text" href="/pendingOrders/<%= SHOP_NAME%>/<%= SHOP_ID%>">Pending Orders</a>
-            <a class="sidebar-text" href="#">Most Valued Products</a>
             <a class="sidebar-text" href="/password/<%= SHOP_NAME %>/<%= SHOP_ID %>">Change Password</a>
         </div>
 
         <div >
-            <h2 class="HeadLine">Shop Information</h2>
+            <h2 class="HeadLine">Product Details</h2>
 
-            <form class="formContent" id="profileForm" action="/seller_authorize" method="post">
+            <form class="formContent" id="profileForm" action="/product-details/<%= PRODUCT_ID%>" method="post">
                 
-
                 <div class="FormAttribute">
-                    <label for="name"><strong>Shop Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="name" name = "shopname" value="<%= SHOP_NAME %>" readonly>
+                    <label for="productname"><strong>Product Name:</strong></label>
+                    <input type="text" class="FormInputBox" id="productname" name = "productname" value="<%= PRODUCT_NAME %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
-                    <label for="email"><strong>Email:</strong></label>
-                    <input type="email" class="FormInputBox" id="email" name="email" value="<%= EMAIL %>" readonly>
-                </div>
-
-                <div class="FormAttribute">
-                    <label for="phone"><strong>Contact Number:</strong></label>
-                    <input type="tel" class="FormInputBox"id="phone" name="phone" value="<%= PHONE %>" readonly>
+                    <label for="category"><strong>Category Name:</strong></label>
+                    <input type="text" class="FormInputBox" id="category" name="category" value="<%= CATEGORY_NAME %>">
                 </div>
 
                 <div class="FormAttribute">
@@ -133,16 +126,26 @@
                     <input type="text" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
                 </div>
 
-                <!-- updating shop logo info will be applied here -->
+                <div class="FormAttribute">
+                    <label for="quantity"><strong>Stock Qunatity:</strong></label>
+                    <input type="number" class="FormInputBox" id="quantity" name="qunatity" value="<%= STOCK_QUANTITY %>" readonly>
+                </div>
 
                 <div class="FormAttribute">
-                    <label for="revenue"><strong>Total Revenue:</strong></label>
-                    <input type="text" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>">
+                    <label for="price"><strong>Price:</strong></label>
+                    <input type="number" class="FormInputBox" id="price" name="price" value="<%= PRICE %>" readonly>
                 </div>
+
+                <div class="FormAttribute">
+                    <label for="promocode"><strong>Promo Code:</strong></label>
+                    <input type="text" class="FormInputBox" id="promocode" name="promocode" value="<%= PROMO_CODE %>" readonly>
+                </div>
+
+                <!-- updating shop logo info will be applied here -->
 
                 <input type="hidden" name="shopId" value="<%= SHOP_ID %>">
     
-                <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
+                <button type="button" class="btn btn-primary" id="editBtn">Update Information</button>
                 <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
 
             </form>

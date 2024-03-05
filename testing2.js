@@ -1,102 +1,21 @@
-{/* <div class="row">
-    <div class="col-md-6">
-        <h3>Personal Information</h3>
-        <form id="profileForm">
-            <div class="form-group">
-                <label for="name"><strong>Name:</strong></label>
-                <input type="text" class="form-control" id="name" value="<%= name %>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="email"><strong>Email:</strong></label>
-                <input type="email" class="form-control" id="email" value="<%= email %>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="phone"><strong>Phone Number:</strong></label>
-                <input type="tel" class="form-control" id="phone" value="<%= phone %>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="address"><strong>Address:</strong></label>
-                <input type="text" class="form-control" id="address" value="BUET" readonly>
-            </div>
-
-            <!-- Add more form fields as needed -->
-
-            <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
-            <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        // Edit Information button click event
-        $("#editBtn").on("click", function () {
-            // Enable editing
-            $("input[readonly]").prop("readonly", false);
-            
-            // Show Save Changes button and hide Edit Information button
-            $("#saveBtn").removeClass("d-none");
-            $(this).addClass("d-none");
-        });
-    });
-</script> */}
-
-
-
-// data was in profile.ejs
-
-$("#profileForm").submit(function (event) {
-
-    event.preventDefault(); // Prevent the default form submission
-
-    // Extract the form data
-    var formData = {
-        name: $("#name").val(),
-        email: $("#email").val(),
-        phone: $("#phone").val()
-        // Add more fields as needed
-    };
-
-    // Send the data to the server using AJAX
-    $.ajax({
-        type: "POST",
-        url: "/user/" + userID, // Replace with your server endpoint
-        data: formData,
-
-        success: function (response) {
-            // Handle success response from the server
-            console.log(response);
-        },
-
-        error: function (error) {
-            // Handle error response from the server
-            console.error(error);
-        }
-    });
-});
-
-
-
-app.post('/user/:userid', async (req, res) => {
-
-    console.log("Profile Post");
-
-    const query = `
-        UPDATE CUSTOMER_USER 
-        SET NAME = :name, PHONE = :phone, EMAIL = :email 
-        WHERE USER_ID LIKE :userid
-    `;
-
-    const params = {
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        userId: req.params.userid
-    };
-
-    try {
-        const result = await db_query(query, params);
-    } catch (error) {
-        console.error('Error updating data:', error);
-    }
-});
+<!-- Modify the HTML to add a button in each row -->
+<tbody>
+    <!-- Loop through products to generate table rows -->
+    <% if (products.length > 0) { %>
+        <% products.forEach(product => { %> 
+            <tr>
+                <td><%= product.PRODUCT_NAME.length > 12 ? product.PRODUCT_NAME.substring(0, 10) + '...' : product.PRODUCT_NAME %></td>
+                <td><%= product.PRICE %></td>
+                <td><%= product.STOCK_QUANTITY %></td>
+                <td><%= product.PROMO_CODE %></td>
+                <!-- Add a button to view details -->
+                <td><button class="btn btn-primary view-details-btn" data-product-id="<%= product.ID %>">View Details</button></td>
+                <!-- Add more columns as needed -->
+            </tr>
+        <% }); %>
+    <% } else { %>
+        <tr>
+            <td colspan="5">No products found.</td>
+        </tr>
+    <% } %>
+</tbody>

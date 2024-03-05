@@ -75,21 +75,25 @@ app.post('/seller_authorize', async (req, res)=>
     else {
 
         console.log("Profile Post from Seller Update");
-        let shopId = req.body.shopId;
+        var shopId = req.body.shopId;
+
+        console.log(shopId);
  
         const query = `
             UPDATE SELLER_USER 
             SET SHOP_NAME = :shopname, PHONE = :phone, EMAIL = :email, DESCRIPTION = :description
             WHERE SHOP_ID =:shopId
         `;
-    
-        //res.redirect('/seller_authorize');
-        res.send("Profile Updated Successfully!");
-    
-   }
 
+        const params = {
+            shopId: req.body.shopId
+        };
+     
+        const r = await db_query(query,params);
+    
+        res.redirect('/seller_authorize/'+ req.body.shopname+'/'+ req.body.shopId);
+   }
 }
- 
 );
 
 // Customer User Account
@@ -353,6 +357,60 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
     res.render('SellerProducts', { SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
 });
 
+app.get('/product-details/:productid', async (req, res) => {
+
+
+    const productid = req.params.productid;
+
+    const query = `SELECT P.PRODUCT_ID , P.PRODUCT_NAME, (SELECT CATAGORY_NAME FROM CATAGORY C WHERE C.CATAGORY_ID = P.CATAGORY_ID) CATEGORY_NAME, P.DESCRIPTION, P.PRODUCT_IMAGE, P.STOCK_QUANTITY, P.PRICE, P.PROMO_CODE , S.SHOP_ID , S.SHOP_NAME
+    FROM PRODUCTS P JOIN SELLER_USER S ON P.SHOP_ID = S.SHOP_ID
+    WHERE PRODUCT_ID = :productid
+    `;
+
+    const params = {
+        productid: req.params.productid
+    };
+ 
+    const productDetails = await db_query(query,params) ;
+
+    console.log(productDetails);
+
+    res.render('productDetails', {
+        PRODUCT_ID: productDetails.PRODUCT_ID,
+        DESCRIPTION: productDetails.DESCRIPTION,
+        PRODUCT_NAME: productDetails.PRODUCT_NAME,
+        CATEGORY_NAME: productDetails.CATEGORY_NAME,
+        STOCK_QUANTITY: productDetails.STOCK_QUANTITY,
+        PRICE: productDetails.PRICE,
+        PROMO_CODE: productDetails.PROMO_CODE,
+        SHOP_ID: productDetails.SHOP_ID,
+        SHOP_NAME: productDetails.SHOP_NAME
+    });
+
+});
+
+
+app.post('/product-details/:productid', async (req, res) => {
+
+
+    const productid = req.params.productid;
+
+    const query = `
+        UPDATE PRODUCTS
+        SET PRODUCT_NAME = '${productid}', DESCRIPTION = '${req.body.description}', STOCK_QUANTITY = '${req.body.qunatity}', PRICE = '${req.body.price}', PROMO_CODE = '${req.body.promocode}'
+        WHERE PRODUCT_ID =:productid
+    `;
+
+    const params = {
+        productid: req.params.productid
+    };
+ 
+    const productDetails = await db_query(query,params) ;
+
+    res.redirect('/product-details/' + req.params.productid);
+
+});
+
 app.get('/password/:shopname/:shopid', async (req, res) => {
 
     const shopname = req.params.shopname;
@@ -509,8 +567,8 @@ app.post('/Password/:userId', async (req,res) => {
 // order history routing
 app.get('/order/:userid', async (req, res) => {
  
-    const query= `SELECT O.ORDER_ID, SUM (O.TOTAL_PRICE) AS TOTAL_PRICE , O.DELIVERY_STATUS, O.PAYMENT_TYPE
-    FROM ORDERS O
+    const query= `SELECT O.ORDER_ID, P.PRODUCT_NAME , SUM (O.TOTAL_PRICE) AS TOTAL_PRICE , O.PAYMENT_TYPE
+    FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
     WHERE O.ORDER_ID IN (
         SELECT C.CART_ID
         FROM CART C
@@ -520,7 +578,7 @@ app.get('/order/:userid', async (req, res) => {
             WHERE CUS.USER_ID = :userid
         )
     ) AND DELIVERY_STATUS = 'DELIVERED'
-		GROUP BY O.ORDER_ID , O.DELIVERY_STATUS, O.PAYMENT_TYPE
+		GROUP BY O.ORDER_ID , O.PAYMENT_TYPE ,P.PRODUCT_NAME
 `; 
 
     const params = {

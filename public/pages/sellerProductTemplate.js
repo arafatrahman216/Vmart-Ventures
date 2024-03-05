@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>Order History</title>
+    <title>Seller Profile</title>
 
     <style>
         body {
@@ -70,7 +70,7 @@
         }
 
         /* Add additional styles for the table */
-        .orderHistory-table {
+        .product-table {
             flex: 1; /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
@@ -85,43 +85,42 @@
 
         <div class="sidebar">
             <img src="#" alt="Your Logo" class="sidebar-logo">
-            <a class="sidebar-text" href="/user/<%= USER_ID %>">Your Profile</a>
-            <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
-            <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
-            <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Order</a>
-            <a class="sidebar-text" href="#">Favourite Products</a>
-            <a class="sidebar-text" href="#">Favourite Shops</a>
-            <a class="sidebar-text" href="#">Change Password</a>
+            <a class="sidebar-text" href="/seller_authorize/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Profile</a>
+            <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
+            <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME %>/<%= SHOP_ID %>">Add New Product</a>
+            <a class="sidebar-text" href = "/pendingOrders/<%= SHOP_NAME %>/<%= SHOP_ID %>">Pending Orders</a>
+            <a class="sidebar-text" href="#">Most Valued Products</a>
+            <a class="sidebar-text" href="/password/<%= SHOP_NAME %>/<%= SHOP_ID %>">Change Password</a>
         </div>
 
-        <!-- Order Table -->
-        <div class="orderHistory-table">
-            <h2 class="HeadLine">Your Order</h2>
+        <!-- Products Table -->
+        <div class="product-table">
+            <h2 class="HeadLine">Your Products</h2>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ORDER ID</th>
-                        <th>PRODUCT_NAME</th>
-                        <th>TOTAL PRICE</th>
-                        <th>PAYMENT_TYPE</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Promo Code</th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (orderHistory.length > 0) { %>
-                        <% orderHistory.forEach(order => { %>
+                    <% if (products.length > 0) { %>
+                        <% products.forEach(product => { %> 
                             <tr>
-                                <td><%= order.ORDER_ID %></td>
-                                <td><%= order.PRODUCT_NAME %></td>
-                                <td><%= order.TOTAL_PRICE %></td>
-                                <td><%= order.PAYMENT_TYPE %></td>
+                                <td><%= product.PRODUCT_NAME.length > 12 ? product.PRODUCT_NAME.substring(0, 10) + '...' : product.PRODUCT_NAME %></td>
+                                <td><%= product.PRICE %></td>
+                                <td><%= product.STOCK_QUANTITY %></td>
+                                <td><%= product.PROMO_CODE %></td>
                                 <!-- Add more columns as needed -->
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="5">No Order Histoty.</td>
+                            <td colspan="5">No products found.</td>
                         </tr>
                     <% } %>
                 </tbody>
