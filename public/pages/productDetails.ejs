@@ -83,6 +83,12 @@
             margin-left: 90px;
         }
 
+        .btn-success {
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 90px;
+        }
+
         .sidebar-logo {
             width: 100%; /* Make the image fill the entire width of the sidebar */
             max-height: 100px; /* Set a maximum height for the image */
@@ -164,9 +170,11 @@
         // Edit Information button click event
         $("#editBtn").on("click", function () {
             // Enable editing
+            console.log('<%= PRODUCT_NAME %>');
             console.log("Editing...");
             $("input[readonly]").prop("readonly", false);
             
+           
             // Show Save Changes button and hide Edit Information button
             $("#saveBtn").removeClass("d-none");
             $(this).addClass("d-none");

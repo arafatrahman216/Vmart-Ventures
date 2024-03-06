@@ -86,7 +86,11 @@ app.post('/seller_authorize', async (req, res)=>
         `;
 
         const params = {
-            shopId: req.body.shopId
+            shopId: req.body.shopId,
+            shopname: req.body.shopname,
+            phone: req.body.phone,
+            email: req.body.email,
+            description: req.body.description
         };
      
         const r = await db_query(query,params);
@@ -373,12 +377,12 @@ app.get('/product-details/:productid', async (req, res) => {
  
     const productDetails = await db_query(query,params) ;
 
-    console.log(productDetails);
+    console.log(productDetails[0].PRODUCT_ID);
 
     res.render('productDetails', {
-        PRODUCT_ID: productDetails.PRODUCT_ID,
-        DESCRIPTION: productDetails.DESCRIPTION,
-        PRODUCT_NAME: productDetails.PRODUCT_NAME,
+        PRODUCT_ID: productDetails[0].PRODUCT_ID,
+        DESCRIPTION: productDetails[0].DESCRIPTION,
+        PRODUCT_NAME: productDetails[0].PRODUCT_NAME,
         CATEGORY_NAME: productDetails.CATEGORY_NAME,
         STOCK_QUANTITY: productDetails.STOCK_QUANTITY,
         PRICE: productDetails.PRICE,
@@ -499,19 +503,7 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 
 app.get('/Password/:userId', async (req, res) => {
 
-    const userId = req.params.userId;
-
-    // const query = `
-    // `;
-
-    // const params = {
-    //     shopid: { dir: oracledb.BIND_IN, val: shopid },
-    //     password: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 20 }
-    // };
-
-
-    const result = await db_query(query, params);
-        
+    const userId = req.params.userId;  
     res.render('ChangePasswordCustomerProfile', { userID: userId });
 });
 
@@ -524,10 +516,13 @@ app.post('/Password/:userId', async (req,res) => {
     const confirmPassword = req.body.confirmPassword;
 
 
-    const result1 = await db_query(query1, params1);
+    var result1 = await db_query(`SELECT PASSWORD FROM CUSTOMER_USER 
+    WHERE USER_ID= ${userId}`,[]);
+    
+    var result2 = await db_query(`SELECT ORA_HASH(\'${confirmPassword}\') FROM DUAL`,[]);
     console.log(result1);
 
-    if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
+    if(newPassword != confirmPassword || oldPassword != result2[0].PASSWORD) {
     
         console.log("Password Change Failed!");
         res.render('ChangePasswordCustomerProfile', {  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
