@@ -13,27 +13,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             margin: 0;
-            background-color: white;
-            /* Optional: Background color for the page */
+            background-image: url("../images/home/bg1.jpg");
+            background-size: cover;
+            font-family: Roboto;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
         .glass-box {
-            display: flex;
+            display: block;
             position: relative;
-            width: 900px;
-            /* Adjust the width as needed */
-            height: 600px;
-            /* Adjust the height as needed */
-            background-color: white;
-            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
-            /* Box shadow for the glass effect */
-            backdrop-filter: blur(1000px);
-            /* Blur for the frosted glass effect */
-            overflow: hidden;
-            /* Ensure the content does not overflow outside the glass-box */
-            border-radius: 10%;
+            width: 60vw; /* Adjust the width as needed */
+            background-color: rgb(255, 255, 255);
+            min-height: 600px;
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
+            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            border-radius: 15px;
+            margin-top: 50px;
         }
 
         .sidebar {
@@ -45,9 +43,9 @@
             padding: 20px;
             background-color: black;
             color: white;
+            display: block;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-            /* Ensure the sidebar is above the glass-box content */
+            z-index: 1; /* Ensure the sidebar is above the glass-box content */
         }
 
         .sidebar-text {
@@ -67,7 +65,7 @@
         }
 
         .HeadLine {
-            margin-left: 370px;
+            margin-left: 15vw;
             padding: 40px;
         }
 
@@ -81,13 +79,14 @@
             border-radius: 50%;
         }
 
+
         /* Add additional styles for the table */
         .orderHistory-table {
-            flex: 1;
-            /* Fill remaining space beside the sidebar */
+            flex: 1; /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
         }
+
     </style>
 </head>
 
@@ -104,44 +103,40 @@
             <a class="sidebar-text" href="/Password/<%= USER_ID%>">Change Password</a>
         </div>
 
-        <!-- Order Table -->
         <div class="orderHistory-table">
             <h2 class="HeadLine">Your Order</h2>
             <table class="table">
                 <thead>
                     <tr>
                         <th>ORDER ID</th>
-                        <th>PRODUCT_NAME</th>
+                        <th>PRODUCT NAME</th>
                         <th>TOTAL PRICE</th>
-                        <th>PAYMENT_TYPE</th>
-                        <!-- Add more column headers as needed -->
+                        <th>PAYMENT TYPE</th>
+                        <th>DELIVERY STATUS</th>
+                        <th> REVIEW </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Loop through products to generate table rows -->
-                    <% if (orderHistory.length> 0) { %>
-                        <% orderHistory.forEach(order=> { %>
+                    <% if (orderHistory.length > 0) { %>
+                        <% orderHistory.forEach(order => { %>
                             <tr>
-                                <td>
-                                    <%= order.ORDER_ID %>
-                                </td>
-                                <td>
-                                    <%= order.PRODUCT_NAME %>
-                                </td>
-                                <td>
-                                    <%= order.TOTAL_PRICE %>
-                                </td>
-                                <td>
-                                    <%= order.PAYMENT_TYPE %>
-                                </td>
-                                <!-- Add more columns as needed -->
-                            </tr>
-                            <% }); %>
+                                <td><%= order.ORDER_ID %></td>
+                                <td><%= order.PRODUCT_NAME %></td>
+                                <td><%= order.TOTAL_PRICE %></td>
+                                <td><%= order.PAYMENT_TYPE %></td>
+                                <td><%= order.DELIVERY_STATUS %></td>
+                                <% if (order.DELIVERY_STATUS == "DELIVERED") { %>
+                                    <td><a href="/review/<%= order.ORDER_ID %>">Review</a></td>
                                 <% } else { %>
-                                    <tr>
-                                        <td colspan="5">No Order Histoty.</td>
-                                    </tr>
-                                    <% } %>
+                                    <td>Not Delivered</td>
+                                <% } %>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">No Order Histoty.</td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

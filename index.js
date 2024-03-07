@@ -592,8 +592,10 @@ app.post('/Password/:userId', async (req,res) => {
 // order history routing
 app.get('/order/:userid', async (req, res) => {
  
+    console.log('get request order');
+    const userid= (req.params.userid);
     const query= `SELECT 
-    O.ORDER_ID,
+    O.ORDER_ID, O.DELIVERY_STATUS,
     P.PRODUCT_NAME,
     (
         SELECT 
@@ -605,15 +607,16 @@ app.get('/order/:userid', async (req, res) => {
             AND O.PRODUCT_ID = C.PRODUCT_ID
     ) AS QUANTITY,
     O.TOTAL_PRICE,
-    O.PAYMENT_TYPE , (SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE O.USER_ID = CUS.USER_ID) PROFILE_PICTURE
-    FROM 
-        ORDERS O 
-    JOIN 
+    O.PAYMENT_TYPE,
+    (SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE O.USER_ID = CUS.USER_ID) AS PROFILE_PICTURE
+FROM 
+    ORDERS O 
+JOIN 
     PRODUCTS P 
-    ON 
+ON 
     O.PRODUCT_ID = P.PRODUCT_ID
-    WHERE 
-    O.DELIVERY_STATUS = 'DELIVERED' AND O.USER_ID = :userid
+WHERE 
+     O.USER_ID = :userid
 `; 
 
     const params = {
@@ -621,11 +624,11 @@ app.get('/order/:userid', async (req, res) => {
     };
  
     const orderHistory = await db_query(query,params); 
- 
+    console.log(orderHistory);
     res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
-    return;
+    return;
 }
-); 
+);
 
 // wishlist routing
 app.get('/wishlist/:userid', async (req, res) => {
