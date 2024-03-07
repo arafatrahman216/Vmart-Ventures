@@ -226,28 +226,9 @@
             // .catch(error => {
             //     console.log("Error:", error);
             // });
-            // window.location.href = '/user/<%= userid %>/checkout';
+            window.location.href = '/user/<%= userid %>/checkout';
 
-            var response = await fetch(`/user/<%= userid %>/checkout`, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cartid: '<%= cartid %>'
-                })
-            }).then(response => response.json())
-            .then(data => {
-                console.log("Success:", data);
-                if (data.success == true) {
-                    window.location.href = '/user/<%= userid %>/checkout';
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
             
-                
             
         }
     </script>

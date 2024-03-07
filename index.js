@@ -234,7 +234,7 @@ app.post('/user/:userid/updateCart', async (req, res) => {
     });
 
 
-    app.get('/confirmation', async (req, res) => {
+    app.get('/user/:userid/confirmation', async (req, res) => {
         console.log('Confirmation Get');
         const orderid = req.query.orderid;
 
@@ -256,21 +256,10 @@ app.post('/user/:userid/updateCart', async (req, res) => {
         const result= await db_query(query,params);
         if ( result.length<1)
         {
-            res.send(`<h1> Order with id ${orderid} not found </h1>`);
+            res.json({ success: false, order : {} });
             return;
         }
-
-        const token1= await req.cookies.token;
-        log(req.cookies);
-        log(getUserToken(token1))
-        const token = getUserToken(token1);
-        if (token1===undefined || token1===null  ||token==null || token.id!= result[0].USER_ID)
-        {
-            res.redirect('/login');
-            return;
-        }
-        
-        const id= token.id;
+        var id = req.params.userid;
         var order = [];
         for (let i = 0; i < result.length; i++) {
             const product = {
@@ -288,8 +277,7 @@ app.post('/user/:userid/updateCart', async (req, res) => {
             order.push(product);
         }
         console.log(order);
-        res.render('Order', { order: order , userid: id});
-        return;
+        res.json({ success: true, order : order });
 
     });
         
@@ -305,6 +293,11 @@ app.post('/user/:userid/updateCart', async (req, res) => {
         var cartid= CARTID[0].MAXIMUM;
         console.log("cart id " + cartid);
         console.log(payment_type);
+        if (cartid==0)
+        {
+            res.redirect(`/user/${id}/cart`);
+            return;
+        }
         if (payment_type==undefined)
         {
             console.log('payment type undefined');
@@ -325,13 +318,16 @@ app.post('/user/:userid/updateCart', async (req, res) => {
         console.log(payment_type);
         const result = await db_query(query,params);
         console.log(result);
-        if (cartid==0)
-        {
-            res.json({ success: false, cartid: cartid});
+        var order = await axios.get(`http://localhost:5000/user/${id}/confirmation?orderid=${cartid}`).then(response => {
+            const order=response.data.order;
+            console.log(order);
+            res.render('Order', { order: order , userid: id});
             return;
-        }
-        res.json({ success: true , cartid: cartid});
-        
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
     } );
 
 
@@ -446,10 +442,9 @@ app.post('/review', async (req, res) => {
     const params=[];
     const result= await db_query(query,params);
     res.json({ success: true });
-    return;
 }
 );
-app.get('')
+// app.get('')
 
 app.get('/user/:userid/product/:id/review', async (req, res) => {
     console.log('get request review');

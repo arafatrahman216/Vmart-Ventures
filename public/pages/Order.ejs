@@ -1,7 +1,7 @@
 
 <html>
 <head>
-  <link rel="stylesheet" href="../styles/OrderStyle.css">
+  <link rel="stylesheet" href="/../styles/OrderStyle.css">
 </head>
 <header>
   <h1>Your Order Has Been Received !</h1>
@@ -14,7 +14,7 @@
       <p><%= order[0].ORDER_ID %>#<%= userid %></p>
     </div>
     <div class="odetails-2">
-      <p>Order Placed: <%= order[0].CONFIRMATION_TIME.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) %></p>
+      <p>Order Placed: <%= order[0].CONFIRMATION_TIME %></p>
     </div>
     <button onclick="backtohome()"><i class="fa-solid fa-location-crosshairs" ></i>
       <p>Continue Shopping</p>
@@ -30,7 +30,7 @@
   <div class="card-container">
     <div class="card">
       <div class="img">
-        <img src="../images/product/<%= order[i].PRODUCT_IMAGE %>" alt="<%= order[i].PRODUCT_NAME %>">
+        <img src="/../images/product/<%= order[i].PRODUCT_IMAGE %>" alt="<%= order[i].PRODUCT_NAME %>">
       </div>
       <div class="parent">
         <div class="content">

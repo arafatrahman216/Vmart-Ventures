@@ -31,10 +31,7 @@
           <h2>Hello <%= user.NAME %>,</h2>
           <p>An invoice with invoice number #<span id="invoice_num"><%= cartid %>#<%= userid %> which is 100% matched with PO and is waiting for your approval. <a href="approve">Click here</a> to login to view the invoice.</p>
         </div>
-         <div class="cta-group mobile-btn-group">
-              <a href="javascript:void(0);" id="approve" class="btn-primary">Approve</a>
-              <a href="javascript:void(0);" class="btn-default">Reject</a>
-          </div> 
+        
           <div class="clearfix">
               <div class="col-left">
                   <div class="clientlogo"><img src="/../images/UserProfile/account.png" alt="Sup" /></div>
@@ -152,35 +149,57 @@
                     // var delivery_type = document.getElementById("delivery_type").value;
                     // var url = "/user/<%= userid %>/checkout?payment_type=" + payment_type ;
                     // window.location.href = url;
-                    await fetch("/user/<%= userid %>/checkout", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            payment_type: document.getElementById("payment_type").value,
-                            delivery_type: document.getElementById("delivery_type").value,
-                            paynumber: document.getElementById("paynumber").value
-                        }),
-                    })
-                    .then((response) => response.json())
+                    // await fetch("/user/<%= userid %>/checkout", {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Content-Type": "application/json",
+                    //     },
+                    //     body: JSON.stringify({
+                    //         payment_type: document.getElementById("payment_type").value,
+                    //         delivery_type: document.getElementById("delivery_type").value,
+                    //         paynumber: document.getElementById("paynumber").value
+                    //     }),
+                    // })
+                    // .then((response) => response.json())
 
-                    .then((data) => {
-                        console.log(data);
+                    // .then((data) => {
+                    //     console.log(data);
 
-                            // window.location.href = "/user/<%= userid %>/cart";
-                            if (data.success == true)
-                            {
-                                window.alert("Order placed successfully. Redirecting to Home.");
-                                window.location.href = "/home/<%= userid %>";
-                            }
-                            else
-                            {
-                                window.alert("Error in placing order. Redirecting to Cart.");
-                                window.location.href = "/user/<%= userid %>/cart";
-                            }
+                    //         // window.location.href = "/user/<%= userid %>/cart";
+                    //         if (data.success == true)
+                    //         {
+                    //             window.alert("Order placed successfully. Redirecting to Home.");
+                    //             window.location.href = "/home/<%= userid %>";
+                    //         }
+                    //         else
+                    //         {
+                    //             window.alert("Error in placing order. Redirecting to Cart.");
+                    //             window.location.href = "/user/<%= userid %>/cart";
+                    //         }
                         
-                    });
+                    // });
+
+                    var newForm = document.createElement("form");
+                    newForm.method = "POST";
+                    newForm.action = "/user/<%= userid %>/checkout";
+                    var newInput = document.createElement("input");
+                    newInput.type = "hidden";
+                    newInput.name = "payment_type";
+                    newInput.value = document.getElementById("payment_type").value;
+                    newForm.appendChild(newInput);
+                    var newInput2 = document.createElement("input");
+                    newInput2.type = "hidden";
+                    newInput2.name = "delivery_type";
+                    newInput2.value = document.getElementById("delivery_type").value;
+                    newForm.appendChild(newInput2);
+                    var newInput3 = document.createElement("input");
+                    newInput3.type = "hidden";
+                    newInput3.name = "paynumber";
+                    newInput3.value = document.getElementById("paynumber").value;
+                    newForm.appendChild(newInput3);
+                    document.body.appendChild(newForm);
+                    newForm.submit();
+                                    
                 }
 
                 async function changePayment()
@@ -210,12 +229,17 @@
                         document.getElementById("paynumber").style.display = "none";
                     }
                 }
+            
+                async function cancelOrder()
+                {
+                    window.location.href = "/user/<%= userid %>/cart";
+                }
 
                     
             </script>
           <a href="#" onclick="checkout()"
            class="btn-primary">Place Order</a>
-          <a href="javascript:void(0);" class="btn-default">Cancel Order</a>
+          <a href="#" onclick="cancelOrder()" class="btn-default">Cancel Order</a>
       </div> 
         
       </div><!--End InvoiceBot-->
