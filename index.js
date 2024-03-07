@@ -434,16 +434,18 @@ app.post('/user/:userid/cart', async (req, res) => {
  
 
 
-app.post('/review', async (req, res) => {
-    console.log('Review Post');
-    const { productid, rating, review } = req.body;
-    console.log(req.body);
-    var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, REVIEW) VALUES (${userid}, ${productid}, ${rating}, '${review}')`;
-    const params=[];
-    const result= await db_query(query,params);
-    res.json({ success: true });
-}
-);
+// app.post('/user/:userid/product/:id/review', async (req, res) => {
+//     console.log('Review Post');
+//     const { rating, review } = req.body;
+//     const productid= req.params.id;
+//     const userid= req.params.userid;
+//     console.log(req.body);
+//     var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, REVIEW) VALUES (${userid}, ${productid}, ${rating}, '${review}')`;
+//     const params=[];
+//     const result= await db_query(query,params);
+//     res.redirect(`/user/${userid}/o
+// }
+// );
 // app.get('')
 
 app.get('/user/:userid/product/:id/review', async (req, res) => {

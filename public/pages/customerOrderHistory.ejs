@@ -127,7 +127,7 @@
                                 <td><%= order.PAYMENT_TYPE %></td>
                                 <td><%= order.DELIVERY_STATUS %></td>
                                 <% if (order.DELIVERY_STATUS == "DELIVERED") { %>
-                                    <td><a href="/review/<%= order.ORDER_ID %>">Review</a></td>
+                                    <td><a href="/user/<%= USER_ID %>/review/<%= order.ORDER_ID %>">Review</a></td>
                                 <% } else { %>
                                     <td>Not Delivered</td>
                                 <% } %>
