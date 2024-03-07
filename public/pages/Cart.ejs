@@ -1,0 +1,237 @@
+<!-- cart.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/../styles/CartStyle.css">
+    <link rel="stylesheet" href="/../styles/HomeStyle.css">
+    <title>Shopping Cart</title>
+</head>
+<header>
+    <!-- Your navbar code here -->
+    <div class="navbar">
+        <a href="/home/<%=userid%>" id="homelink">Home</a>
+        <a href="/user/<%=userid%>/search?search=">Products</a>
+        <a href="#">Shops</a>
+        <a href="#">New Items</a>
+        <input type="text" id="searchbox" placeholder="Search">
+        <script>
+            // Get the input field
+            var input = document.getElementById("searchbox");
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    var url = 'search?search=' + input.value;
+                    window.location.href = url;
+                }
+            });
+        </script>
+        <div >
+            <div class="profile-dropdown" style=" background-color:#ddd;">
+                <a onclick="link_to_profile()" id="profile-link" href="#" >Profile</a>
+                <a href="#">Orders</a>
+                <a href="#">Wishlist</a>
+                <a href="/<%= userid%>/cart">Cart</a>
+                <a href="/login">Logout</a>
+            </div>
+        </div>
+    </div>
+</header>
+<body id="cart-body">
+    <div class="cart">
+        <h1>Your Shopping Cart</h1>
+        <div id="cart-items">
+            <% for (let item of products) { %>
+                <div class="cart-item" id="cartitem<%= item.PRODUCT_ID %>">
+                    <div class="item-details">
+                        <a href="/user/<%= userid %>/product/<%= item.PRODUCT_ID %>">
+                            <img src="/../images/product/<%= item.PRODUCT_IMAGE %>" alt="<%= item.PRODUCT_IMAGE%>" class="product-image">  
+                            <h3><%= item.PRODUCT_NAME %></h3>
+                        </a>
+                        <p id="item-price<%= item.PRODUCT_ID %>" ><%= item.PRODUCT_PRICE %> USD</p>
+                        <p>Quantity: 
+                            <button class="cart-button" type="button" onclick="ChangeQuantity('<%= item.PRODUCT_ID %>',1)">-</button>
+                           <span id="quantity<%= item.PRODUCT_ID %>"
+                            > <%= item.QUANTITY %>  </span>
+                            <button class="cart-button" type="button" onclick="ChangeQuantity('<%= item.PRODUCT_ID %>',0)">+</button>
+                        </p>
+                            
+                            <button class="cart-button" onclick="removeproduct('<%= item.PRODUCT_ID %>')">Remove</button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="summary">
+            <h2>Order Summary</h2>
+            <hr class="cart-hr">
+            <p id="subTotal" >Sub Total: <%= cost %> USD</p>
+            <% if (cost==0) { %>
+                <p>Shipping: 0 USD</p>
+                <hr class="cart-hr">
+            <p>Total: <%= cost  %> USD</p>
+            <% } else if (cost<100000) { %>
+                <p>Shipping: 50 USD</p>
+                <hr class="cart-hr">
+            <p>Total: <%= cost + 50 %> USD</p>
+            <% } else { %>
+                <p>Shipping: Free</p>
+                <hr class="cart-hr">
+            <p id="total">Total: <%= cost %> USD</p>
+            <% } %>
+
+        </div>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        // JavaScript functions to interact with the cart
+    //     async function removeItem(itemId) {
+    //         // Implement removal logic (update cartItems array and refresh the view)
+    //         const response = await fetch(`/user/${userid}/deleteCart/${itemId}`, {
+    //     method: 'get'
+    // });
+
+    // if (!response.ok) {
+    //     console.error('Failed to remove item from cart');
+    //     return;
+    // }
+    //     }
+    async function removeproduct(product_id) {
+    // Ensure that product_id is a string
+    var itemid = 'cartitem' + product_id;
+    var priceid = 'item-price'+product_id;
+    var quantityid = 'quantity'+product_id;
+    
+    var response = await fetch(`/user/<%= userid %>/deleteCart/${product_id}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => {
+        console.log("Success:", data);
+        if (data.success == true) {
+            // Remove the item from the frontend cart
+            var item = document.getElementById(itemid);
+            var price = document.getElementById(priceid);
+            var quantity = parseInt(document.getElementById(quantityid).innerHTML);
+            var reduced_cost = parseInt(price.innerHTML.split(' ')[0]) * quantity;
+
+            var subT = document.getElementById('subTotal');
+            var total = document.getElementById('total');
+
+            var costvalue = parseInt(subT.innerHTML.split(' ')[2]);
+            var totalvalue = parseInt(total.innerHTML.split(' ')[1]);
+            console.log(costvalue);
+            console.log(totalvalue);
+            console.log(reduced_cost);
+            subT.innerHTML = 'Sub Total: ' + (costvalue - reduced_cost) + ' USD';
+            total.innerHTML = 'Total: ' + (totalvalue - reduced_cost) + ' USD';  
+            console.log(subT.innerHTML);
+            console.log(total.innerHTML);
+            console.log(reduced_cost);
+            if (costvalue - parseInt(price.innerHTML.split(' ')[0]) ==50) {
+                total.innerHTML = 'Total: 0 USD';
+            }
+            item.remove(); 
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+}
+
+        async function ChangeQuantity(productid, type) {
+
+                var quantity = document.getElementById('quantity'+productid).innerHTML;
+                if (type == 1 && quantity == 1) {
+                    await removeproduct();
+                    return;
+                }
+                const  data = {
+                    productid: productid,
+                    quantity: quantity,
+                    type: type,
+                }
+                var jsondata = JSON.stringify(data);
+                console.log(jsondata);
+
+                var response = await fetch(`/user/<%= userid %>/updateCart/`, 
+                {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:  JSON.stringify(data)                  
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("Success:", data);
+                    if (data.success==true )
+                    {
+                        var quantity = document.getElementById('quantity'+productid);
+                        if (type == 1) {
+                            quantity.innerHTML = parseInt(quantity.innerHTML) - 1;
+                        } else {
+                            quantity.innerHTML = parseInt(quantity.innerHTML) + 1;
+                        }
+                        var subT = document.getElementById('subTotal');
+                        var total = document.getElementById('total');
+                        var price = document.getElementById('item-price'+productid);
+                        console.log(price.innerHTML);
+                        console.log(subT.innerHTML);
+                        console.log(total.innerHTML);
+
+                        var costvalue = parseInt(subT.innerHTML.split(' ')[2]);
+                        var totalvalue = parseInt(total.innerHTML.split(' ')[1]);
+                        if (type == 1) {
+                            subT.innerHTML = 'Sub Total: ' + (costvalue - parseInt(price.innerHTML.split(' ')[0])) + ' USD';
+                            total.innerHTML = 'Total: ' + (totalvalue - parseInt(price.innerHTML.split(' ')[0])) + ' USD';  
+                        } else {
+                            subT.innerHTML = 'Sub Total: ' + (costvalue + parseInt(price.innerHTML.split(' ')[0])) + ' USD';
+                            total.innerHTML = 'Total: ' + (totalvalue + parseInt(price.innerHTML.split(' ')[0])) + ' USD';  
+                        }
+                        if (costvalue - parseInt(price.innerHTML.split(' ')[0]) ==50) {
+                            total.innerHTML = 'Total: 0 USD';
+                        }
+
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+
+        }
+
+        
+
+        async function checkout() {
+            // fetch ('/user/<%= userid %>/checkout', {
+            //     method: 'get',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         cartid: '<%= cartid %>'
+            //     })
+            // }).then(response => response.json())
+            // .then(data => {
+            //     console.log("Success:", data);
+            // })
+            // .catch(error => {
+            //     console.log("Error:", error);
+            // });
+            window.location.href = '/user/<%= userid %>/checkout';
+
+            
+            
+        }
+    </script>
+
+</body>
+</html>

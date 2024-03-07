@@ -1,0 +1,14 @@
+GET http://localhost:5000/home/1
+
+###
+
+GET http://localhost:5000/home/2
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username2": "arafatrahman219@gmail.com",
+    "password2": "arafat219"
+}

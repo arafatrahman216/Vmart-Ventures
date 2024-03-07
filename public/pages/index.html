@@ -1,105 +1,191 @@
-<!-- FILEPATH: /c:/Users/arafa/Documents/2-1 TEXTBOOK/test project/public/pages/index.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Signup Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
     <style>
         body {
-            background-color: #3f5596;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            text-align: center;
+            color: #333;
         }
-        
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #e3320a;
+
+        .seller-profile {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
             border-radius: 15px;
-            box-shadow: 3px 3px 10px rgba(31, 203, 42, 0.549);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: box-shadow 0.3s;
         }
-        
-        .form-group {
+
+        .seller-profile:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .seller-box {
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .seller-info {
+            text-align: left;
+        }
+
+        .seller-name {
+            margin: 10px 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .seller-phone {
             margin-bottom: 10px;
         }
-        
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+
+        .seller-description {
+            margin-bottom: 20px;
         }
-        
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="password"],
-        .form-group select {
-            width: 90%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-        }
-        
-        .form-group input[type="radio"] {
-            margin-top: 5px;
-            display: inline-block;
-        }
-        
-        .form-group button {
-            background-color: #4CAF50;
+
+        .add-to-favorite {
+            background-color: #45a049;
             color: #fff;
             padding: 10px 20px;
             border: none;
-            border-radius: 3px;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
         }
-        
-        .form-group button:hover {
-            background-color: #45a049;
 
+        .add-to-favorite:hover {
+            background-color: #4CAF50;
+        }
 
+        .glide {
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .glide__track {
+            margin: 0;
+            padding: 0;
+        }
+
+        .glide__slides {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .glide__slide {
+            flex: 0 0 auto;
+            margin-right: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .glide__slide:hover {
+            transform: scale(1.05);
+        }
+
+        .product {
+            text-align: left;
+        }
+
+        .product-image {
+            max-width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-name {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Signup</h2>
-        <form>
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+    <div class="seller-profile">
+        <div class="seller-box">
+            <img src="seller_logo.jpg" alt="Seller Logo" class="logo">
+            <div class="seller-info">
+                <h1 class="seller-name">Seller Name</h1>
+                <p class="seller-phone">Phone: +1234567890</p>
+                <p class="seller-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <button class="add-to-favorite">Add to Favorites</button>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="glide" data-glide-drag="true">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                    <!-- Dummy Products -->
+                    <li class="glide__slide">
+                        <div class="product">
+                            <img src="product1.jpg" alt="Product 1" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">Product 1</h3>
+                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Include the other 9 dummy products similarly -->
+                </ul>
             </div>
-            <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" required>
+            <div class="glide__arrows" data-glide-el="controls">
+                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
             </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input type="radio" id="male" name="gender" value="male" required>
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="gender" value="female" required>
-                <label for="female">Female</label>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="password">New Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Signup</button>
-            </div>
-        </form>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Glide('.glide', {
+                type: 'carousel',
+                startAt: 0,
+                perView: 3,
+                breakpoints: {
+                    800: {
+                        perView: 1
+                    },
+                    1200: {
+                        perView: 2
+                    }
+                }
+            }).mount();
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,84 @@
+
+<html>
+<head>
+  <link rel="stylesheet" href="/../styles/OrderStyle.css">
+</head>
+<header>
+  <h1>Your Order Has Been Received !</h1>
+  <h3>Thank you for having us</h3>
+</header>
+<div class="container">
+  <div class="heading">
+    <div class="odetails-1">
+      <p><b>Order</b></p>
+      <p><%= order[0].ORDER_ID %>#<%= userid %></p>
+    </div>
+    <div class="odetails-2">
+      <p>Order Placed: <%= order[0].CONFIRMATION_TIME %></p>
+    </div>
+    <button onclick="backtohome()"><i class="fa-solid fa-location-crosshairs" ></i>
+      <p>Continue Shopping</p>
+    </button>
+    <script>
+      async function backtohome() {
+        window.location.href = "/home/<%= userid %>";
+      }
+    </script>
+  </div>
+  <hr>
+  <% for (let i=0; i<order.length; i++) { %>
+  <div class="card-container">
+    <div class="card">
+      <div class="img">
+        <img src="/../images/product/<%= order[i].PRODUCT_IMAGE %>" alt="<%= order[i].PRODUCT_NAME %>">
+      </div>
+      <div class="parent">
+        <div class="content">
+          <div class="details-1">
+            <h1><%= order[i].PRODUCT_NAME %></h1>
+            <p>By <%= order[i].SELLER_NAME %></p>
+          </div>
+          <div class="details-2">
+            <p>Qty: <%= order[i].QUANTITY %></p>
+            <br>
+            <b>$ <%= order[i].TOTAL_PRICE %></b>
+          </div>
+        </div>
+        <div class="status">
+          <div class="sec1">
+            <p>Status</p>
+            <h2><%= order[i].DELIVERY_STATUS %></h2>
+          </div>
+          <div class="sec2">
+            <p>Delivery Expected By</p>
+            <h3><span id="dl_date"></span></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <% } %>
+  <div class="card-bottom">
+    <button>✖ CANCEL ORDER</button>
+    <% var total = 0; for (let i=0; i<order.length; i++) { %>
+    <% total += order[i].TOTAL_PRICE; %>
+    <% } %>
+    <div class="total">
+      <p>Total</p>
+      <h1>$ <%= total %></h1>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $(".card").click(function () {
+        $(this).toggleClass("toggle");
+      });
+    });
+    var confirmationDate = new Date("<%= order[0].CONFIRMATION_TIME %>");
+    var deliveryDate = new Date(confirmationDate);
+    deliveryDate.setDate(deliveryDate.getDate() + 7);
+    document.getElementById('dl_date').innerHTML = deliveryDate.toDateString();
+  </script>
+</div>
+</html>

@@ -20,7 +20,7 @@
 
                         <div class="col-md-3">
                             <!-- Profile Picture -->
-                            <img src="../images/UserProfile/account.png" alt="Profile Picture" class="img-fluid rounded-circle profile-picture">
+                            <img src="../images/UserProfile/account.png" alt="Profile Picture" style="height: 80px; width: 80px;">
                         </div>
 
                         <li class="nav-item">
@@ -71,22 +71,22 @@
 
                             <div class="form-group">
                                 <label for="name"><strong>Shop Name:</strong></label>
-                                <input type="text" class="form-control" id="name" value="John Doe" readonly>
+                                <input type="text" class="form-control" id="name" value="<%=Name %>" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="email"><strong>Shop Email:</strong></label>
-                                <input type="email" class="form-control" id="email" value="john.doe@example.com" readonly>
+                                <input type="email" class="form-control" id="email" value="<%= email %>" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="phone"><strong>Shop Contact Number:</strong></label>
-                                <input type="tel" class="form-control" id="phone" value="01919721621" readonly>
+                                <input type="tel" class="form-control" id="phone" value="<%= Phone %>" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="description"><strong>Description:</strong></label>
-                                <input type="text" class="form-control" id="description" value="123 Main St, Cityville" readonly>
+                                <input type="text" class="form-control" id="description" value="<%= DESCRIPTION %>" readonly>
                             </div>
 
                             <div class="form-group">
@@ -97,7 +97,7 @@
                             <!-- Add more form fields as needed -->
                 
                             <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>
-                            <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                            <button type="button" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
                         </form>
                     </div>
                 </div>
@@ -111,5 +111,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
+<script>
+    document.getElementById("editBtn").addEventListener("click", function () {
+        document.getElementById("name").readOnly = false;
+        document.getElementById("email").readOnly = false;
+        document.getElementById("phone").readOnly = false;
+        document.getElementById("description").readOnly = false;
+        // document.getElementById("saveBtn").classList.remove("d-none");
+        // document.getElementById("editBtn").classList.add("d-none");
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", function () {
+        document.getElementById("name").readOnly = true;
+        document.getElementById("email").readOnly = true;
+        document.getElementById("phone").readOnly = true;
+        document.getElementById("description").readOnly = true;
+        document.getElementById("saveBtn").classList.remove("d-none");
+        document.getElementById("editBtn").classList.add("d-none");
+
+    });
+
+</script>
 
 </html>

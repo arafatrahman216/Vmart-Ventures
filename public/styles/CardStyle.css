@@ -7,7 +7,7 @@
     margin: 0;
     box-sizing: border-box;
 }
-body{
+.card-body{
     background-color: #ffffff;
 }
 .card-img-top{
@@ -16,8 +16,11 @@ body{
 }
 .card{
     width: 200px;
-    height: 250px;
-    border-radius: 30px;
+    height: 280px;
+    max-height:360px;
+    border-radius: 30px;    
+    margin: 5px;
+    /* padding: 10px; */
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }
 
@@ -44,6 +47,7 @@ body{
     width: 90px;
     height: 30px;
     font-size: 12px;
+    background-color: #944852;
 }
 .btn-primary:hover{
     background-color: black;
@@ -58,4 +62,17 @@ h3,h5{
     color: rgb(0, 91, 228);
     padding: 1px;
     margin-top: 0px;
+}
+
+.addcart
+{
+    background-color: #944852;
+    color: white;
+    border-radius: 50px;
+    width: 90px;
+    height: 30px;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
 }

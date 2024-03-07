@@ -1,96 +1,96 @@
 /* CSS styles for the navigation bar */
 
 header{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+    background-color: #333;
+    position: fixed;
+    overflow: hidden;
     width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .navbar {
-      background-color: #333;
-      position: fixed;
-      overflow: hidden;
-      width: 100%;
-      z-index: 1000;
-      top: 0;
-  
-  }
-  
-  .navbar a {
-      float: left;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-  }
-  
-  .navbar a:hover {
-      background-color: #ddd;
-      color: black;
-  }
-  
-  /* CSS styles for the product section */
-  .product-section {
-      
-      /* margin-left: 300px;
-      margin-top: 100px;
-      margin-right: 50px;
-      margin-bottom: 50px; */
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-  }
-  
-  input[type=text] {
-      width: 150px;
-      box-sizing: border-box;
-      border: 2px solid #ccc;
-      border-radius: 30px;
-      font-size: 16px;
-      background-color: white;
-      background-position: 10px 10px; 
-      background-repeat: no-repeat;
-      padding: 12px 20px 12px 40px;
-      -webkit-transition: width 0.4s ease-in-out;
-      transition: width 0.4s ease-in-out;
-    }
-  
-    /* h3:hover{
-      cursor: pointer;
-    } */
+    z-index: 1000;
+    top: 0;
+
+}
+
+.navbar a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* CSS styles for the product section */
+.product-section {
     
-    input[type=text]:focus {
-      width:250px;
-      border-radius: 30px;
-    }
-    input[type=text]:hover {
-      width: 250px;
-      border-radius: 30px;
-    }
-    #profile-link:hover .profile-dropdown{
-      visibility: visible;
-      display: inline-block;
-      position:fixed;
-      margin-top: 50px;
-      margin-left: -50px;
-      background-color: #ddd;
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 1;
-  
-    }
-    #filter {
-      background-color: #4CAF50; /* Green background color */
-      color: white; /* White text color */
-      padding: 10px 20px; /* Padding for better appearance */
-      border: none; /* No border */
-      border-radius: 10px; /* Rounded corners */
-      cursor: pointer; /* Cursor on hover */
-      font-size: 16px; /* Font size */
-      transition: background-color 0.3s; /* Smooth background color transition */
-      }
-  
-  /* Hover effect */
-  #filter:hover {
-      background-color: #1ce826; /* Darker green on hover */
+    /* margin-left: 300px;
+    margin-top: 100px;
+    margin-right: 50px;
+    margin-bottom: 50px; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+input[type=text] {
+    width: 150px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
   }
+
+  /* h3:hover{
+    cursor: pointer;
+  } */
+  
+  input[type=text]:focus {
+    width:250px;
+    border-radius: 30px;
+  }
+  input[type=text]:hover {
+    width: 250px;
+    border-radius: 30px;
+  }
+  #profile-link:hover .profile-dropdown{
+    visibility: visible;
+    display: inline-block;
+    position:fixed;
+    margin-top: 50px;
+    margin-left: -50px;
+    background-color: #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1;
+
+  }
+  #filter {
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding for better appearance */
+    border: none; /* No border */
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer; /* Cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth background color transition */
+    }
+
+/* Hover effect */
+#filter:hover {
+    background-color: #1ce826; /* Darker green on hover */
+}
