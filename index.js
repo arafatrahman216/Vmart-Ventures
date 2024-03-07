@@ -1128,7 +1128,6 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 
     if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
     
-        console.log("Password Change Failed!");
         res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
     } 
         
@@ -1177,12 +1176,16 @@ app.get('/Password/:userId', async (req, res) => {
 
     const result = await db_query(query, params);
 
-    res.render('ChangePasswordCustomerProfile', { userID: userId  , PROFILE_PICTURE: result[0].PROFILE_PICTURE });
+    let messageType = "";
+
+    res.render('ChangePasswordCustomerProfile', { userID: userId  , PROFILE_PICTURE: result[0].PROFILE_PICTURE , messageType: messageType });
 });
 
 app.post('/Password/:userId', async (req,res) => {
     
     const userId = req.params.userId;
+
+    let messageType;
 
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
@@ -1204,7 +1207,10 @@ app.post('/Password/:userId', async (req,res) => {
     if(newPassword != confirmPassword || result1[0].PASSWORD != result2[0].PASSWORD) {
     
         console.log("Password Change Failed!");
-        res.render('ChangePasswordCustomerProfile', {PROFILE_PICTURE:r[0].PROFILE_PICTURE,  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+
+        messageType = "error";
+
+        res.render('ChangePasswordCustomerProfile', {PROFILE_PICTURE:r[0].PROFILE_PICTURE,  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!" , messageType: messageType });
     } 
         
     else {
@@ -1219,8 +1225,10 @@ app.post('/Password/:userId', async (req,res) => {
         console.log("Password Changed Successfully!");
 
         console.log(r[0].PROFILE_PICTURE);
+
+        messageType = "success";
     
-        res.render('ChangePasswordCustomerProfile', { PROFILE_PICTURE:r[0].PROFILE_PICTURE, userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!"});
+        res.render('ChangePasswordCustomerProfile', { PROFILE_PICTURE:r[0].PROFILE_PICTURE, userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!" , messageType: messageType });
     
     }
     

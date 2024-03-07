@@ -15,7 +15,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white;
+            background-image: url("../images/home/bg1.jpg");
+            background-size: cover;
+            font-family: Roboto;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             /* Optional: Background color for the page */
         }
 
@@ -67,14 +71,14 @@
         }
 
         .HeadLine {
-            margin-left: 370px;
-            padding: 10px;
+            margin-left: 410px;
+            padding: 30px;
         }
 
         .formContent {
             flex-grow: 1;
-            padding: 20px;
-            margin-left: 240px;
+            padding: 10px;
+            margin-left: 300px;
         }
 
         .FormAttribute {
@@ -107,6 +111,33 @@
             border-radius: 50%;
         }
 
+        .marginleftName {
+            margin-left: 55px;
+        }
+
+        .marginleftEmail {
+            margin-left: 65px;
+        }
+
+        .marginleftGender {
+            margin-left: 55px;
+        }
+
+        .marginleftStreet {
+            margin-left: 55px;
+        }
+
+        .marginleftPostCode {
+            margin-left: 55px;
+        }
+        .marginleftCity {
+            margin-left: 55px;
+        }
+
+        .marginleftDivCon {
+            margin-left: 55px;
+        }
+
     </style>
 </head>
 
@@ -132,8 +163,8 @@
                 enctype="application/x-www-form-urlencoded">
 
                 <div class="FormAttribute">
-                    <label for="name"><strong>Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="name" name="name" value="<%=NAME%>" readonly>
+                    <label for="name"><strong>Full Name:</strong></label>
+                    <input type="text" class="marginleftName" class="FormInputBox" id="name" name="name" value="<%=NAME%>" readonly>
                 </div>
 
                 <div class="FormAttribute">
