@@ -1,5 +1,38 @@
 
 const db_query= require('../connection');
+const secret = "vmart";
+
+const jwt = require('jsonwebtoken');
+async function setUserToken(id,name, email,phone)
+{
+    const payload = {id, name, email, phone};
+    
+    const token = await jwt.sign(payload, secret, {
+        expiresIn: '1h',
+        
+    });
+    return token;
+}
+
+function getUserToken(token)
+{
+    if (!token)
+    {
+        return null;
+    }
+    try {
+        const payload = jwt.verify(token, secret);
+        return payload;
+    } catch (error) {
+        return null;
+    }
+}
+
+// async function loginMiddleware(req, res, next)
+// {
+//     const token =  req.cookies.token;
+
+// }
 
 const authorize= async (email, password)=>{
     
@@ -25,4 +58,4 @@ const Seller_authorize= async (email, password)=>{
     return r;
 }
 
-module.exports= {authorize, Seller_authorize};
+module.exports= {authorize, Seller_authorize, setUserToken, getUserToken};

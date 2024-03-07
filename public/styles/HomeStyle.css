@@ -1,9 +1,19 @@
 /* CSS styles for the navigation bar */
+
+header{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 .navbar {
     background-color: #333;
     position: fixed;
     overflow: hidden;
     width: 100%;
+    z-index: 1000;
+    top: 0;
+
 }
 
 .navbar a {

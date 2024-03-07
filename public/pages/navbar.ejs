@@ -1,0 +1,942 @@
+<!-- Header -->
+<header class="header">
+    <div class="grid">
+        <div class="row">
+            <div class="col-12">
+                <!-- Navbar -->
+                <nav class="header__navbar">
+                  <div class="header__logo">
+                    <a href="#" class="header__logo-link">
+                        <img src="/../images/login/vmart_ventures_main_black_poster.jpeg" alt="Vmart Ventures"
+                        class="header__logo-img">
+                    </a>
+                </div>
+                    <ul class="header__navbar-apps__list">
+                    </ul>
+                    <ul class="header__navbar-login__list">
+                        
+                      <li class="header__navbar-login__item">
+                        <a class="header__navbar-login__link" href="#">
+                            <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                            Home
+                        </a>
+                    </li>
+                        <li class="header__navbar-login__item">
+                            <a class="header__navbar-login__link" href="#">
+                                <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                                Products
+                            </a>
+                        </li>
+                        <li class="header__navbar-login__item">
+                          <a class="header__navbar-login__link" href="#">
+                              <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                              Shops
+                          </a>
+                      </li>
+                      <li class="header__navbar-login__item">
+                          <a href="#" id="info-wrap" ><i class="uil uil-shopping-cart icon"></i>Cart</a>
+                      </li>
+                      
+                        <li class="header__navbar-myaccount header__navbar-login__item">
+                            <a class="header__navbar-login__link" href="#">
+                                <img src="https://assets.codepen.io/5411766/user_icon.jpg" alt=""
+                                    class="header__navbar-login__img">
+                                <span class="header__navbar-login__user">
+                                    Michael Pham
+                                </span>
+                            </a>
+                            <div class="header__navbar-account">
+                                <ul class="header__navbar-account__list">
+                                    <li class="header__navbar-account__item">
+                                        <a href="#" class="header__navbar-account__link">
+                                            My Profile
+                                        </a>
+                                    </li>
+                                    <li class="header__navbar-account__item">
+                                        <a href="#" class="header__navbar-account__link">
+                                            My Orders
+                                        </a>
+                                    </li>
+                                    <li class="header__navbar-account__item">
+                                        <a href="#" class="header__navbar-account__link">
+                                            My Wishlist
+                                        </a>
+                                    </li>
+                                    <li class="header__navbar-account__item">
+                                        <a href="#" class="header__navbar-account__link">
+                                            Logout
+                                        </a>
+                                       
+                                    </li>
+                                    
+                                    
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Navbar -->
+                <!-- Search -->
+                
+                <!-- End Search -->
+            </div>
+        </div>
+    </div>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+        #info-wrap{
+                          
+                          width: 50px;
+                          height: 36px;
+                          text-decoration: none;
+                          border: none;
+                          border-radius: 2px;
+                          font-weight: 10px;
+                          font-size: 1.7rem;    
+                          outline: none;
+                          cursor: pointer;
+                          background-color: transparent;
+                          color: #cecece;
+                          display: inline-flex;
+                          justify-content: center;
+                          align-items: center; 
+
+                        }
+:root {
+  --white-color: #fff;
+  --black-color: #000;
+  --primary-color: #ec582d;
+  --border-color: #f5f5f5;
+  --hover-color: #f7f7f7;
+  --header-height: 120 px;
+  --navbar-height: 48px;
+  --searchbox-height: var(--header-height) - var(--navbar-height);
+}
+
+* {
+  box-sizing: inherit;
+  font-size: 62.5%;
+}
+
+html {
+  box-sizing: border-box;  
+}
+
+
+
+.grid {
+  max-width: 1200px;  
+  margin: 0 auto;
+}
+
+.row {  
+  display: flex; 
+  margin-left: -5px;
+  margin-right: -5px;
+  flex-wrap: wrap;
+}
+
+.col-12 {
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.col-10{
+  width: 83.333%;
+  padding-left: 5px;
+  padding-right: 5px;    
+}
+
+.col-2{
+  width: 16.667%;  
+  padding-left: 5px;
+  padding-right: 5px;  
+}
+
+.col-2-4{
+  width: 20%;   
+  padding-left: 5px;
+  padding-right: 5px; 
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pb-20 {
+  padding-bottom: 20px;
+}
+
+.pb-40 {
+  padding-bottom: 40px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.btn {  
+    min-width: 124px;
+    height: 36px;
+    text-decoration: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.6rem;    
+    outline: none;
+    cursor: pointer;
+    background-color: var(--white-color);
+    color: var(--text-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;      
+}
+
+.btn--primary {
+  background-color: #ee4d2d;
+  color: var(--white-color);
+}
+
+/* =============================== Header =============================== */
+.header {
+  height: var(--header-height);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.812), #3b0e0ecf);
+}
+
+
+/* ------ navbar ------ */
+.header__navbar {
+  width: 100%;
+  height: var(--navbar-height);
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__navbar-apps__list {
+  list-style: none;  
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+}
+
+.header__navbar-apps__item {
+  display: flex;
+  align-items: center; 
+}
+
+.header__navbar-apps__link {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: white;
+  font-weight: 300;
+  display: block;    
+}
+
+.header__navbar-apps__tickid
+.header__navbar-apps__link {
+  margin-left: 0;
+}
+
+.header__navbar-apps__tickid {
+  margin-right: 16px;
+  position: relative;
+}
+
+.header__navbar-apps__tickid:after {
+  width: 1px;
+  height: 100%;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  background-color: #fb9086;
+}
+
+.header__navbar-connection {
+  font-size: 1.6rem;
+  color: white;
+  font-weight: 300;
+}
+
+.header__navbar-apps__link {
+  margin-left: 12px;
+}
+
+.header__navbar-apps__facebook i {
+  font-size:2rem;
+}
+
+.header__navbar-apps__instagram i {
+  font-size: 2.3rem;
+}
+
+.header__navbar-login__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.header__navbar-login__item:not(:last-child) {
+  margin-right: 24px;
+}
+
+.header__navbar-login__link {
+  color: white;
+  font-size: 1.6rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-weight:300;
+}
+
+.header__navbar-login__img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.header__navbar-login__user {
+  font-size: 1.6rem;
+  font-weight:300;
+}
+
+.header__navbar-login__icon {
+  font-size: 2.0rem;
+  margin-right: 8px;
+}
+
+.header__navbar-apps__link:hover,
+.header__navbar-login__link:hover {
+  color: #cecece;
+}
+
+.header__navbar-qr {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.header__navbar-apps__tickid {
+  position: relative;
+}
+
+.header__navbar-apps {
+  background: var(--white-color);
+  position: absolute;
+  top: calc(100% + 8px);  
+  left: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: none;
+  cursor: pointer;  
+  animation: fadeIn 0.25s ease;
+  z-index: 1;
+  border-radius: 2px;  
+}
+
+.header__navbar-apps:before {
+  width: 100%;
+  height: 8px;
+  content: "";  
+  position: absolute;
+  top: -8px;
+  left: 0;
+}
+
+.header__navbar-apps__tickid:hover .header__navbar-apps {
+  display: block;
+}
+
+.header__navbar-social--apps {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14px 16px;  
+}
+
+.header__navbar-social--apps__img {
+  height: 18px;
+}
+
+.header__navbar-notice {
+  position: relative;
+}
+
+.header__navbar-newnotice {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--white-color);
+  z-index: 3;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  width: 350px;
+  display: none;
+  transform-origin: calc(100% - 32px) top;
+  animation: headerNoticeGrowth ease-in 0.2s;
+}
+
+.header__navbar-newnotice:after {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  content: "";
+  height: 8px;
+  width: 75px;
+}
+
+.header__navbar-newnotice:before {
+  position: absolute;
+  top: -29px;
+  right: 0;
+  content: "";
+  border-style: solid;
+  border-width: 20px 27px;
+  border-color: transparent transparent var(--white-color) transparent;
+}
+
+.header__navbar-notice:hover .header__navbar-newnotice{
+  display: block;
+}
+
+.header__navbar-login--newnotice__label {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #999;
+  margin: 0;
+  padding: 16px;
+}
+
+.header__navbar-newnotice__list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.header__navbar-newnotice__item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px 8px 0;
+}
+
+.header__navbar-newnotice__item:hover {
+  background-color: var(--hover-color);
+}
+
+.header__navbar-newnotice__item--active{
+  background-color: #fef1ef;
+}
+
+.header__navbar-newnotice__img {
+  width: 32px;
+  height: 32px;
+  margin: 16px;
+}
+
+.header__navbar-newnotice__content_label {
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin: 0;
+  height: 36px;
+  overflow: hidden;
+  line-height: 1.8rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  margin-bottom: 8px;
+}
+
+.header__navbar-newnotice__content_description {
+  font-size: 1.4rem;
+  font-weight: 300;
+  height: 16px;
+  overflow: hidden;
+  line-height: 1.6rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;  
+  color: #999;
+}
+
+.header__navbar-newnotice__viewall {
+  text-align: center;  
+}
+
+.header__navbar-newnotice__viewall-link {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: var(--text-color);
+  display: block;
+  padding: 8px;
+}
+
+.header__navbar-account__list {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.header__navbar-account__link {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: var(--text-color);
+  font-weight: 300;
+  padding: 12px 16px;
+  display: block;
+}
+
+.header__navbar-account__item:last-child {
+  border-top: 1px solid #f7f7f7;
+}
+
+.header__navbar-account__link:hover {
+  background-color: var(--hover-color);
+}
+
+.header__navbar-account__link:first-child:hover {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.header__navbar-account__link:last-child:hover {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.header__navbar-myaccount {
+  position: relative;
+}
+
+.header__navbar-account {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--white-color);
+  width: 200px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;  
+  z-index: 2;
+  display: none;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.header__navbar-account:before {
+  position: absolute;
+  top: -24px;
+  right: 30px;
+  content: "";
+  border-style: solid;
+  border-width: 12px 18px;
+  border-color: transparent transparent var(--white-color) transparent;
+  z-index: 1;
+}
+
+.header__navbar-account:after {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  content: "";
+  width: 67%;
+  height:8px;  
+}
+
+.header__navbar-myaccount:hover .header__navbar-account {
+  display: block;
+}
+/* ----- End header navbar ----- */
+/* ------ search ------ */
+.header__search {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.header__logo-img {  
+  height: 60px;
+  width: 25vw;
+}
+
+.header__logo  {
+  width: 250px;
+}
+
+.header__search-cart{
+  width: 160px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__search-form {
+  height: 42px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: var(--white-color);
+  border-radius: 2px;
+}
+
+.header__search-product {
+  width: 70%;
+  position: relative;
+}
+
+.header__search-product--input {  
+  width: 100%;
+  border: none;
+  padding: 0 16px;
+  font-size: 1.6rem; 
+  border-radius: 50px;
+  /* border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px; */
+  outline: none;
+}
+
+.header__search-product--history{
+  position: absolute;
+  top: calc(100% + 14px);
+  background: var(--white-color);
+  width: 98%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  border-radius: 2px;
+  display: none;
+}
+
+.header__search-product--history__label {
+  font-size: 1.6rem;
+  padding: 10px 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #999;
+}
+
+.header__search-product--history__list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.header__search-product--history__link {
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 10px 16px;
+  display: block;
+}
+
+.header__search-product--history__link:hover {
+  background-color: var(--hover-color);
+}
+
+.header__search-product--input:focus ~ .header__search-product--history {
+  display: block;
+}
+
+.header__search-form--select {  
+  position: relative;
+  height: 100%;
+  line-height: 4.2rem;
+  margin-left: 24px;
+  cursor: pointer;
+}
+
+.header__search-form--select:after {
+  position: absolute;
+  left: -24px;
+  top: 25%;  
+  height: 50%;
+  width: 1px;
+  background-color:#e8e8e8;
+  content: "";
+}
+
+.header__search-form--select__dropdown {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  background-color: var(--white-color);  
+  border-radius: 2px;
+  display: none;
+  animation: fadeIn 0.25s ease-in;
+  z-index: 2;
+}
+
+.header__search-form--select__dropdown:before {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  content: '';  
+}
+
+.header__search-form--select:hover .header__search-form--select__dropdown{
+  display: block;
+}
+
+.header__search-form--select__label {  
+  font-size: 1.6rem;
+}
+
+.header__search-form--select__list {
+  list-style: none;
+  width: 150px;  
+  padding-left: 0;
+}
+
+.header__search-form--select__link {
+  padding-left: 24px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1.6rem;  
+  display: flex;
+  align-items: center; 
+}
+
+.header__search-form--select__link:hover {
+  background-color: #f7f7f7; 
+}
+
+.header__search-form--select__link:first-child:hover {
+  border-top-left-radius: 2px; 
+  border-top-right-radius: 2px; 
+}
+
+.header__search-form--select__link:last-child:hover {
+  border-bottom-left-radius: 2px; 
+  border-bottom-right-radius: 2px; 
+}
+
+.header__search-form--select__icon  {
+  color: var(--primary-color);
+  margin-left: 16px;  
+}
+
+.header__search-button {
+  margin-left: auto;
+  
+}
+
+.btn--search {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white-color);
+    border: none;
+    height: 36px;
+    width: 60px;
+    border-radius: 2px;
+    margin-right: 3px;
+    outline: none;
+    background-color: var(--primary-color);
+}
+
+.header__search-button a:hover {
+  background-color: #fb6445;
+}
+
+.header__search-button__icon {
+  font-size: 1.6rem;
+}
+
+.header__search-cart__link {
+  text-decoration: none;
+  color: var(--white-color);
+  font-size: 4.8rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header__search-cart--quantity {
+  position: absolute;
+  top: -10px;
+  right: -18px;
+  font-size: 1.6rem;
+  width: 28px;
+  height: 22px;
+  background: var(--white-color);
+  color: var(--primary-color);
+  border-radius: 42%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ee4328;
+}
+
+.header__search-cart {
+  position: relative;
+}
+
+.header__search-cart--products{
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 50px;
+  background-color: var(--white-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  display: none;
+  border-radius: 2px;
+  animation: fadeIn 0.25s ease;
+  z-index:2;
+}
+
+.header__search-cart--products:before{
+  position: absolute;
+  top: -28px;
+  right: 0px;
+  border-style: solid;
+  border-width: 20px 27px;
+  border-color: transparent transparent var(--white-color) transparent;
+  content:"";
+}
+
+.header__search-cart--products:after{
+  position: absolute;
+  top: -8px;
+  right: 0px;
+  width: 10%;
+  height: 8px;  
+  content:"";
+}
+
+.header__search-hover:hover .header__search-cart--products{
+  display: block;
+}
+
+.header__search-cart--products__label {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #999;
+  margin: 0;
+  padding: 16px;
+}
+
+.header__search-cart--product__img {
+    width: 32px;
+    height: 32px;
+    margin: 4px 16px;
+}
+
+.header__search-cart--products__list {
+  list-style: none;
+  padding-left: 0;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.header__search-cart--products__item {
+  display: flex;  
+  padding: 8px 0;
+}
+
+.header__search-cart--products__item:hover{
+  background-color: #f7f7f7;
+}
+
+.header__search-cart--product {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 16px;  
+  justify-content: space-between;
+}
+
+.header__search-cart--product__info{
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__search-cart--product__title {
+  font-size: 1.4rem;
+  width: 220px;
+  height: 16px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.header__search-cart--product__total{
+  margin-left: 0;
+}
+
+.header__search-cart--product__price{
+  font-size:1.4rem;
+  color: var(--primary-color);
+  flex: 1;
+}
+
+.header__search-cart--product__time {
+  color: #999;
+  font-size: 1rem;
+  margin: 0 2px;
+}
+
+.header__search-cart--product__quantity {
+  color: #999;
+  font-size: 1rem;
+}
+
+.header__search-cart--product__category {
+  display: flex;
+  justify-content: space-between;  
+}
+
+.header__search-cart--product__category_type{
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.header__search-cart--product__remove{
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+
+.header__search-cart--products__viewcart {
+  overflow: hidden;
+  padding: 8px;
+}
+
+.header__search-cart--products__viewcart a {  
+  float: right;
+}
+
+.header__search-cart--products__viewcart a:hover {
+  background-color: #fb6445;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }  
+  to {
+    opacity: 1;
+  }
+}
+/* ------ end search ------ */
+/* =============================== Main =============================== */

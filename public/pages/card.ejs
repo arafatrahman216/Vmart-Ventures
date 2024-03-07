@@ -30,13 +30,20 @@
                                 <h6 class="card-title"><%= PRODUCT_NAME %></h6>
                             <% } %>
                             <p style="display: block;" class="card-text"><%= SHOP_NAME %></p> 
-                            <s class="striked" style="margin-left: 8px;" ><%= PRODUCT_PRICE %> ৳ </s> 
-                            <span class="badge bg-success" id="disc" style="margin-left: 50px;">10% off</span>
+                            <s class="striked" style="margin-left: 8px; font-size: small;" ><%= PRODUCT_PRICE %> ৳ </s> 
+                            <span class="badge bg-success" id="disc" style=" font-size: small; margin-left: 50px;">10% off</span>
                         </div>
                             <div class="mb-5 d-flex justify-content-around">
                                 <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
                             </a>
-                                <button  onclick="addtocart('<%= id%>')" class="btn btn-primary">Add to Cart</button>
+                            <br>
+                            <% if (STOCK > 0) { %>
+                                <button  onclick="addtocart('<%= id%>')" class="addcart">Add to Cart</button>
+                            <% } else { %>
+                                <strong> Out of Stock</strong>
+                            <% } %>
+
+                                
                             </div>
                         </div>
                 </div>
@@ -46,12 +53,29 @@
         crossorigin="anonymous"></script>
         <script>
             async function addtocart(id){
-                var form = await document.createElement('form');
-                form.method = 'post';
-                var url = '<%= link%>/addCart/'+id;
-                form.action = url;
-                document.body.appendChild(form);
-                form.submit();
+                // var form = await document.createElement('form');
+                // form.method = 'post';
+                // var url = '<%= link%>/addCart/'+id;
+                // form.action = url;
+                // document.body.appendChild(form);
+                // form.submit();
+                await fetch('<%= link%>/addCart/'+id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: id})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.success==true){
+                        alert('Added to cart');
+                    }
+                    else{
+                        alert('Failed to add to cart');
+                    }
+                });
 
             }
         </script>

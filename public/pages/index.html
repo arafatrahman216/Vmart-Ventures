@@ -1,194 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #35363C;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .cart {
-            width: 40%;
-            background-color: #90b062;
-            border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #bcd0a0;
-        }
-        .cart-item button {
-            margin-right: 10px;
-        }
-        button {
-            background-color: 	#464d35;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+            background-color: #f2f2f2;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
+            color: #333;
         }
-        button:hover {
-            background-color: 	#5c6b38;
-        }
-        .summary {
-            background-color: 	#6b784d;
-            color: white;
-            padding-bottom: 10px;
-            padding-top: 10px;
-            /* padding: 20px; */
-            margin-top: 20px;
-            border-radius: 5px;
-            text-align: center;
-            width: 100%;
-            /* margin: 0 auto; */
-            
 
-            
+        .seller-profile {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: box-shadow 0.3s;
+        }
+
+        .seller-profile:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .seller-box {
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .seller-info {
+            text-align: left;
+        }
+
+        .seller-name {
+            margin: 10px 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .seller-phone {
+            margin-bottom: 10px;
+        }
+
+        .seller-description {
+            margin-bottom: 20px;
+        }
+
+        .add-to-favorite {
+            background-color: #45a049;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-favorite:hover {
+            background-color: #4CAF50;
+        }
+
+        .glide {
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .glide__track {
+            margin: 0;
+            padding: 0;
+        }
+
+        .glide__slides {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .glide__slide {
+            flex: 0 0 auto;
+            margin-right: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .glide__slide:hover {
+            transform: scale(1.05);
+        }
+
+        .product {
+            text-align: left;
+        }
+
+        .product-image {
+            max-width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-name {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="cart">
-        <h1>Your Cart</h1>
-        <div id="cart"></div>
-        <button onclick="addItem()">Add Item</button>
-        <div class="summary">
-            <h2>Payment Summary</h2>
-            <hr
-            <p>Subtotal: $<span id="subtotal"></span></p>
-            <p>Shipping: $<span id="shipping">5.00</span></p>
-            <p>Total: $<span id="total"></span></p>
+    <div class="seller-profile">
+        <div class="seller-box">
+            <img src="seller_logo.jpg" alt="Seller Logo" class="logo">
+            <div class="seller-info">
+                <h1 class="seller-name">Seller Name</h1>
+                <p class="seller-phone">Phone: +1234567890</p>
+                <p class="seller-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <button class="add-to-favorite">Add to Favorites</button>
+            </div>
         </div>
-        <button onclick="checkout()">Checkout</button>
+
+        <div class="glide" data-glide-drag="true">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                    <!-- Dummy Products -->
+                    <li class="glide__slide">
+                        <div class="product">
+                            <img src="product1.jpg" alt="Product 1" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">Product 1</h3>
+                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Include the other 9 dummy products similarly -->
+                </ul>
+            </div>
+            <div class="glide__arrows" data-glide-el="controls">
+                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
     <script>
-        // Sample cart items
-        var cartItems = [
-            { name: 'Item 1', price: 10, quantity: 1 },
-            { name: 'Item 2', price: 20, quantity: 2 },
-            { name: 'Item 3', price: 30, quantity: 1 },
-        ];
-
-        // Function to display cart items
-        function displayCartItems() {
-            var cartDiv = document.getElementById('cart');
-            cartDiv.innerHTML = '';  // Clear the cart
-
-            // Loop through each item in the cart
-            for (var i = 0; i < cartItems.length; i++) {
-                var item = cartItems[i];
-
-                // Create a div for the cart item
-                var itemDiv = document.createElement('div');
-                itemDiv.className = 'cart-item';
-
-                // Add a remove button
-                var removeButton = document.createElement('button');
-                removeButton.innerHTML = 'Remove';
-                removeButton.addEventListener('click', function(index) {
-                    return function() {
-                        removeItem(index);
-                    };
-                }(i));
-                itemDiv.appendChild(removeButton);
-
-                // Add increase and decrease buttons
-                var decreaseButton = document.createElement('button');
-                decreaseButton.innerHTML = '-';
-                decreaseButton.addEventListener('click', function(index) {
-                    return function() {
-                        decreaseQuantity(index);
-                    };
-                }(i));
-                itemDiv.appendChild(decreaseButton);
-
-                var increaseButton = document.createElement('button');
-                increaseButton.innerHTML = '+';
-                increaseButton.addEventListener('click', function(index) {
-                    return function() {
-                        increaseQuantity(index);
-                    };
-                }(i));
-                itemDiv.appendChild(increaseButton);
-
-                // Add the item details
-                var itemDetails = document.createElement('span');
-                itemDetails.innerHTML = ' Name: ' + item.name + ' Price: ' + item.price + ' Quantity: ' + item.quantity;
-                itemDiv.appendChild(itemDetails);
-
-                // Add the item div to the cart
-                cartDiv.appendChild(itemDiv);
-            }
-
-            // Update the subtotal
-            var subtotal = 0;
-            for (var i = 0; i < cartItems.length; i++) {
-                subtotal += cartItems[i].price * cartItems[i].quantity;
-            }
-            document.getElementById('subtotal').innerHTML = subtotal.toFixed(2);
-
-            // Update the total
-            var shipping = parseFloat(document.getElementById('shipping').innerHTML);
-            var total = subtotal + shipping;
-            document.getElementById('total').innerHTML = total.toFixed(2);
-        }
-
-        // Function to add an item to the cart
-        function addItem() {
-            var name = prompt('Enter the item name');
-            var price = parseFloat(prompt('Enter the item price'));
-            var quantity = parseInt(prompt('Enter the quantity'));
-            cartItems.push({ name: name, price: price, quantity: quantity });
-            displayCartItems();
-        }
-
-        // Function to remove an item from the cart
-        function removeItem(index) {
-            cartItems.splice(index, 1);
-            displayCartItems();
-        }
-
-        // Function to increase the quantity of an item
-        function increaseQuantity(index) {
-            cartItems[index].quantity++;
-            displayCartItems();
-        }
-
-        // Function to decrease the quantity of an item
-        function decreaseQuantity(index) {
-            if (cartItems[index].quantity > 1) {
-                cartItems[index].quantity--;
-            }
-            displayCartItems();
-        }
-
-        // Function to handle checkout
-        function checkout() {
-            alert('Thank you for your purchase!');
-            cartItems = [];
-            displayCartItems();
-        }
-
-        // Display the cart items when the page loads
-        displayCartItems();
+        document.addEventListener('DOMContentLoaded', function () {
+            new Glide('.glide', {
+                type: 'carousel',
+                startAt: 0,
+                perView: 3,
+                breakpoints: {
+                    800: {
+                        perView: 1
+                    },
+                    1200: {
+                        perView: 2
+                    }
+                }
+            }).mount();
+        });
     </script>
 </body>
 </html>

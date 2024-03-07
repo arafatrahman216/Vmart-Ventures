@@ -41,7 +41,7 @@
                 <a href="/user/<%=userid%>" id="profile-link" href="#" >Profile</a>
                 <a href="#">Orders</a>
                 <a href="#">Wishlist</a>
-                <a href="/<%= userid%>/cart">Cart</a>
+                <a href="/user/<%= userid%>/cart">Cart</a>
                 <a href="/login">Logout</a>
             </div>
         </div>
@@ -52,6 +52,7 @@
 
     <div class="container mt-5">
         <div class="row">
+            
             <div class="col-md-6">
                 <img id="prodImg" src="/images/product/<%= product[0].PRODUCT_IMAGE %>" alt="<%= product[0].PRODUCT_IMAGE %> Image" class="img-fluid">
             </div>
@@ -63,19 +64,42 @@
                 <p><strong>Discount:</strong> 10% off</p>
                 <p><strong>Final Price:</strong> $<%= (product[0].PRODUCT_PRICE - (product[0].PRODUCT_PRICE * 10 / 100)) %></p>
                 <!-- Add more details as needed -->
-                <button class="btn btn-primary" onclick="addtocart('<%=product[0].PRODUCT_ID%>')">Add to Cart</button>
+                <% if (product[0].PRODUCT_STOCK > 0) { %>
+                    <p><strong>Stock:</strong> Available</p>
+                    <button class="btn btn-primary" onclick="addtocart('<%=product[0].PRODUCT_ID%>')">Add to Cart</button>
+                <% } else { %>
+                    <p><strong>Stock:</strong> Out of Stock</p>
+                <% } %>
+                
             </div>
         </div>
     </div>
 
     <script>
         async function addtocart(id){
-            var form = await document.createElement('form');
-            form.method = 'post';
-            form.action = '/user/<%= userid %>/addCart/'+id;
-            document.body.appendChild(form);
-            form.submit();
-
+            // var form = await document.createElement('form');
+            // form.method = 'post';
+            // form.action = '/user/<%= userid %>/addCart/'+id;
+            
+            // document.body.appendChild(form);
+            // form.submit();
+            await fetch('/user/<%= userid %>/addCart/'+id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id: id})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.success==true){
+                    alert('Added to cart');
+                }
+                else{
+                    alert('Failed to add to cart');
+                }
+            });
         }
     </script>
 

@@ -1,0 +1,235 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/../styles/CheckoutStyle.css">
+    </head>
+
+
+<body>
+    <div id="invoiceholder">
+    <div id="invoice" class="effect2">
+      
+      <div id="invoice-top">
+        <div class="logo"><img src="/../images/UserProfile/account.png" alt="Logo" /></div>
+        <div class="title">
+          <h1>Invoice #<span class="invoiceVal invoice_num"><%= cartid %>#<%= userid %></span></h1>
+          <p>Order Date: <span id="invoice_date"><script>document.write(new Date().toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }))</script></span><br>
+            Probable Delivery : <span id="dl_date"></span>
+            <script>
+                var currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() + 7);
+                var formattedDate = currentDate.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' });
+                document.getElementById("dl_date").textContent = formattedDate;
+            </script>
+          </p>
+        </div><!--End Title-->
+      </div><!--End InvoiceTop-->
+  
+  
+      
+      <div id="invoice-mid">   
+        <div id="message">
+          <h2>Hello <%= user.NAME %>,</h2>
+          <p>An invoice with invoice number #<span id="invoice_num"><%= cartid %>#<%= userid %> which is 100% matched with PO and is waiting for your approval. <a href="approve">Click here</a> to login to view the invoice.</p>
+        </div>
+         <div class="cta-group mobile-btn-group">
+              <a href="javascript:void(0);" id="approve" class="btn-primary">Approve</a>
+              <a href="javascript:void(0);" class="btn-default">Reject</a>
+          </div> 
+          <div class="clearfix">
+              <div class="col-left">
+                  <div class="clientlogo"><img src="/../images/UserProfile/account.png" alt="Sup" /></div>
+                  <div class="clientinfo">
+                      <h2 id="supplier">Account Name: <%= user.NAME %></h2>
+                      <p><span id="address">Street: <%= user.STREET %> ,<br>Postal Code: <%= user.POSTAL_CODE %> </span><br>
+                        <span id="city"><%= user.CITY %>, <%= user.DIVISION %></span><br>
+                        <span id="country"><%= user.COUNTRY %></span>
+                        <br><span id="phone"><%= user.PHONE %></span>
+                        <br>
+                        <span id="email"><%= user.EMAIL %></span>
+                        <br>
+                    </p>
+                  </div>
+              </div>
+              <div class="col-right">
+                  <table class="table">
+                      <tbody>
+                          <tr>
+                              <td><span>Invoice Total</span><label id="invoice_total">61.2</label></td>
+                              <td><span>Currency</span><label id="currency">Taka</label></td>
+                          </tr>
+                          <tr>
+                            <div >
+
+                                <td><span>Payment Type</span><label for="payment_type" id="payment_term">
+                                    <select id="payment_type" name="payment_type" onchange="changePayment()">
+                                        <option value="credit">Credit Card</option>
+                                        <option value="bkash">Bkash</option>
+                                        <option value="nagad">Nagad</option>
+                                        <option value="cod">Cash On Delivery</option>
+                                        <option value="ewallet">E-wallet</option>
+                                    </select>
+                                    
+                                </div>
+                              </label></td>
+                              <td><span>Delivery Type</span><label id="delivery_type">
+                                    <select id="delivery_type" name="delivery_type">
+                                        <option value="home">Home Delivery</option>
+                                        <option value="pickup">Pickup</option>
+                                    </select>
+                              </label></td>
+                          </tr>
+                          <tr><td colspan="2" ><span id="paylabel">Payment Number :</span>
+                            <input type="number" id="paynumber" name="paynumber" placeholder="Enter number">
+                            
+                        </td></tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>       
+      </div><!--End Invoice Mid-->
+      
+      <div id="invoice-bot">
+        
+        <div id="table">
+          <table class="table-main">
+            <thead>    
+                <tr class="tabletitle">
+                  <th>Image</th>
+                  <th>Product Name</th>
+                  <th>Shop Name</th>
+                  <th>Unit Price</th>
+                  <th>Quantity</th>
+                  <th>Discount</th>
+                  <th>Promo Code</th>
+                  <th>Discounted Amount</th>
+                </tr>
+            </thead>
+
+            <% for ( let i=0; i<products.length; i++) { %>
+            <tr class="list-item">
+                <td data-label="Image" class="tableitem">
+                    <a href="/user/<%= userid %>/product/<%= products[i].PRODUCT_ID %>">
+                <img src="/../images/product/<%= products[i].PRODUCT_IMAGE %>" 
+                    alt="<%= products[i].PRODUCT_IMAGE%>" class="product-image">
+                </a>
+                </td>
+                <td data-label="Product Name" class="tableitem">
+                    <a href="/user/<%= userid %>/product/<%= products[i].PRODUCT_ID %>">
+                        <%= products[i].PRODUCT_NAME %></td>
+                    </a>
+              <td data-label="Shop Name" class="tableitem"><%= products[i].SHOP_NAME %></td>
+              <td data-label="Unit Price" class="tableitem"><%= products[i].PRODUCT_PRICE %></td>
+              <td data-label="Quantity" class="tableitem"><%= products[i].QUANTITY %></td>
+              <td data-label="Discount" class="tableitem"><%= products[i].DISCOUNT %></td>
+              <td data-label="Promo Code" class="tableitem"><%= products[i].PROMO_CODE %></td>
+              <td data-label="Discounted Amount" class="tableitem"><%= products[i].DISCOUNTED_COST%></td>
+            </tr>
+            <% } %>
+              
+              <tr class="list-item total-row">
+                  <th colspan="6" class="tableitem">Sub-Total</th>
+                  <td data-label="Sub-Total"  style="text-align: right;" class="tableitem" ><%= (cost).toFixed(2) %></td>
+                </tr>
+                <tr class="list-item total-row">
+                    <th colspan="6"  class="tableitem">Savings</th>
+                    <td data-label="Savings" id="total" style="text-align: right;" class="tableitem">-<%= (cost - discounted_cost).toFixed(2) %></td>
+                </tr>
+                <hr>
+                <tr class="list-item total-row">
+                    <th colspan="6" class="tableitem">Total</th>
+                    <td data-label="Total" style="text-align: right;" class="tableitem"><%= (discounted_cost).toFixed(2) %></td>
+          </table>
+        </div><!--End Table-->
+        <div class="cta-group">
+            <script>
+                async function checkout() {
+                    // var payment_type = document.getElementById("payment_type").value;
+                    // if (payment_type == undefined)
+                    // {
+                    //     window.alert("Please select a payment type");
+                    //     return;
+                    // }
+                    // var delivery_type = document.getElementById("delivery_type").value;
+                    // var url = "/user/<%= userid %>/checkout?payment_type=" + payment_type ;
+                    // window.location.href = url;
+                    await fetch("/user/<%= userid %>/checkout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            payment_type: document.getElementById("payment_type").value,
+                            delivery_type: document.getElementById("delivery_type").value,
+                            paynumber: document.getElementById("paynumber").value
+                        }),
+                    })
+                    .then((response) => response.json())
+
+                    .then((data) => {
+                        console.log(data);
+
+                            // window.location.href = "/user/<%= userid %>/cart";
+                            if (data.success == true)
+                            {
+                                window.alert("Order placed successfully. Redirecting to Home.");
+                                window.location.href = "/home/<%= userid %>";
+                            }
+                            else
+                            {
+                                window.alert("Error in placing order. Redirecting to Cart.");
+                                window.location.href = "/user/<%= userid %>/cart";
+                            }
+                        
+                    });
+                }
+
+                async function changePayment()
+                {
+                    var payment_type = document.getElementById("payment_type").value;
+                    if (payment_type == "credit")
+                    {
+                        document.getElementById("paylabel").textContent = "Credit Card Number :";
+                        document.getElementById("paynumber").type = "number";
+                        document.getElementById("paynumber").value= "";
+                    }
+                    else if (payment_type == "bkash")
+                    {
+                        document.getElementById("paylabel").textContent = "Bkash Number :";
+                        document.getElementById("paynumber").type = "number";
+                        document.getElementById("paynumber").value= "<%= user.PHONE %>"
+                    }
+                    else if (payment_type == "nagad")
+                    {
+                        document.getElementById("paylabel").textContent = "Nagad Number :";
+                        document.getElementById("paynumber").type = "number";
+                        document.getElementById("paynumber").value= "<%= user.PHONE %>"
+                    }
+                    else
+                    {
+                        document.getElementById("paylabel").style.display = "none";
+                        document.getElementById("paynumber").style.display = "none";
+                    }
+                }
+
+                    
+            </script>
+          <a href="#" onclick="checkout()"
+           class="btn-primary">Place Order</a>
+          <a href="javascript:void(0);" class="btn-default">Cancel Order</a>
+      </div> 
+        
+      </div><!--End InvoiceBot-->
+      <footer>
+        <div id="legalcopy" class="clearfix">
+          <p class="col-right">
+              <span class="email"><a href="https://github.com/arafatrahman216/Vmart-Ventures">Vmart Ventures ©All right reserved 2024 </a></span>
+          </p>
+        </div>
+      </footer>
+    </div><!--End Invoice-->
+  </div><!-- End Invoice Holder-->
+    
+    
+  
+  </body>
+  </html>

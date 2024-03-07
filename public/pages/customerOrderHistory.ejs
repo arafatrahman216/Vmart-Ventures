@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <title>Order History</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-image: url("../images/home/bg1.jpg");
+            background-size: cover;
+            font-family: Roboto;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .glass-box {
+            display: block;
+            position: relative;
+            width: 60vw; /* Adjust the width as needed */
+            background-color: rgb(255, 255, 255);
+            min-height: 600px;
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
+            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            border-radius: 15px;
+            margin-top: 50px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 175px;
+            height: 100%;
+            padding: 20px;
+            background-color: black;
+            color: white;
+            display: block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+        }
+
+        .sidebar-text {
+            font-family: Roboto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            font-size: 17px;
+            display: block;
+        }
+
+        .sidebar-text:hover {
+            color: blue;
+        }
+
+        .HeadLine {
+            margin-left: 15vw;
+            padding: 40px;
+        }
+
+        .sidebar-logo {
+            width: 100%;
+            /* Make the image fill the entire width of the sidebar */
+            max-height: 130px;
+            /* Set a maximum height for the image */
+            margin-bottom: 20px;
+            /* Adjust as needed for spacing */
+            border-radius: 50%;
+        }
+
+
+        /* Add additional styles for the table */
+        .orderHistory-table {
+            flex: 1; /* Fill remaining space beside the sidebar */
+            padding: 10px;
+            margin-left: 170px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-box">
+
+        <div class="sidebar">
+            <img src="../images/UserProfile/<%=orderHistory[0].PROFILE_PICTURE %>" alt="Your Image" class="sidebar-logo">
+            <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
+            <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
+            <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Order</a>
+            <a class="sidebar-text" href="#">Favourite Products</a>
+            <a class="sidebar-text" href="#">Favourite Shops</a>
+            <a class="sidebar-text" href="#">Change Password</a>
+        </div>
+
+        <div class="orderHistory-table">
+            <h2 class="HeadLine">Your Order</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ORDER ID</th>
+                        <th>PRODUCT NAME</th>
+                        <th>TOTAL PRICE</th>
+                        <th>PAYMENT TYPE</th>
+                        <th>DELIVERY STATUS</th>
+                        <th> REVIEW </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (orderHistory.length > 0) { %>
+                        <% orderHistory.forEach(order => { %>
+                            <tr>
+                                <td><%= order.ORDER_ID %></td>
+                                <td><%= order.PRODUCT_NAME %></td>
+                                <td><%= order.TOTAL_PRICE %></td>
+                                <td><%= order.PAYMENT_TYPE %></td>
+                                <td><%= order.DELIVERY_STATUS %></td>
+                                <% if (order.DELIVERY_STATUS == "DELIVERED") { %>
+                                    <td><a href="/review/<%= order.ORDER_ID %>">Review</a></td>
+                                <% } else { %>
+                                    <td>Not Delivered</td>
+                                <% } %>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">No Order Histoty.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+<script>
+</script>
+
+</html>

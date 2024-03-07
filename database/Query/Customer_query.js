@@ -52,7 +52,7 @@ const set_products= async (result) =>
             PRODUCT_ID: result[i].PRODUCT_ID,
             PRODUCT_NAME : result[i].PRODUCT_NAME,
             PRODUCT_PRICE: result[i].PRICE,
-            PRODUCT_STOCK: result[i].STOCK,
+            PRODUCT_STOCK: result[i].STOCK_QUANTITY,
             PRODUCT_DESCRIPTION: result[i].DESCRIPTION,
             PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
             PRODUCT_RATING : result[i].RATING,
@@ -93,21 +93,21 @@ const Search_products_by_name= async (name)=>
     return result;
 }
 
-const Filter_Products= async (priceUnder5000, categoryId)=>
+const Filter_Products= async (priceUnder, categoryId)=>
 {
     let query= ``;
     if (categoryId) {
         // Apply category filter logic here based on the provided categoryId
-        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`
-        +` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`+
-        ` WHERE P.CATAGORY_ID = ${categoryId}`
+        query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID, P.STOCK_QUANTITY 
+        FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID
+        WHERE P.CATAGORY_ID = ${categoryId}`
     }
     
-    if (priceUnder5000 === 'true') {
+    if (priceUnder !=0 ) {
         // query= `SELECT * FROM CUSTOMER_USER `;
-        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID`+
+        let union_query= `SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRICE, P.PRODUCT_IMAGE AS IMAGE, C.CATAGORY_NAME, S.SHOP_NAME, S.SHOP_ID , P.STOCK_QUANTITY `+
         ` FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID`
-        +` WHERE P.PRICE < 5000`    
+        +` WHERE P.PRICE < ${priceUnder}`    
         // query+= ` INTERSECTION ${union_query}`;
         if (categoryId) query+= ` INTERSECT ${union_query}`;
         else query+= union_query;

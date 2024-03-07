@@ -2,71 +2,131 @@
 
 <head>
     <link rel="stylesheet" href="/search/../styles/SearchStyle.css" type="text/css">
-    <link rel="stylesheet" href="/search/../styles/HomeStyle.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/search/../styles/HomeStyle.css" type="text/css"> -->
     <title>Search Results</title>
     
 </head>
-<header>
-    <div class="navbar">
-        <a href="/home/<%=userid%>" id="homelink">Home</a>
-        <a href="#">Products</a>
-        <a href="#">Shops</a>
-        <a href="#">New Items</a>
-        <input type="text" id="searchbox" placeholder="Search">
-        <script>
-            // Get the input field
-            var input = document.getElementById("searchbox");
-            // Execute a function when the user releases a key on the keyboard
-            input.addEventListener("keyup", function (event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    var url = '/user/<%=userid%>/search?search=' + input.value;
-                    window.location.href = url;
-                }
-            });
-        </script>
-        <div>
-            <div class="profile-dropdown" style=" background-color:#ddd;">
-                <a id="profile-link" href="/user/<%=userid%>" >Profile</a>
-                <a href="#">Orders</a>
-                <a href="#">Wishlist</a>
-                <a href="/<%= userid%>/cart">Cart</a>
-                <a href="/login">Logout</a>
+    <header class="header">
+        <div class="grid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Navbar -->
+                    <nav class="header__navbar">
+                      <div class="header__logo">
+                        <a href="#" class="header__logo-link">
+                            <img src="/../images/login/vmart_ventures_main_black_poster.jpeg" alt="Vmart Ventures"
+                            class="header__logo-img">
+                        </a>
+                    </div>
+                        <ul class="header__navbar-apps__list">
+                        </ul>
+                        <ul class="header__navbar-login__list">
+                            
+                          <li class="header__navbar-login__item">
+                            <a class="header__navbar-login__link" href="/home/<%= userid %>"
+                            >
+                                <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                                Home
+                            </a>
+                        </li>
+                            <li class="header__navbar-login__item">
+                                <a class="header__navbar-login__link" href="/user/<%= userid %>/search?search="
+                                >
+                                    <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                                    Products
+                                </a>
+                            </li>
+                            <li class="header__navbar-login__item">
+                              <a class="header__navbar-login__link" href="#">
+                                  <i class="header__navbar-login__icon fas fa-question-circle"></i>
+                                  Shops
+                              </a>
+                          </li>
+                          <li class="header__navbar-login__item">
+                              <a href="/user/<%= userid %>/cart" 
+                               id="info-wrap" ><i class="uil uil-shopping-cart icon"></i>Cart</a>
+                          </li>
+                          
+                            <li class="header__navbar-myaccount header__navbar-login__item">
+                                <a class="header__navbar-login__link" href="#">
+                                    <img src="https://assets.codepen.io/5411766/user_icon.jpg" alt=""
+                                        class="header__navbar-login__img">
+                                    <span class="header__navbar-login__user">
+                                        <%= Name %>
+                                    </span>
+                                </a>
+                                <div class="header__navbar-account">
+                                    <ul class="header__navbar-account__list">
+                                        <li class="header__navbar-account__item">
+                                            <a href="/user/<%= userid %>"
+                                             class="header__navbar-account__link">
+                                                My Profile
+                                            </a>
+                                        </li>
+                                        <li class="header__navbar-account__item">
+                                            <a href="/order/<%= userid %>"
+                                             class="header__navbar-account__link">
+                                                My Orders
+                                            </a>
+                                        </li>
+                                        <li class="header__navbar-account__item">
+                                            <a href="#"
+                                             class="header__navbar-account__link">
+                                                My Wishlist
+                                            </a>
+                                        </li>
+                                        <li class="header__navbar-account__item">
+                                            <a href="/login"
+                                             class="header__navbar-account__link">
+                                                Logout
+                                            </a>
+                                           
+                                        </li>
+                                        
+                                        
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- End Navbar -->
+                    <!-- Search -->
+                    
+                    <!-- End Search -->
+                </div>
             </div>
         </div>
+        
+        
     
-        <h1 style="display: block; margin-left: auto; margin-right: auto;">Your Search Results</h1>
-    </div>
 </header>
 
 <body>
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search...">
-        <script>
-            // Get the input field
-            var input = document.getElementById("searchInput");
-            // Execute a function when the user releases a key on the keyboard
-            input.addEventListener("keyup", function (event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    var url = '/user/<%= userid %>/search?search=' + input.value;
-                    window.location.href = url;
-                    
-                }
-            });
-        
-        </script>
+    
+                <input type="text" id="searchbox" placeholder="Search">
+                <script>
+                    // Get the input field
+                    var input = document.getElementById("searchbox");
+                    // Execute a function when the user releases a key on the keyboard
+                    input.addEventListener("keyup", function (event) {
+                        // Number 13 is the "Enter" key on the keyboard
+                        if (event.keyCode === 13) {
+                            // Cancel the default action, if needed
+                            event.preventDefault();
+                            // Trigger the button element with a click
+                            var url = '/user/<%=userid%>/search?search=' + input.value;
+                            window.location.href = url;
+                        }
+                    });
+                </script>
+        <h1 style="display: block; margin-left: auto; margin-right: auto; font-size: 3.5rem;">Your Search Results</h1>
     </div>
-
-    <section class="filter-options">
-        <label for="price-filter">Filter by Price:</label>
-        <select id="price-filter" onchange="filterByPrice()">
+    
+    
+    <div class="filter-options" style="display: block;">
+        <label for="price-filter" >Filter by Price:</label>
+        <select id="price-filter"  onchange="filterByPrice()">
             <option value="all">All Prices</option>
             <option value="0-50">$0 - $50</option>
             <option value="50-100">$50 - $100</option>
@@ -79,17 +139,18 @@
             <option value="rating">Rating</option>
             <option value="price">Price</option>
         </select>
-    </section>
+    </div>
+    
 
     <div class="search-results" id="products-section">
         <!-- Product articles go here as in the previous examples -->
 
         <% if (products.length==0) {%>
-            <h1 > No Product Found</h1>
+            <h1 style="font-size: 4rem;" > No Product Found</h1>
             <% }%>
         <% for (var i = 0; i < products.length; i++) { %>
             <div class="card">
-                <a href="/user/<%=userid  %>/product/<%= products[i].PRODUCT_ID %>"  >
+                <a class="product-link" href="/user/<%=userid  %>/product/<%= products[i].PRODUCT_ID %>"  >
                 <img src="/../images/product/<%= products[i].PRODUCT_IMAGE %>" alt="Product Image" class="product-image">
                 <% if (products[i].PRODUCT_NAME.length > 45) { %>
                     <h3 class="product-title"><%= products[i].PRODUCT_NAME.substring(0, 45) %>...</h3>
@@ -105,17 +166,41 @@
 
                 <p class="product-price">$<%= products[i].PRODUCT_PRICE %></p>
                 </a>
-                <button onclick="addtocart('<%= products[i].PRODUCT_ID%>')" class="btn-primary">Add to Cart</button>
+                <% if (products[i].PRODUCT_STOCK > 0) { %>
+
+                    <button onclick="addtocart('<%= products[i].PRODUCT_ID%>')" class="btn-primary">Add to Cart</button>
+                <% } else { %>
+                    <div class="out-of-stock">Out of Stock</div>
+                <% } %>
+
             </div>
         <% } %>
 
         <script>
             async function addtocart(id){
-                var form = await document.createElement('form');
-                form.method = 'post';
-                form.action = '/user/<%= userid %>/addCart/'+id;
-                document.body.appendChild(form);
-                form.submit();
+                // var form = await document.createElement('form');
+                // form.method = 'post';
+                // form.action = '/user/<%= userid %>/addCart/'+id;
+                // document.body.appendChild(form);
+                // form.submit();
+                await fetch('/user/<%= userid %>/addCart/'+id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: id})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.success==true){
+                        alert('Added to cart');
+                    }
+                    else{
+                        alert('Failed to add to cart');
+                    }
+                });
+
 
             }
         </script>

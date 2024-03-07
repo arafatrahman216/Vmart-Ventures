@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
+
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
 // const router= express.Router();
 const session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
@@ -19,9 +22,10 @@ io.on('connection',(socket)=>
 }
 );
 
+
 const db_query = require('./database/connection');
 
-const { addSeller, update_user} = require('./database/Query/Customer_query');
+const { addSeller, update_user, set_seller} = require('./database/Query/Customer_query');
 
 
 
@@ -31,32 +35,57 @@ const { log } = require('console');
 
 
 // const UserRoute= require('./routes/User');
-
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 // app.use('/user', UserRoute);
 // app.use('/',router);
+app.get('/user/:userid/search', async (req, res) => {
 
-app.get('/user/:userid/search/', async (req, res) => {
-// console.log('get request');
-const name= (req.query.search);
-log(name);
-const result = await Search_products_by_name(name);
-console.log(result);
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    log(getUserToken(token1))
+    const token = getUserToken(token1);
+
+    if (token1===undefined || token1===null  ||token==null || token.id!=req.params.userid )
+    {
+        res.redirect('/login');
+        return;
+
+    }
+    console.log(token.name);
+    // console.log('get request');
+    const name= (req.query.search);
+    log(name);
+    const result = await Search_products_by_name(name);
+    console.log(result);
+
+
 // if (result.length<1)
 // {   
 //     res.json({Product_error: '404'});
 //     return;
 // }
-const products =  await set_products(result);
+    const products =  await set_products(result);
 
-    res.render('Search', { products: products , userid: req.params.userid});
+    res.render('Search', { products: products , userid: req.params.userid, Name: token.name});
 
-return;
+    return;
 });
 
+
+app.get('/test', async (req, res) => {
+    res.render('Order');
+}   
+);
+
 app.get('/user/:userid/catagory/:catid', async (req, res) => {
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    log(getUserToken(token1))
+    const token = getUserToken(token1);
+    
     // console.log('get request');
     const catid= (req.params.catid);
     const userid= (req.params.userid);
@@ -118,9 +147,9 @@ app.post('/user/:userid', async (req, res) => {
 
 
 app.get('/user/:userid/cart', async (req, res) => {
-    console.log('get request');
+    console.log('get request cart');
     const id= (req.params.userid);
-    let subquery= `SELECT MAX(CART_ID) AS MAXIMUM FROM CART WHERE USER_ID = ${id}`;
+    let subquery= `SELECT SHOWCART(${id}) AS MAXIMUM FROM DUAL`;
     let CARTID= await db_query(subquery,[]);
     let cartid= CARTID[0].MAXIMUM;
     log(CARTID[0].MAXIMUM);
@@ -148,7 +177,7 @@ app.get('/user/:userid/cart', async (req, res) => {
         total_cost+=product.PRODUCT_PRICE*product.QUANTITY;
         products.push(product);
     }
-    res.render('Cart', { products: products , userid: id, cost: total_cost});
+    res.render('Cart', { products: products , userid: id, cost: total_cost, cartid: cartid});
     return;
 }
 );
@@ -166,18 +195,23 @@ app.post('/user/:userid/addCart/:productid', async (req, res) => {
     const params=[];
     const result = await db_query(query,params);
     log('user/'+id+'/addCart/'+productid);
-    res.redirect(`/user/${id}/cart`);
+    res.json({ productid: productid, success : true });
 });
 
 app.get('/user/:userid/deleteCart/:productid', async (req, res) => {
-    console.log('Cart Delete');
+    console.log('Cart Delete '+ req.params.userid + ' ' + req.params.productid);
     const productid= req.params.productid;
     const id= (req.params.userid);
-    var query= `DELETE FROM CART WHERE USER_ID = ${id} AND PRODUCT_ID = ${productid}`;
+    var subquery= `SELECT MAX(CART_ID) AS MAXIMUM FROM CART WHERE USER_ID = ${id}`;
+    var CARTID= await db_query(subquery,[]);
+    var cartid= CARTID[0].MAXIMUM;
+    var query= `DELETE FROM CART WHERE USER_ID = ${id} AND PRODUCT_ID = ${productid} AND CART_ID = ${cartid}`;
     const params=[];
     const result = await db_query(query,params);
-    res.redirect(`/user/${id}/cart`);
+    res.json({ productid: productid, success : true  });
 });
+
+
 
 
 app.post('/user/:userid/updateCart', async (req, res) => {
@@ -186,15 +220,194 @@ app.post('/user/:userid/updateCart', async (req, res) => {
     let quantity= parseInt(req.body.quantity); 
     let typef= parseInt(req.body.type);
     const id= (req.params.userid); 
-    var update= '+';
-    if (typef==1) update='-';
-    // log(id);
-    var query= `UPDATE CART SET QUANTITY = ${quantity} ` + update+ ` 1 WHERE USER_ID = ${id} AND PRODUCT_ID = ${productid}`;
+    var update= 1;
+    if (typef==1) update=-1;
     const params=[];
-    log(query);
-    const result = await db_query(query,params);
-    res.redirect(`/user/${id}/cart`);
-});
+    console.log(req.body);
+    var query = `
+    BEGIN
+        UPDATECART(${id},${productid},${quantity},${update});
+
+        END;`
+        const result = await db_query(query,params);
+        res.json({ productid: productid, quantity: quantity+1, success : true });
+    });
+
+
+    app.get('/confirmation', async (req, res) => {
+        console.log('Confirmation Get');
+        const orderid = req.query.orderid;
+
+        const query= `SELECT 
+        O.ORDER_ID, 
+        O.TOTAL_PRICE,
+        O.PAYMENT_TYPE,
+        O.DELIVERY_STATUS,
+        P.PRODUCT_NAME,
+        P.PRICE,
+        P.PRODUCT_IMAGE,
+        S.SHOP_NAME,
+        S.SHOP_ID,
+        O.CONFIRMATION_TIME,
+        O.USER_ID
+
+        FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID=P.PRODUCT_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID WHERE O.ORDER_ID = ${orderid}`;
+        const params=[];
+        const result= await db_query(query,params);
+        if ( result.length<1)
+        {
+            res.send(`<h1> Order with id ${orderid} not found </h1>`);
+            return;
+        }
+
+        const token1= await req.cookies.token;
+        log(req.cookies);
+        log(getUserToken(token1))
+        const token = getUserToken(token1);
+        if (token1===undefined || token1===null  ||token==null || token.id!= result[0].USER_ID)
+        {
+            res.redirect('/login');
+            return;
+        }
+        
+        const id= token.id;
+        var order = [];
+        for (let i = 0; i < result.length; i++) {
+            const product = {
+                ORDER_ID: result[i].ORDER_ID,
+                PRODUCT_NAME: result[i].PRODUCT_NAME,
+                PRODUCT_PRICE: result[i].PRICE,
+                PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+                SHOP_NAME: result[i].SHOP_NAME,
+                SHOP_ID: result[i].SHOP_ID,
+                TOTAL_PRICE: result[i].TOTAL_PRICE,
+                PAYMENT_TYPE: result[i].PAYMENT_TYPE,
+                DELIVERY_STATUS: result[i].DELIVERY_STATUS,
+                CONFIRMATION_TIME: result[i].CONFIRMATION_TIME
+            };
+            order.push(product);
+        }
+        console.log(order);
+        res.render('Order', { order: order , userid: id});
+        return;
+
+    });
+        
+    
+    app.post('/user/:userid/checkout', async (req, res) => {
+        // res.redirect(`/user/1`);
+        // return;
+        console.log('Checkout Post');
+        const id= (req.params.userid);
+        var payment_type = req.body.payment_type;
+        var subquery= `SELECT SHOWCART(${id}) AS MAXIMUM FROM DUAL`;
+        var CARTID= await db_query(subquery,[]);
+        var cartid= CARTID[0].MAXIMUM;
+        console.log("cart id " + cartid);
+        console.log(payment_type);
+        if (payment_type==undefined)
+        {
+            console.log('payment type undefined');
+            payment_type='CREDIT';
+        }
+        var query= `
+            DECLARE
+                CART_ID NUMBER;
+                NUM NUMBER;
+            BEGIN
+                CART_ID:= SHOWCART(${id});
+                NUM := CONFIRM_ORDER(CART_ID, ${id}, UPPER('${payment_type}'));
+            END;
+    
+        `
+        const params=[];
+        console.log(query);
+        console.log(payment_type);
+        const result = await db_query(query,params);
+        console.log(result);
+        if (cartid==0)
+        {
+            res.json({ success: false, cartid: cartid});
+            return;
+        }
+        res.json({ success: true , cartid: cartid});
+        
+    } );
+
+
+    app.get('/user/:userid/checkout', async (req, res) => {
+    console.log('Checkout Get');
+    const id= (req.params.userid);
+    // console.log(cart_id);
+    var sub_query= `
+    SELECT SHOWCART(${id}) AS MAXIMUM FROM DUAL`;
+    
+    var CARTID= await db_query(sub_query,[]);
+    var cart_id= CARTID[0].MAXIMUM;
+    
+    var query= `
+	SELECT P.PRODUCT_ID, 
+    P.PRODUCT_NAME,
+    P.PRICE,
+    P.PRODUCT_IMAGE,
+    C.QUANTITY,
+    C.CART_ID,
+    S.SHOP_NAME,
+    S.SHOP_ID,
+    P.STOCK_QUANTITY,
+    (P.PRICE*C.QUANTITY) AS COST,
+    (P.PRICE*C.QUANTITY)*(1-NVL((SELECT DISCOUNT_AMOUNT FROM DISCOUNTS WHERE PROMO_CODE = P.PROMO_CODE),0)/100) AS DISCOUNTED_COST,
+    NVL((SELECT DISCOUNT_AMOUNT FROM DISCOUNTS WHERE PROMO_CODE = P.PROMO_CODE),0) AS DISCOUNT,
+    NVL(P.PROMO_CODE,'NULL') AS PROMO_CODE
+     FROM CART C JOIN PRODUCTS P ON C.PRODUCT_ID=P.PRODUCT_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID WHERE C.USER_ID = ${id} AND C.CART_ID = ${cart_id}`;
+    const result= await db_query(query,[]);
+    // console.log(result);
+    let products = [];
+    let total_cost=0;
+    let discounted_cost=0;
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME: result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+            CATAGORY_NAME: result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            SHOP_ID: result[i].SHOP_ID,
+            QUANTITY: result[i].QUANTITY,
+            COST: result[i].COST,
+            DISCOUNTED_COST: result[i].DISCOUNTED_COST,
+            CART_ID: result[i].CART_ID,
+            DISCOUNT: result[i].DISCOUNT,
+            PROMO_CODE: result[i].PROMO_CODE,
+            STOCK_QUANTITY: result[i].STOCK_QUANTITY
+        };
+        total_cost+=product.PRODUCT_PRICE*product.QUANTITY;
+        discounted_cost+=product.DISCOUNTED_COST;
+        products.push(product);
+    }
+    console.log("hi");
+   var user_query = `SELECT * FROM CUSTOMER_USER C JOIN ADDRESS A ON C.USER_ID=A.USER_ID WHERE C.USER_ID = ${id}`;
+    var user_result = await db_query(user_query,[]);
+    // console.log(user_result);
+    var user ={
+        NAME: user_result[0].NAME,
+        EMAIL: user_result[0].EMAIL,
+        PHONE: user_result[0].PHONE,
+        STREET: user_result[0].STREET_NAME,
+        POSTAL_CODE: user_result[0].POSTAL_CODE,
+        CITY: user_result[0].CITY,
+        DIVISION: user_result[0].DIVISION,
+        COUNTRY : user_result[0].COUNTRY
+
+    };
+    // res.render('test');
+    res.render('Checkout', { userid: id, products: products, cost: total_cost, cartid: cart_id, discounted_cost: discounted_cost, user: user});
+}
+);
+
+
+
 
 
 app.post('/user/:userid/cart', async (req, res) => {
@@ -222,6 +435,44 @@ app.post('/user/:userid/cart', async (req, res) => {
     res.redirect(`/user/${id}/addCart/${productid}`);
 
 });
+ 
+
+
+app.post('/review', async (req, res) => {
+    console.log('Review Post');
+    const { productid, rating, review } = req.body;
+    console.log(req.body);
+    var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, REVIEW) VALUES (${userid}, ${productid}, ${rating}, '${review}')`;
+    const params=[];
+    const result= await db_query(query,params);
+    res.json({ success: true });
+    return;
+}
+);
+app.get('')
+
+app.get('/user/:userid/product/:id/review', async (req, res) => {
+    console.log('get request review');
+    const id= (req.params.id);
+    const userid= (req.params.userid);
+    const query= `SELECT * FROM REVIEWS R JOIN CUSTOMER_USER C ON R.USER_ID=C.USER_ID WHERE PRODUCT_ID = ${id}`;
+    const params=[];
+    const result= await db_query(query,params);
+    // console.log(result);
+    let reviews = [];
+    for (let i = 0; i < result.length; i++) {
+        const review = {
+            USER_ID: result[i].USER_ID,
+            NAME: result[i].NAME,
+            RATING: result[i].RATING,
+            REVIEW: result[i].REVIEW
+        };
+        reviews.push(review);
+    }
+    res.json(reviews);
+    return;
+}
+);
  
 
 
@@ -261,13 +512,27 @@ app.get('/user/:userid/search/product/:name', async (req, res) => {
 
 
 app.get('/user/:userid/filter', async (req, res) => { 
-    console.log('get request filter');
+    
     const userid= (req.params.userid);
-    const { priceUnder5000, categoryId } = req.query;
-    console.log(priceUnder5000);
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    log(getUserToken(token1))
+    const token = getUserToken(token1);
+
+    if (token1===undefined || token1===null  ||token==null || token.id!=userid )
+    {
+        res.redirect('/login');
+        return;
+
+    }
+    console.log(token.name);
+
+    console.log('get request filter');
+    const { priceUnder, categoryId } = req.query;
+    console.log(priceUnder);
     console.log(categoryId);
     // Filtering logic based on your requirements
-    let filtered_products = await Filter_Products(priceUnder5000, categoryId);
+    let filtered_products = await Filter_Products(priceUnder, categoryId);
     let products = [];
     // console.log(filtered_products);
     for (let i = 0; i < filtered_products.length; i++) {
@@ -278,19 +543,61 @@ app.get('/user/:userid/filter', async (req, res) => {
             PRODUCT_IMAGE: filtered_products[i].IMAGE,
             CATAGORY_NAME: filtered_products[i].CATAGORY_NAME,
             SHOP_NAME: filtered_products[i].SHOP_NAME,
-            SHOP_ID: filtered_products[i].SHOP_ID
+            SHOP_ID: filtered_products[i].SHOP_ID,
+            PRODUCT_STOCK: filtered_products[i].STOCK_QUANTITY
         };
         // console.log(product.PRODUCT_PRICE);
         products.push(product);
     }
 
-    console.log(products);
+    // console.log(products);
     log("hi")
     // console.log(products);
-    res.render('filter', { products: products, userid: "user/"+userid , PU5000 : priceUnder5000, CatID : categoryId});   
+    res.render('filter', { products: products, userid : userid , link: "user/"+userid , PU : priceUnder, CatID : categoryId, Name : token.name});   
     // res.json(products);
 
 });
+
+
+app.get('/order/:userid', async (req, res) => {
+ 
+    console.log('get request order');
+    const userid= (req.params.userid);
+    const query= `SELECT 
+    O.ORDER_ID, O.DELIVERY_STATUS,
+    P.PRODUCT_NAME,
+    (
+        SELECT 
+            QUANTITY 
+        FROM 
+            CART C 
+        WHERE 
+            O.ORDER_ID = C.CART_ID 
+            AND O.PRODUCT_ID = C.PRODUCT_ID
+    ) AS QUANTITY,
+    O.TOTAL_PRICE,
+    O.PAYMENT_TYPE,
+    (SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE O.USER_ID = CUS.USER_ID) AS PROFILE_PICTURE
+FROM 
+    ORDERS O 
+JOIN 
+    PRODUCTS P 
+ON 
+    O.PRODUCT_ID = P.PRODUCT_ID
+WHERE 
+     O.USER_ID = :userid
+`; 
+
+    const params = {
+        userid: req.params.userid
+    };
+ 
+    const orderHistory = await db_query(query,params); 
+    console.log(orderHistory);
+    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
+    return;
+}
+);
 
 
 app.get('/user/seller/:sellerid', async (req, res) => {
@@ -320,7 +627,7 @@ app.get('/user/seller/:sellerid', async (req, res) => {
 });
 
 
-const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
+const {authorize, Seller_authorize,setUserToken, getUserToken} = require('./database/Query/LoginAuthorization');
 const {
         addCustomer,
         query_checker, 
@@ -400,16 +707,26 @@ app.get('/home/:userid', async (req, res) => {
     const id= (req.params.userid);
     const result = await get_user(id);
     const user_name=result[0].NAME;
-    // console.log(user_name);
-    
+    console.log(user_name);
     const phone = result[0].PHONE;
     // console.log(phone);
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    log(getUserToken(token1))
+    const token = getUserToken(token1);
+
+    if (token1===undefined || token1===null  ||token==null || token.id!=id )
+    {
+        res.redirect('/login');
+        return;
+
+    }
     const products = await axios.get(`http://localhost:5000/products/all`).then(response => {
         const products=response.data;
         const cat =  axios.get(`http://localhost:5000/categories`).then(response => {
             const categories=response.data;
             const arr= { Name: user_name, Phone : phone , userID: id, link: '/user/'+id, products: products, categories: categories};
-            res.render('home', arr);
+            res.render('HomeTest', arr);
             return;
         })
         .catch(error => {
@@ -421,39 +738,6 @@ app.get('/home/:userid', async (req, res) => {
     });
 } );
 
-app.get('/user/:userid/checkout', async (req, res) => {
-    console.log('get request');
-    const id= (req.params.userid);
-    let subquery= `SELECT MAX(CART_ID) AS MAXIMUM FROM CART WHERE USER_ID = ${id}`;
-    let CARTID= await db_query(subquery,[]);
-    let cartid= CARTID[0].MAXIMUM;
-    log(CARTID[0].MAXIMUM);
-    if (CARTID.length<1) 
-    {
-        res.render('Cart', { products: [] , userid: id, cost: 0});
-    }
-    const query= `SELECT * FROM CART C JOIN PRODUCTS P ON C.PRODUCT_ID=P.PRODUCT_ID WHERE USER_ID = ${id} AND CART_ID = ${cartid}`;
-    const params=[];
-    const result= await db_query(query,params);
-    let products = [];
-    let total_cost=0;
-    for (let i = 0; i < result.length; i++) {
-        const product = {
-            PRODUCT_ID: result[i].PRODUCT_ID,
-            PRODUCT_NAME: result[i].PRODUCT_NAME,
-            PRODUCT_PRICE: result[i].PRICE,
-            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
-            CATAGORY_NAME: result[i].CATAGORY_NAME,
-            SHOP_NAME: result[i].SHOP_NAME,
-            SHOP_ID: result[i].SHOP_ID,
-            QUANTITY: result[i].QUANTITY
-        };
-        total_cost+=product.PRODUCT_PRICE*product.QUANTITY;
-        products.push(product);
-    }
-    res.render('Checkout', { products: products , userid: id, cost: total_cost});
-    return;
-} );
 
 
 app.get('/products/:id', async (req, res) => {
@@ -478,6 +762,13 @@ app.get('/products/:id', async (req, res) => {
 
 app.get('/login', async (req, res) => {
     console.log('get request');
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    res.clearCookie('token');
+    res.clearCookie('loggedin');
+
+    res.clearCookie('userid');
+
     res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
 });
 
@@ -520,6 +811,12 @@ app.post('/login', async (req, res) => {
     // console.log(r.length);
     if (r.length>0) 
     {
+        const token1= await req.cookies;
+        log(token1);
+        const token = await setUserToken(r[0].USER_ID, r[0].NAME, r[0].EMAIL, r[0].PHONE);
+        console.log(token);
+        res.cookie('token', token);
+        res.cookie('loggedin', true);
         console.log('OK');
         var homeurl='/home/'+r[0].USER_ID;
         res.redirect(homeurl);
