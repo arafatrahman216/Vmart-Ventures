@@ -1181,6 +1181,11 @@ app.post('/Password/:userId', async (req,res) => {
     const newPassword = req.body.newPassword;
     const confirmPassword = req.body.confirmPassword;
 
+    const query1 = `SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = :userId`;
+    const params1 = { userId: userId };
+
+    const r = await db_query(query1,params1) ;
+
 
     var result1 = await db_query(`SELECT PASSWORD FROM CUSTOMER_USER 
     WHERE USER_ID= ${userId}`,[]);
@@ -1192,7 +1197,7 @@ app.post('/Password/:userId', async (req,res) => {
     if(newPassword != confirmPassword || result1[0].PASSWORD != result2[0].PASSWORD) {
     
         console.log("Password Change Failed!");
-        res.render('ChangePasswordCustomerProfile', {  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+        res.render('ChangePasswordCustomerProfile', {PROFILE_PICTURE:r[0].PROFILE_PICTURE,  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
     } 
         
     else {
@@ -1205,8 +1210,10 @@ app.post('/Password/:userId', async (req,res) => {
         const result = await db_query(query, []);
     
         console.log("Password Changed Successfully!");
+
+        console.log(r[0].PROFILE_PICTURE);
     
-        res.render('ChangePasswordCustomerProfile', {  userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!"});
+        res.render('ChangePasswordCustomerProfile', { PROFILE_PICTURE:r[0].PROFILE_PICTURE, userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!"});
     
     }
     
