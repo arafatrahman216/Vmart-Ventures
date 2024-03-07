@@ -1362,7 +1362,7 @@ app.get('/OrderTrack/:userId', async (req, res) => {
 
         const lastOrderTrack = await db_query(query, params);
 
-        //console.log(lastOrderTrack); 
+        console.log(lastOrderTrack[0].PROFILE_PICTURE); 
 
         res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
 });
