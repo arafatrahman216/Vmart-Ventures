@@ -8,6 +8,8 @@ app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 app.use('/',router);
 app.use(express.json());
+
+const axios = require('axios');
  
 const db_query= require('./database/connection');
 const oracledb = require('oracledb');
@@ -48,7 +50,9 @@ app.get('/seller_authorize/:shopname/:shopid', async (req, res)=>
  
     const r = await db_query(query,params); 
 
-    res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+    console.log(r[0].SHOP_LOGO);
+
+    res.render('newShopOwnerProfile', { PROFILE_PICTURE: r[0].SHOP_LOGO , SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
 }
 );
  
@@ -63,8 +67,16 @@ app.post('/seller_authorize', async (req, res)=>
         if (r.length>0) 
         {
             console.log('OK');
+
+            const query = `SELECT SHOP_LOGO FROM SELLER_USER WHERE EMAIL = \'${req.body.username2}\'`;
+            const params = {
+                EMAIL: req.body.username2
+            };
+            
+            const r1 = await db_query(query,[]);
+            console.log(query);
  
-            res.render('newShopOwnerProfile', { SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+            res.render('newShopOwnerProfile', { PROFILE_PICTURE: r1[0].SHOP_LOGO , SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , SHOP_LOGO : r[0].SHOP_LOGO , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
             return;
         }
  
@@ -114,62 +126,30 @@ app.get('/user/:userid', async (req, res) => {
  
     const result= await db_query(query,params); 
  
-    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILEPIC: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
+    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
 );   
 
-app.post('/user/:userid', async (req, res) => {
- 
-    console.log("Profile Post");
- 
-    // const query = `
-    //     UPDATE CUSTOMER_USER 
-    //     SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
-    //     WHERE USER_ID =:userid
-    // `;
-
-//     const query = `UPDATE CUSTOMER_USER 
-//     SET NAME = ${req.body.name}, PHONE = ${req.body.phone}, EMAIL =  ${req.body.email}, PROFILE_PICTURE =  ${req.body.profilePic}, GENDER =  ${req.body.gender}
-//     WHERE USER_ID = ${req.params.userid}
-// `;
-
-    const query = `UPDATE CUSTOMER_USER 
-    SET NAME = \'${req.body.name}\', PHONE = \'${req.body.phone}\', EMAIL =  \'${req.body.email}\', PROFILE_PICTURE =  \'${req.body.profilePic}\', GENDER =  \'${req.body.gender}\'
-    WHERE USER_ID = ${req.params.userid}
-`;
-
-    const params = {
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        gender: req.body.gender,
-        profilePic: req.body.profilePic,
-        userid : req.params.userid
-    };
-
-    console.log(query);
-
- 
-    try {  
-        const result = await db_query(query, []);
-
-    } catch (error) {
-        console.error('Error updating data:', error);
-    }
-
-    res.redirect('/user/'+req.params.userid);
-});
- 
 // app.post('/user/:userid', async (req, res) => {
  
 //     console.log("Profile Post");
  
-//     const query = `
-//         UPDATE CUSTOMER_USER 
-//         SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
-//         WHERE USER_ID =:userid
-//     `;
+//     // const query = `
+//     //     UPDATE CUSTOMER_USER 
+//     //     SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
+//     //     WHERE USER_ID =:userid
+//     // `;
+
+// //     const query = `UPDATE CUSTOMER_USER 
+// //     SET NAME = ${req.body.name}, PHONE = ${req.body.phone}, EMAIL =  ${req.body.email}, PROFILE_PICTURE =  ${req.body.profilePic}, GENDER =  ${req.body.gender}
+// //     WHERE USER_ID = ${req.params.userid}
+// // `;
+
+//     const query = `UPDATE CUSTOMER_USER 
+//     SET NAME = \'${req.body.name}\', PHONE = \'${req.body.phone}\', EMAIL =  \'${req.body.email}\', PROFILE_PICTURE =  \'${req.body.profilePic}\', GENDER =  \'${req.body.gender}\'
+//     WHERE USER_ID = ${req.params.userid}
+// `;
 
 //     const params = {
 //         name: req.body.name,
@@ -180,40 +160,72 @@ app.post('/user/:userid', async (req, res) => {
 //         userid : req.params.userid
 //     };
 
+//     console.log(query);
+
  
-//     try {
-//         console.log("done1");
-//         const result = await db_query(query, params);
-//         console.log("donedone");
-//     } catch (error) {
-//         console.error('Error updating data:', error);
-//     }
+//     try {  
+//         const result = await db_query(query, []);
 
-//     const query1 = `
-//         UPDATE ADDRESS 
-//         SET STREET_NAME = :street, POSTAL_CODE = :postCode , CITY = :city , DIVISION = :division , COUNTRY = :country
-//         WHERE USER_ID =:userid
-//     `;
-
-//     const params1 = {
-//         street: req.body.street,
-//         postCode: req.body.postCode,
-//         city: req.body.city,
-//         division: req.body.division,
-//         country: req.body.country,
-//         userid : req.params.userid
-//     };
-
-
-//     try {
-//         console.log("done2");
-//         const result1 = await db_query(query1, params1);
 //     } catch (error) {
 //         console.error('Error updating data:', error);
 //     }
 
 //     res.redirect('/user/'+req.params.userid);
 // });
+ 
+app.post('/user/:userid', async (req, res) => {
+ 
+    console.log("Profile Post");
+ 
+    const query = `
+        UPDATE CUSTOMER_USER 
+        SET NAME = :name, PHONE = :phone, EMAIL = :email , PROFILE_PICTURE = :profilePic , GENDER = :gender
+        WHERE USER_ID =:userid
+    `;
+
+    const params = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        gender: req.body.gender,
+        profilePic: req.body.profilePic,
+        userid : req.params.userid
+    };
+
+ 
+    try {
+        console.log("done1");
+        const result = await db_query(query, params);
+        console.log("donedone");
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+
+    const query1 = `
+        UPDATE ADDRESS 
+        SET STREET_NAME = :street, POSTAL_CODE = :postCode , CITY = :city , DIVISION = :division , COUNTRY = :country
+        WHERE USER_ID =:userid
+    `;
+
+    const params1 = {
+        street: req.body.street,
+        postCode: req.body.postCode,
+        city: req.body.city,
+        division: req.body.division,
+        country: req.body.country,
+        userid : req.params.userid
+    };
+
+
+    try {
+        console.log("done2");
+        const result1 = await db_query(query1, params1);
+    } catch (error) {
+        console.error('Error updating data:', error);
+    }
+
+    res.redirect('/user/'+req.params.userid);
+});
  
 //after submitting login page
  
@@ -242,7 +254,7 @@ app.post('/authorize', async (req, res) => {
     console.log('not ok');
 });
  
- 
+
 app.get('/signup' , async(req ,res) => {
     res.render('signup');    
 }); 
@@ -281,8 +293,16 @@ app.post('/ShopOwnerSignup', async (req, res) => {
 app.get('/addproducts/:shopname/:shopid', async (req, res) => {
     const shopname = req.params.shopname;
     const shopid = req.params.shopid;
+
+    const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
+
+    const params = {
+        shopid: req.params.shopid
+    };
+
+    const r = await db_query(query1,params) ;
  
-    res.render('newSellerAddProduct', { SHOP_NAME: shopname, SHOP_ID: shopid });
+    res.render('newSellerAddProduct', {PROFILE_PICTURE:r[0].SHOP_LOGO, SHOP_NAME: shopname, SHOP_ID: shopid });
 });
 
 
@@ -357,8 +377,12 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
  
     const products = await db_query(query,params) ;
 
+    const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
 
-    res.render('SellerProducts', { SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
+    const r = await db_query(query1,params) ;
+
+
+    res.render('SellerProducts', { PROFILE_PICTURE: r[0].SHOP_LOGO , SHOP_NAME: shopname, SHOP_ID: shopid, products: products });
 });
 
 app.get('/product-details/:productid', async (req, res) => {
@@ -383,12 +407,12 @@ app.get('/product-details/:productid', async (req, res) => {
         PRODUCT_ID: productDetails[0].PRODUCT_ID,
         DESCRIPTION: productDetails[0].DESCRIPTION,
         PRODUCT_NAME: productDetails[0].PRODUCT_NAME,
-        CATEGORY_NAME: productDetails.CATEGORY_NAME,
-        STOCK_QUANTITY: productDetails.STOCK_QUANTITY,
-        PRICE: productDetails.PRICE,
-        PROMO_CODE: productDetails.PROMO_CODE,
-        SHOP_ID: productDetails.SHOP_ID,
-        SHOP_NAME: productDetails.SHOP_NAME
+        CATEGORY_NAME: productDetails[0].CATEGORY_NAME,
+        STOCK_QUANTITY: productDetails[0].STOCK_QUANTITY,
+        PRICE: productDetails[0].PRICE,
+        PROMO_CODE: productDetails[0].PROMO_CODE,
+        SHOP_ID: productDetails[0].SHOP_ID,
+        SHOP_NAME: productDetails[0].SHOP_NAME
     });
 
 });
@@ -401,7 +425,7 @@ app.post('/product-details/:productid', async (req, res) => {
 
     const query = `
         UPDATE PRODUCTS
-        SET PRODUCT_NAME = '${productid}', DESCRIPTION = '${req.body.description}', STOCK_QUANTITY = '${req.body.qunatity}', PRICE = '${req.body.price}', PROMO_CODE = '${req.body.promocode}'
+        SET PRODUCT_NAME = '${req.body.productname}', DESCRIPTION = '${req.body.description}', STOCK_QUANTITY = '${req.body.qunatity}', PRICE = '${req.body.price}', PROMO_CODE = '${req.body.promocode}'
         WHERE PRODUCT_ID =:productid
     `;
 
@@ -440,8 +464,15 @@ app.get('/password/:shopname/:shopid', async (req, res) => {
 
     const result = await db_query(query, params);
     console.log(params.password);
+
+    const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
+    const params1 = {
+        shopid: shopid
+    };
+
+    const r = await db_query(query1,params1) ;
         
-    res.render('ChangePasswordSellerProfile', { SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params.password });
+    res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE:r[0].SHOP_LOGO ,SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params.password });
 });
 
 app.post('/password/:shopname/:shopid', async (req,res) => {
@@ -504,7 +535,18 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 app.get('/Password/:userId', async (req, res) => {
 
     const userId = req.params.userId;  
-    res.render('ChangePasswordCustomerProfile', { userID: userId });
+
+    const query = `SELECT PROFILE_PICTURE
+    FROM CUSTOMER_USER
+    WHERE USER_ID = :userId`;
+
+    const params = {
+        userId: userId,
+    };
+
+    const result = await db_query(query, params);
+
+    res.render('ChangePasswordCustomerProfile', { userID: userId  , PROFILE_PICTURE: result[0].PROFILE_PICTURE });
 });
 
 app.post('/Password/:userId', async (req,res) => {
@@ -519,40 +561,28 @@ app.post('/Password/:userId', async (req,res) => {
     var result1 = await db_query(`SELECT PASSWORD FROM CUSTOMER_USER 
     WHERE USER_ID= ${userId}`,[]);
     
-    var result2 = await db_query(`SELECT ORA_HASH(\'${confirmPassword}\') FROM DUAL`,[]);
-    console.log(result1);
+    var result2 = await db_query(`SELECT ORA_HASH(\'${oldPassword}\') AS PASSWORD FROM DUAL`,[]);
+    console.log(result1[0].PASSWORD);
+    console.log(result2[0].PASSWORD);
 
-    if(newPassword != confirmPassword || oldPassword != result2[0].PASSWORD) {
+    if(newPassword != confirmPassword || result1[0].PASSWORD != result2[0].PASSWORD) {
     
         console.log("Password Change Failed!");
         res.render('ChangePasswordCustomerProfile', {  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
     } 
         
     else {
-        const query = `
-        DECLARE
-            v_password VARCHAR2(20);
-            v_shopid NUMBER;
-        BEGIN
-            v_shopid := :shopid;
-            v_password := :newPassword;
-                    
-            UPDATE SELLER_USER 
-            SET PASSWORD = v_password
-            WHERE SHOP_ID = v_shopid;
-        END;
+        const query = `         
+            UPDATE CUSTOMER_USER 
+            SET PASSWORD = ORA_HASH(\'${newPassword}\')
+            WHERE USER_ID = ${userId}
         `;
     
-        const params = {
-            shopid: shopid,
-            newPassword: newPassword
-        };
-    
-        const result = await db_query(query, params);
+        const result = await db_query(query, []);
     
         console.log("Password Changed Successfully!");
     
-        res.render('ChangePasswordCustomerProfile', {  userID: userId  ,  PASSWORD: params.newPassword , message: "Password Changed Successfully!"});
+        res.render('ChangePasswordCustomerProfile', {  userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!"});
     
     }
     
@@ -562,18 +592,28 @@ app.post('/Password/:userId', async (req,res) => {
 // order history routing
 app.get('/order/:userid', async (req, res) => {
  
-    const query= `SELECT O.ORDER_ID, P.PRODUCT_NAME , SUM (O.TOTAL_PRICE) AS TOTAL_PRICE , O.PAYMENT_TYPE
-    FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
-    WHERE O.ORDER_ID IN (
-        SELECT C.CART_ID
-        FROM CART C
-        WHERE C.USER_ID IN (
-            SELECT CUS.USER_ID
-            FROM CUSTOMER_USER CUS
-            WHERE CUS.USER_ID = :userid
-        )
-    ) AND DELIVERY_STATUS = 'DELIVERED'
-		GROUP BY O.ORDER_ID , O.PAYMENT_TYPE ,P.PRODUCT_NAME
+    const query= `SELECT 
+    O.ORDER_ID,
+    P.PRODUCT_NAME,
+    (
+        SELECT 
+            QUANTITY 
+        FROM 
+            CART C 
+        WHERE 
+            O.ORDER_ID = C.CART_ID 
+            AND O.PRODUCT_ID = C.PRODUCT_ID
+    ) AS QUANTITY,
+    O.TOTAL_PRICE,
+    O.PAYMENT_TYPE , (SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE O.USER_ID = CUS.USER_ID) PROFILE_PICTURE
+    FROM 
+        ORDERS O 
+    JOIN 
+    PRODUCTS P 
+    ON 
+    O.PRODUCT_ID = P.PRODUCT_ID
+    WHERE 
+    O.DELIVERY_STATUS = 'DELIVERED' AND O.USER_ID = :userid
 `; 
 
     const params = {
@@ -590,7 +630,7 @@ app.get('/order/:userid', async (req, res) => {
 // wishlist routing
 app.get('/wishlist/:userid', async (req, res) => {
      
-        const query= `SELECT P.PRODUCT_NAME , (SELECT CATAGORY_NAME FROM CATAGORY C WHERE P.CATAGORY_ID = C.CATAGORY_ID ) AS CATAGORY ,P.PRICE
+        const query= `SELECT P.PRODUCT_ID , P.PRODUCT_NAME , (SELECT CATAGORY_NAME FROM CATAGORY C WHERE P.CATAGORY_ID = C.CATAGORY_ID ) AS CATAGORY ,P.PRICE , (SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE CUS.USER_ID = W.USER_ID) PROFILE_PICTURE
         FROM WISHLIST W JOIN PRODUCTS P ON W.PRODUCT_ID = P.PRODUCT_ID AND W.USER_ID = :userid`; 
     
         const params = {
@@ -598,6 +638,8 @@ app.get('/wishlist/:userid', async (req, res) => {
         };
      
         const wishlist = await db_query(query,params); 
+
+        console.log(wishlist);
      
         res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
         return;
@@ -620,13 +662,22 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
 
     console.log(req.params.shopname);
 
+    const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
+
+    const params1 = {
+        shopid: req.params.shopid
+    };
+
+    const r = await db_query(query1,params1) ;
+
     res.render('pendingOrders', { 
+        PROFILE_PICTURE: r[0].SHOP_LOGO,
         pendingOrders: pendingOrders, 
         SHOP_ID: req.params.shopid, 
         SHOP_NAME: req.params.shopname
     });
 
-    return;
+    
 });
 
 app.post('/updateDeliveryStatus', async (req, res) => {
@@ -661,7 +712,8 @@ app.get('/OrderTrack/:userId', async (req, res) => {
         
         const userId = req.params.userId;
 
-        const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID AND C.USER_ID= :USER_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE
+        const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID AND C.USER_ID= :USER_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE , 
+        ( SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE CUS.USER_ID = O.USER_ID) PROFILE_PICTURE
         FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
         WHERE O.USER_ID= :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)`;
 
@@ -669,9 +721,99 @@ app.get('/OrderTrack/:userId', async (req, res) => {
 
         const lastOrderTrack = await db_query(query, params);
 
-        console.log(lastOrderTrack); 
+        //console.log(lastOrderTrack); 
 
         res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
+});
+
+app.get('/removeWishlist/:userId/:productId', async (req, res) => {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const query = `DELETE FROM WISHLIST
+    WHERE USER_ID = :userId AND PRODUCT_ID = :productId`;
+
+    const params = {
+        userId: userId,
+        productId: productId
+    };
+
+    const result = await db_query(query, params);
+
+    // app.get('/wishlist/:userid', async (req, res) => {
+    res.redirect('/wishlist/' + userId);
+
+});
+
+const set_products= async (result) =>
+{
+    const products = [];
+
+    for (let i = 0; i < result.length; i++) {
+        const product = {
+            PRODUCT_ID: result[i].PRODUCT_ID,
+            PRODUCT_NAME : result[i].PRODUCT_NAME,
+            PRODUCT_PRICE: result[i].PRICE,
+            PRODUCT_STOCK: result[i].STOCK_QUANTITY,
+            PRODUCT_DESCRIPTION: result[i].DESCRIPTION,
+            PRODUCT_IMAGE: result[i].PRODUCT_IMAGE,
+            PRODUCT_RATING : result[i].RATING,
+            PRODUCT_CATAGORY : result[i].CATAGORY_NAME,
+            SHOP_NAME: result[i].SHOP_NAME,
+            PRODUCT_SHOP_ID : result[i].SHOP_ID
+        };
+        products.push(product);
+    }
+    return products;
+}
+
+const get_products= async (id)=>
+{
+    // console.log(id);
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
+    +`WHERE P.PRODUCT_ID LIKE ${id} ORDER BY PRODUCT_ID`;  
+
+    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
+    const params=[];
+
+    try{
+        const result= await db_query(query,params);
+        return result;
+    } 
+    catch (error) {
+        console.log("Error getting data:", error);
+        return params;
+    }
+}
+
+app.get('/user/:userid/product/:id', async (req, res) => {
+    // console.log('get request');
+    const id= (req.params.id);
+    const userid= (req.params.userid);
+    
+    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
+        const product=response.data;
+        res.render('product', { product: product , userid: userid});
+        return;
+    })
+
+    .catch(error => {
+        console.log(error);
+    });
+
+});
+
+app.get('/products/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    const result = await get_products(id); // Call the get_products function
+    if ( result.length < 1) {
+        res.json({ Product_error: '404' });
+        return;
+    }
+    const products = await set_products(result);
+    res.json(products);
+    return;
 });
 
 // app.post('/OrderTrack', async (req, res) => {

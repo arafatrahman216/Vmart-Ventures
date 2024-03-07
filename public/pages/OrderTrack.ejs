@@ -52,6 +52,7 @@
             margin-left: 10px;
             margin-bottom: 10px;
             font-size: 17px;
+            display: block;
         }
 
         .sidebar-text:hover {
@@ -65,8 +66,9 @@
 
         .sidebar-logo {
             width: 100%; /* Make the image fill the entire width of the sidebar */
-            max-height: 100px; /* Set a maximum height for the image */
+            max-height: 130px; /* Set a maximum height for the image */
             margin-bottom: 20px; /* Adjust as needed for spacing */
+            border-radius: 50%;
         }
 
         /* Add additional styles for the table */
@@ -84,14 +86,12 @@
     <div class="glass-box">
 
         <div class="sidebar">
-            <img src="#" alt="Your Logo" class="sidebar-logo">
+            <img src="../images/UserProfile/<%=OrderTrack[0].PROFILE_PICTURE %>" alt="Your Image" class="sidebar-logo">
             <a class="sidebar-text" href="/user/<%= USER_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
             <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Order</a>
-            <a class="sidebar-text" href="#">Favourite Products</a>
-            <a class="sidebar-text" href="#">Favourite Shops</a>
-            <a class="sidebar-text" href="#">Change Password</a>
+            <a class="sidebar-text" href="/Password/<%= USER_ID%>">Change Password</a>
         </div>
 
         <!-- Order Table -->

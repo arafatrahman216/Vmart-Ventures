@@ -15,18 +15,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white; /* Optional: Background color for the page */
+            background-color: white;
+            /* Optional: Background color for the page */
         }
 
         .glass-box {
             display: flex;
             position: relative;
-            width: 900px; /* Adjust the width as needed */
-            height: 600px; /* Adjust the height as needed */
+            width: 900px;
+            /* Adjust the width as needed */
+            height: 600px;
+            /* Adjust the height as needed */
             background-color: white;
-            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
-            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
-            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
+            /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px);
+            /* Blur for the frosted glass effect */
+            overflow: hidden;
+            /* Ensure the content does not overflow outside the glass-box */
             border-radius: 10%;
         }
 
@@ -40,7 +46,8 @@
             background-color: black;
             color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+            z-index: 1;
+            /* Ensure the sidebar is above the glass-box content */
         }
 
         .sidebar-text {
@@ -52,6 +59,7 @@
             margin-left: 10px;
             margin-bottom: 10px;
             font-size: 17px;
+            display: block;
         }
 
         .sidebar-text:hover {
@@ -64,18 +72,22 @@
         }
 
         .sidebar-logo {
-            width: 100%; /* Make the image fill the entire width of the sidebar */
-            max-height: 100px; /* Set a maximum height for the image */
-            margin-bottom: 20px; /* Adjust as needed for spacing */
+            width: 100%;
+            /* Make the image fill the entire width of the sidebar */
+            max-height: 130px;
+            /* Set a maximum height for the image */
+            margin-bottom: 20px;
+            /* Adjust as needed for spacing */
+            border-radius: 50%;
         }
 
         /* Add additional styles for the table */
         .orderHistory-table {
-            flex: 1; /* Fill remaining space beside the sidebar */
+            flex: 1;
+            /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 170px;
         }
-
     </style>
 </head>
 
@@ -84,14 +96,12 @@
     <div class="glass-box">
 
         <div class="sidebar">
-            <img src="#" alt="Your Logo" class="sidebar-logo">
+            <img src="../images/UserProfile/<%=orderHistory[0].PROFILE_PICTURE %>" alt="Your Image" class="sidebar-logo">
             <a class="sidebar-text" href="/user/<%= USER_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
             <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Order</a>
-            <a class="sidebar-text" href="#">Favourite Products</a>
-            <a class="sidebar-text" href="#">Favourite Shops</a>
-            <a class="sidebar-text" href="#">Change Password</a>
+            <a class="sidebar-text" href="/Password/<%= USER_ID%>">Change Password</a>
         </div>
 
         <!-- Order Table -->
@@ -109,21 +119,29 @@
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (orderHistory.length > 0) { %>
-                        <% orderHistory.forEach(order => { %>
+                    <% if (orderHistory.length> 0) { %>
+                        <% orderHistory.forEach(order=> { %>
                             <tr>
-                                <td><%= order.ORDER_ID %></td>
-                                <td><%= order.PRODUCT_NAME %></td>
-                                <td><%= order.TOTAL_PRICE %></td>
-                                <td><%= order.PAYMENT_TYPE %></td>
+                                <td>
+                                    <%= order.ORDER_ID %>
+                                </td>
+                                <td>
+                                    <%= order.PRODUCT_NAME %>
+                                </td>
+                                <td>
+                                    <%= order.TOTAL_PRICE %>
+                                </td>
+                                <td>
+                                    <%= order.PAYMENT_TYPE %>
+                                </td>
                                 <!-- Add more columns as needed -->
                             </tr>
-                        <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="5">No Order Histoty.</td>
-                        </tr>
-                    <% } %>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5">No Order Histoty.</td>
+                                    </tr>
+                                    <% } %>
                 </tbody>
             </table>
         </div>

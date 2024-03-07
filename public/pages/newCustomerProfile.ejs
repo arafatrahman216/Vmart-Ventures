@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <title>Seller Profile</title>
+    <title>Customer Profile</title>
 
     <style>
         body {
@@ -59,6 +59,7 @@
             margin-left: 10px;
             margin-bottom: 10px;
             font-size: 17px;
+            display: block;
         }
 
         .sidebar-text:hover {
@@ -90,14 +91,22 @@
             margin-left: 90px;
         }
 
+        .btn-success {
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 90px;
+        }
+
         .sidebar-logo {
             width: 100%;
             /* Make the image fill the entire width of the sidebar */
-            max-height: 100px;
+            max-height: 130px;
             /* Set a maximum height for the image */
             margin-bottom: 20px;
             /* Adjust as needed for spacing */
+            border-radius: 50%;
         }
+
     </style>
 </head>
 
@@ -106,14 +115,12 @@
     <div class="glass-box">
 
         <div class="sidebar">
-            <img src="#" alt="Your Logo" class="sidebar-logo">
+            <img src="../images/UserProfile/<%=PROFILE_PICTURE%>" alt="Your Image" class="sidebar-logo">
 
             <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= userID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= userID%>">Wishlist Products</a>
             <a class="sidebar-text" href="/OrderTrack/<%= userID%>">Track Your Order</a>
-            <a class="sidebar-text" href="#">Favourite Products</a>
-            <a class="sidebar-text" href="#">Favourite Shops</a>
             <a class="sidebar-text" href="/Password/<%= userID%>">Change Password</a>
 
         </div>
@@ -169,12 +176,6 @@
                 <div class="FormAttribute">
                     <label for="description"><strong>Country:</strong></label>
                     <input type="text" class="FormInputBox" id="country" name="country" value="<%= COUNTRY %>" readonly>
-                </div>
-
-                <div class="FormAttribute">
-                    <label for="description"><strong>Profile Picture:</strong></label>
-                    <input type="text" class="FormInputBox" id="profilePic" name="profilePic" value="<%= PROFILEPIC %>"
-                        readonly>
                 </div>
 
                 <button type="button" class="btn btn-primary" id="editBtn">Edit Information</button>

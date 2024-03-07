@@ -22,7 +22,7 @@
             display: flex;
             position: relative;
             width: 900px; /* Adjust the width as needed */
-            height: 600px; /* Adjust the height as needed */
+            min-height: 600px; /* Adjust the height as needed */
             background-color: white;
             box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
             backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
@@ -68,6 +68,7 @@
             width: 100%; /* Make the image fill the entire width of the sidebar */
             max-height: 100px; /* Set a maximum height for the image */
             margin-bottom: 20px; /* Adjust as needed for spacing */
+            border-radius: 50%;
         }
 
         /* Add additional styles for the table */
@@ -85,7 +86,7 @@
     <div class="glass-box">
 
         <div class="sidebar">
-            <img src="#" alt="Your Logo" class="sidebar-logo">
+            <img src="/../images/SellerProfile/<%= PROFILE_PICTURE %>" alt="SHOP LOGO" class="sidebar-logo">
             <a class="sidebar-text" href="/seller_authorize/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/products/<%= SHOP_NAME %>/<%= SHOP_ID %>">Your Products</a>
             <a class="sidebar-text" href="/addproducts/<%= SHOP_NAME %>/<%= SHOP_ID %>">Add New Product</a>
