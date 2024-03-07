@@ -59,9 +59,14 @@
             color: blue;
         }
 
-        .HeadLine {
-            margin-left: 370px;
-            padding: 40px;
+        .HeadLine1 {
+            margin-left: 180px;
+            padding: 20px;
+        }
+
+        .HeadLine2 {
+            margin-left: 270px;
+            padding: 1px;
         }
 
         .sidebar-logo {
@@ -96,8 +101,8 @@
 
         <!-- Order Table -->
         <div class="OrderTrack-table">
-            <h2 class="HeadLine">Track your Last Order</h2>
-            <h4 class="HeadLine">Order ID: <%= OrderTrack.ORDER_ID %> </h4>
+            <h2 class="HeadLine1">Last Order Update</h2>
+            <h4 class="HeadLine2">Order ID: <%= OrderTrack[0].ORDER_ID%> </h4>
             <table class="table">
                 <thead>
                     <tr>
