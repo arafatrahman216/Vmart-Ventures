@@ -46,7 +46,7 @@ footer{
   }
 
 
-  .footer-link,#omifb,#arafatfb a{
+  .footer-link,#omifb,#arafatfb {
     color: #e2eca5;
     text-decoration: none;
     font-size: 15px;

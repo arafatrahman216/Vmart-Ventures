@@ -25,7 +25,21 @@ io.on('connection',(socket)=>
 
 const db_query = require('./database/connection');
 
-const { addSeller, update_user, set_seller} = require('./database/Query/Customer_query');
+
+const {
+    addCustomer,
+    query_checker, 
+    set_products,
+    Filter_Products,
+    get_products, 
+    Search_products_by_name,
+    get_user,
+    get_seller,
+    addSeller,
+    update_user,
+    set_seller,
+} = require('./database/Query/Customer_query');
+
 
 
 
@@ -40,24 +54,21 @@ app.set('view engine', 'ejs');
 app.set('views', 'public/pages/');
 app.use(express.static('./public'));  
 ///////////////////////////////////////
-app.use('/',router);
+// app.use('/',router);
 app.use(express.json());
 
  
-const db_query= require('./database/connection');
 const oracledb = require('oracledb');
 
  
-const path = require('path');
-const { lowerCase, get } = require('lodash');
-const { log } = require('console');
 
 // omi's code 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
  
-const {authorize, Seller_authorize} = require('./database/Query/LoginAuthorization');
-const {addCustomer, query_checker} = require('./database/Query/Customer_query');
+const {authorize, Seller_authorize,
+    setUserToken,
+    getUserToken} = require('./database/Query/LoginAuthorization');
  
  
 app.get('/login', async (req, res) => {
@@ -317,7 +328,10 @@ app.get('/user/:userid/catagory/:catid', async (req, res) => {
     const result= await db_query(query,params);
     
     const products =  await set_products(result);
-    res.render('Search', { products: products , userid: userid});
+
+
+
+    res.render('Search', { products: products , userid: userid, Name : token.name});
     return;
 }
 );
@@ -859,19 +873,6 @@ app.get('/user/seller/:sellerid', async (req, res) => {
 });
 
 
-const {authorize, Seller_authorize,setUserToken, getUserToken} = require('./database/Query/LoginAuthorization');
-const {
-        addCustomer,
-        query_checker, 
-        set_products,
-        Filter_Products,
-        get_products, 
-        Search_products_by_name,
-        get_user,
-        get_seller
-    } = require('./database/Query/Customer_query');
-
-
 app.get('/categories',  async (req, res) => { 
     console.log('get request cat');
     const query= `SELECT * FROM CATAGORY`; 
@@ -1405,7 +1406,9 @@ app.get('/user/:userid/product/:id', async (req, res) => {
 app.get('/home/:userid', async (req, res) => {
     // console.log('get request');
     const id= (req.params.userid);
-    const result = await get_user(id);
+    const query= `SELECT * FROM CUSTOMER_USER WHERE USER_ID=${id}`;
+    const params=[];
+    const result= await db_query(query,params);
     const user_name=result[0].NAME;
     console.log(user_name);
     const phone = result[0].PHONE;
@@ -1443,7 +1446,16 @@ app.get('/home/:userid', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
     const id = req.params.id;
     
-    const result = await get_products(id); // Call the get_products function
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
+    +`WHERE P.PRODUCT_ID LIKE ${id} ORDER BY PRODUCT_ID`;   
+    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
+    const params=[];
+
+    
+    const result= await db_query(query,params);
+    
+    
+    // const result = await get_products(id); // Call the get_products function
     if ( result.length < 1) {
         res.json({ Product_error: '404' });
         return;
