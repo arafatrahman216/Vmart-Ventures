@@ -1517,6 +1517,7 @@ app.get('/login', async (req, res) => {
     res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
 });
 
+
 // app.post('/seller_authorize', async (req, res)=>
 // {
 //     console.log('post request');
