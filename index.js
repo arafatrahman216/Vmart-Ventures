@@ -986,7 +986,7 @@ app.get('/user/seller/:sellerid', async (req, res) => {
 });
 
 
-app.get('/categories',  async (req, res) => { 
+app.get('/categories', async (req, res) => { 
     console.log('get request cat');
     const query= `SELECT * FROM CATAGORY`; 
     const params=[];
@@ -1014,13 +1014,128 @@ app.get('/ShopOwnerSignup' , async(req ,res) => {
     res.render('ShopOwnerSignup');    
 });
  
-app.post('/ShopOwnerSignup', async (req, res) => {
+// app.post('/ShopOwnerSignup', async (req, res) => {
+
+//     const procedure = 'SignupInsertion';
+
+//     const query = `BEGIN ${procedure}(:shopname, :email, :phone, :password, :description, :street, :postal_code, :city, :division , :shoplogo) END`;
     
+//     const params = {
+//         shopname: req.body.shopname,
+//         email: req.body.email,
+//         phone: req.body.phone,
+//         password: req.body.password,
+//         description: req.body.description,
+//         street: req.body.street,
+//         postal_code: req.body.postal_code,
+//         city: req.body.city,
+//         division: req.body.division,
+//         shoplogo: req.body.shoplogo
+//     }
+
+//     const result = await db_query(query, params);
+
+//     const query1 = `SELECT SHOP_ID FROM SELLER_USER WHERE EMAIL = :email`;  
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ';
+//     const params1 = {
+//         email: req.body.email
+//     }
+
+//     const result1 = await db_query(query1, params1);
+
+//     console.log(result1[0].SHOP_ID);
     
-    res.render('ShopOwnerProfile' , {shopname: req.body.shopname , email: req.body.email , description: req.body.description , shopid: req.body.shopid , phone: req.body.phone , revenue: req.body.revenue});
-}
-);
+//     res.render('newShopOwnerProfile' , {SHOP_NAME: req.body.shopname , SHOP_ID: result1[0].SHOP_ID});
+// });
  
+
+// app.post('/ShopOwnerSignup', async (req, res) => {
+
+//     const procedure = 'SignupInsertion';
+
+//     const query = `BEGIN ${procedure}(:shopname, :email, :phone, :password, :description, :street, :postal_code, :city, :division , :shoplogo) END`;
+    
+//     const params = {
+//         shopname: req.body.shopname,
+//         email: req.body.email,
+//         phone: req.body.phone,
+//         password: req.body.password,
+//         description: req.body.description,
+//         street: req.body.street,
+//         postal_code: req.body.postal_code,
+//         city: req.body.city,
+//         division: req.body.division,
+//         shoplogo: req.body.shoplogo
+//     }
+
+//     const result = await db_query(query, params);
+
+//     const query1 = `SELECT SHOP_ID FROM SELLER_USER WHERE EMAIL = :email`;
+
+//     const params1 = {
+//         email: req.body.email
+//     }
+
+//     const result1 = await db_query(query1, params1);
+
+//     console.log(result1[0].SHOP_ID);
+    
+//     res.render('newShopOwnerProfile', { SHOP_NAME: req.body.shopname, SHOP_ID: result1[0].SHOP_ID });
+// });   
+
+
+app.post('/ShopOwnerSignup', async (req, res) => {
+
+    const procedure = 'SignupInsertion';
+
+    const password = parseInt(req.body.password);
+
+    const query = 
+    `BEGIN 
+        ${procedure}(:shopname, :email, :phone, :password, :description , :shoplogo , :street, :postal_code, :city, :division);
+     END;`;
+    
+    const params = {
+        shopname: req.body.shopname,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: password,
+        description: req.body.description,
+        street: req.body.street,
+        postal_code: req.body.postal_code,
+        city: req.body.city,
+        division: req.body.division,
+        shoplogo: req.body.shoplogo
+    }
+
+    const result = await db_query(query, params);
+
+    const query1 = `SELECT * 
+    FROM SELLER_USER
+    WHERE EMAIL = :EMAIL`;
+
+    const params1 = {
+        EMAIL: req.body.email
+    };
+ 
+    const r = await db_query(query1,params1); 
+
+    res.render('newShopOwnerProfile', { PROFILE_PICTURE: r[0].SHOP_LOGO , SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
+
+});
+
+    // const query1 = `SELECT SHOP_ID FROM SELLER_USER WHERE EMAIL = :email`;
+
+    // const params1 = {
+    //     email: req.body.email
+    // }
+
+    // const result1 = await db_query(query1, params1);
+
+    // console.log(result1[0].SHOP_ID);
+    
+    //res.render('newShopOwnerProfile', { SHOP_NAME: req.body.shopname, SHOP_ID: result1[0].SHOP_ID });
+//});  
 
 app.get('/addproducts/:shopname/:shopid', async (req, res) => {
     const shopname = req.params.shopname;
@@ -1430,9 +1545,25 @@ app.post('/user/:userid/wishlist', async (req, res) =>{
 
 app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
      
-    const query= `SELECT O.ORDER_ID,P.PRODUCT_ID, O.USER_ID, P.SHOP_ID ,(SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID ) SHOP_NAME, P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
-    FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
-    WHERE P.SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED' AND O.DELIVERY_STATUS <> 'CANCELLED'`; 
+    const query= `SELECT 
+    O.ORDER_ID,
+    P.PRODUCT_ID,
+    O.USER_ID,
+    P.SHOP_ID,
+    (SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID) AS SHOP_NAME,
+    P.PRODUCT_NAME,
+    O.TOTAL_PRICE,
+    (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID AND C.CART_ID = O.ORDER_ID ) AS QUANTITY,
+    O.PAYMENT_TYPE,
+    O.DELIVERY_STATUS
+FROM 
+    PRODUCTS P 
+JOIN 
+    ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
+WHERE 
+    P.SHOP_ID = :shopid
+    AND O.DELIVERY_STATUS <> 'DELIVERED' 
+    AND O.DELIVERY_STATUS <> 'CANCELLED'`; 
 
     const params = {
         shopid: req.params.shopid
@@ -1440,7 +1571,7 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
  
     const pendingOrders = await db_query(query,params); 
 
-    console.log(req.params.shopname);
+    console.log(pendingOrders);
 
     const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
 

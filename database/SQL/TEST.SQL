@@ -335,3 +335,74 @@ END;
 DROP TRIGGER REVENUE;
 
 INSERT INTO ORDERS VALUES(130 , 2 , 19, SYSDATE , 130 , 'DELIVERED' , 'COD');
+
+
+
+--------------------------------------------
+SignupInsertion PROCEDURE
+CREATE OR REPLACE PROCEDURE SignupInsertion(
+    shopname IN VARCHAR2,
+    email IN VARCHAR2,
+    phone IN VARCHAR2,
+    password IN NUMBER, 
+	  description IN VARCHAR2,		
+    shoplogo IN VARCHAR2,
+    street IN VARCHAR2,
+    postal_code IN VARCHAR2, 
+    city IN VARCHAR2,
+    division IN VARCHAR2
+) IS
+    shopid NUMBER;
+BEGIN
+    SELECT NVL(MAX(SHOP_ID), 0) + 1 INTO shopid FROM SELLER_USER;
+
+    INSERT INTO SELLER_USER VALUES(shopid, email, phone, shopname, password, shoplogo, description, SYSDATE, 0);
+
+    INSERT INTO SELLER_ADDRESS VALUES(shopid, street, postal_code, city, division, 'Bangladesh');
+    
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
+
+------------------------------------------------------
+Correct Seller & Customer CORRECT_SELLER_INFO
+CREATE OR REPLACE TRIGGER Correct_Seller_Info 
+BEFORE INSERT ON SELLER_USER
+ FOR EACH ROW 
+ DECLARE 
+ BEGIN :NEW.SHOP_NAME := INITCAP(:NEW.SHOP_NAME) ; 
+ END ;
+/
+
+CREATE OR REPLACE TRIGGER Correct_Customer_Info 
+BEFORE INSERT ON CUSTOMER_USER
+ FOR EACH ROW 
+ DECLARE 
+ BEGIN 
+ :NEW.NAME := INITCAP(:NEW.NAME) ; 
+ END ;
+/
+
+
+------------------------------------------------------
+CANCELORDER TRIGGER
+-----------------------------------------------------
+CREATE OR REPLACE TRIGGER CANCELORDER
+BEFORE UPDATE ON ORDERS
+FOR EACH ROW
+BEGIN
+    IF :NEW.DELIVERY_STATUS = 'CANCELLED' THEN
+        UPDATE PRODUCTS
+        SET STOCK_QUANTITY = STOCK_QUANTITY + (
+            SELECT QUANTITY
+            FROM CART
+            WHERE CART_ID = :NEW.ORDER_ID
+            AND PRODUCT_ID = :NEW.PRODUCT_ID
+        )
+        WHERE PRODUCT_ID = :NEW.PRODUCT_ID;
+    END IF;
+END;
+/
