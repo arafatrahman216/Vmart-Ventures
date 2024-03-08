@@ -61,7 +61,7 @@
                 <p><strong>Seller:</strong> <%= product[0].SHOP_NAME %></p>
                 <p><strong>Description:</strong> <%= product[0].PRODUCT_DESCRIPTION %></p>
                 <p><strong>Price:</strong> $<%= product[0].PRODUCT_PRICE %></p>
-                <p><strong>Discount:</strong> 10% off</p>
+                <p><strong>Discount:</strong> <%= product[0].DISCOUNT_AMOUNT %>% off</p>
                 <p><strong>Final Price:</strong> $<%= (product[0].PRODUCT_PRICE - (product[0].PRODUCT_PRICE * 10 / 100)) %></p>
                 <!-- Add more details as needed -->
                 <% if (product[0].PRODUCT_STOCK > 0) { %>

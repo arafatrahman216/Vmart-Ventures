@@ -704,7 +704,8 @@ app.get('/user/:userid/product/:id/review', async (req, res) => {
     const query= `SELECT * FROM REVIEWS R JOIN CUSTOMER_USER C ON R.USER_ID=C.USER_ID WHERE PRODUCT_ID = ${id}`;
     const params=[];
     const result= await db_query(query,params);
-    // console.log(result);
+    
+    console.log(result);
     let reviews = [];
     for (let i = 0; i < result.length; i++) {
         const review = {
@@ -734,6 +735,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     })
     .catch(error => {
         console.log(error);
+        res.redirect('')
     });
 });
 
@@ -1412,6 +1414,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
 
     .catch(error => {
         console.log(error);
+        res.redirect(`/home/`+id);
     });
 
 });
@@ -1471,9 +1474,9 @@ app.get('/home/:userid', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
     const id = req.params.id;
     
-    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `
-    +`WHERE P.PRODUCT_ID LIKE ${id} ORDER BY PRODUCT_ID`;   
-    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID `;
+    var query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID LEFT JOIN DISCOUNTS D ON P.PROMO_CODE=D.PROMO_CODE
+    WHERE P.PRODUCT_ID = ${id} ORDER BY PRODUCT_ID`;   
+    if (id=='all') query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID LEFT JOIN DISCOUNTS D ON P.PROMO_CODE=D.PROMO_CODE ORDER BY P.PRODUCT_ID`;
     const params=[];
 
     
@@ -1486,6 +1489,7 @@ app.get('/products/:id', async (req, res) => {
         return;
     }
     const products = await set_products(result);
+    console.log(products);
     res.json(products);
     return;
 });
