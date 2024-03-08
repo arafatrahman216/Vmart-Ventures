@@ -367,7 +367,6 @@ END;
 /
 
 
-
 ------------------------------------------------------
 Correct Seller & Customer CORRECT_SELLER_INFO
 CREATE OR REPLACE TRIGGER Correct_Seller_Info 
@@ -385,4 +384,25 @@ BEFORE INSERT ON CUSTOMER_USER
  BEGIN 
  :NEW.NAME := INITCAP(:NEW.NAME) ; 
  END ;
+/
+
+
+------------------------------------------------------
+CANCELORDER TRIGGER
+-----------------------------------------------------
+CREATE OR REPLACE TRIGGER CANCELORDER
+BEFORE UPDATE ON ORDERS
+FOR EACH ROW
+BEGIN
+    IF :NEW.DELIVERY_STATUS = 'CANCELLED' THEN
+        UPDATE PRODUCTS
+        SET STOCK_QUANTITY = STOCK_QUANTITY + (
+            SELECT QUANTITY
+            FROM CART
+            WHERE CART_ID = :NEW.ORDER_ID
+            AND PRODUCT_ID = :NEW.PRODUCT_ID
+        )
+        WHERE PRODUCT_ID = :NEW.PRODUCT_ID;
+    END IF;
+END;
 /

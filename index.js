@@ -1419,9 +1419,25 @@ app.get('/wishlist/:userid', async (req, res) => {
 
 app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
      
-    const query= `SELECT O.ORDER_ID,P.PRODUCT_ID, O.USER_ID, P.SHOP_ID ,(SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID ) SHOP_NAME, P.PRODUCT_NAME , O.TOTAL_PRICE , (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID) QUANTITY ,O.PAYMENT_TYPE , O.DELIVERY_STATUS
-    FROM PRODUCTS P JOIN ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
-    WHERE P.SHOP_ID = :shopid AND O.DELIVERY_STATUS <> 'DELIVERED' AND O.DELIVERY_STATUS <> 'CANCELLED'`; 
+    const query= `SELECT 
+    O.ORDER_ID,
+    P.PRODUCT_ID,
+    O.USER_ID,
+    P.SHOP_ID,
+    (SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID) AS SHOP_NAME,
+    P.PRODUCT_NAME,
+    O.TOTAL_PRICE,
+    (SELECT C.QUANTITY FROM CART C WHERE C.PRODUCT_ID = O.PRODUCT_ID AND C.CART_ID = O.ORDER_ID ) AS QUANTITY,
+    O.PAYMENT_TYPE,
+    O.DELIVERY_STATUS
+FROM 
+    PRODUCTS P 
+JOIN 
+    ORDERS O ON P.PRODUCT_ID = O.PRODUCT_ID
+WHERE 
+    P.SHOP_ID = :shopid
+    AND O.DELIVERY_STATUS <> 'DELIVERED' 
+    AND O.DELIVERY_STATUS <> 'CANCELLED'`; 
 
     const params = {
         shopid: req.params.shopid
@@ -1429,7 +1445,7 @@ app.get('/pendingOrders/:shopname/:shopid', async (req, res) => {
  
     const pendingOrders = await db_query(query,params); 
 
-    console.log(req.params.shopname);
+    console.log(pendingOrders);
 
     const query1 = `SELECT SHOP_LOGO FROM SELLER_USER WHERE SHOP_ID = :shopid`;
 
