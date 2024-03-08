@@ -902,13 +902,8 @@ app.get('/ShopOwnerSignup' , async(req ,res) => {
 });
  
 app.post('/ShopOwnerSignup', async (req, res) => {
- 
-    console.log(req.body);  
-    //const {name, email, phone, shopname , street, postal_code,city, division , password , description }= req.body;
-    const shopid= await addSeller( email, phone, shopname , street, postal_code,city, division , password , description);
-    console.log('Shop Owner post signup');
-    console.log(shopid);
-    //res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
+    
+    
     res.render('ShopOwnerProfile' , {shopname: req.body.shopname , email: req.body.email , description: req.body.description , shopid: req.body.shopid , phone: req.body.phone , revenue: req.body.revenue});
 }
 );
