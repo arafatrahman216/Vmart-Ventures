@@ -8,7 +8,8 @@ async function db_query(query , params){
         connection = await oracledb.getConnection({
             user: 'VMART_VENTURES',
             password: '123',
-            connectString: 'localhost/orcl'
+            // connectString: 'localhost/orcl'
+            connectString: 'localhost/orcldb'
             
         });
         console.log("connected to database");
