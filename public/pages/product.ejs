@@ -40,7 +40,7 @@
             <div class="profile-dropdown" style=" background-color:#ddd;">
                 <a href="/user/<%=userid%>" id="profile-link" href="#" >Profile</a>
                 <a href="#">Orders</a>
-                <a href="#">Wishlist</a>
+                <a href="/wishlist/<%=userid%>">Wishlist</a>
                 <a href="/user/<%= userid%>/cart">Cart</a>
                 <a href="/login">Logout</a>
             </div>
@@ -70,6 +70,7 @@
                 <% } else { %>
                     <p><strong>Stock:</strong> Out of Stock</p>
                 <% } %>
+                <button class="btn btn-primary" onclick="addtowishlist('<%=product[0].PRODUCT_ID%>')" >Add to WishList</button>
                 
             </div>
         </div>
@@ -98,6 +99,36 @@
                 }
                 else{
                     alert('Failed to add to cart');
+                }
+            });
+        }
+
+
+        async function addtowishlist(id){
+            // var form = await document.createElement('form');
+            // form.method = 'post';
+            // form.action = '/user/<%= userid %>/addWishlist/'+id;
+            
+            // document.body.appendChild(form);
+            // form.submit();
+            await fetch('/user/<%= userid %>/wishlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        productid: id
+                    })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.success==true){
+                    alert('Added to wishlist');
+                }
+                else{
+                    alert('Already in wishlist');
                 }
             });
         }

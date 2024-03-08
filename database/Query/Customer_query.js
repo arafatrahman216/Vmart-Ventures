@@ -16,10 +16,11 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
     userId++;
     const query= `INSERT INTO CUSTOMER_USER (USER_ID, EMAIL, PHONE, NAME, PASSWORD, PROFILE_PICTURE, GENDER, DATE_JOINED, DATE_OF_BIRTH) VALUES (${userId}, \'${email}\', \'${phone}\', \'${name}\', ORA_HASH(\'${password}\'), 'profile.jpg', \'${gender}\', SYSDATE, TO_DATE(\'${dob}\', 'YYYY-MM-DD')) `;
     const query2= `INSERT INTO ADDRESS (USER_ID, STREET_NAME, POSTAL_CODE, CITY, DIVISION, COUNTRY) VALUES (${userId}, \'${street}\', \'${postal_code}\', \'${city}\', \'${division}\','Bangladesh')`;
+    const query3= `INSERT INTO E_WALLET (USER_ID, BALANCE) VALUES (${userId}, 0)`;
     OracleDB.autoCommit=true;
     const params=[];
-    db_query(query,params);
-    db_query(query2,params);
+    await db_query(query,params);
+    await db_query(query2,params);
     return userId;
     
 }
@@ -86,7 +87,17 @@ const get_products= async (id)=>
 
 const Search_products_by_name= async (name)=>
 {
-    const query= `SELECT * FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID WHERE LOWER(P.PRODUCT_NAME) LIKE LOWER(\'%${name}%\')`;
+    const query= 
+    `
+    SELECT 
+    P.PRODUCT_ID, P.PRODUCT_NAME,P.PRODUCT_IMAGE,P.CATAGORY_ID,P.STOCK_QUANTITY,P.DESCRIPTION,P.PRICE,C.CATAGORY_NAME,S.SHOP_ID,S.SHOP_NAME
+    FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID 
+        WHERE LOWER(P.PRODUCT_NAME) LIKE LOWER(\'%${name}%\')
+    UNION
+    SELECT 
+    P.PRODUCT_ID, PRODUCT_NAME,P.PRODUCT_IMAGE,P.CATAGORY_ID,P.STOCK_QUANTITY,P.DESCRIPTION,P.PRICE,C.CATAGORY_NAME,S.SHOP_ID,S.SHOP_NAME
+		 FROM PRODUCTS P LEFT JOIN CATAGORY C ON P.CATAGORY_ID=C.CATAGORY_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID 
+    WHERE LOWER(S.SHOP_NAME) LIKE LOWER(\'%${name}%\')`;
     const params=[];
     console.log(query);
     const result= await db_query(query,params); 

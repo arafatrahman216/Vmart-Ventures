@@ -699,10 +699,83 @@ app.post('/user/:userid/cart', async (req, res) => {
 // app.get('')
 
 
-app.get('/user/:userid/product/:id/review', async (req, res) => {
 
-});
+app.get('/user/:userid/review/:orderid', async (req, res) => {
     
+    console.log('Review get');
+    const userid= (req.params.userid);
+    const orderid = req.params.orderid;
+    const productid = req.query.productid;
+    const prod_query= `SELECT DISTINCT
+    O.ORDER_ID,
+    P.PRODUCT_ID, P.PRODUCT_NAME,P.PRODUCT_IMAGE,P.CATAGORY_ID,P.STOCK_QUANTITY,P.DESCRIPTION,O.TOTAL_PRICE,S.SHOP_ID,S.SHOP_NAME,
+    C.QUANTITY, O.CONFIRMATION_TIME
+    FROM ORDERS O JOIN
+    PRODUCTS P ON O.PRODUCT_ID=P.PRODUCT_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID 
+    JOIN CART C ON C.PRODUCT_ID= O.PRODUCT_ID
+    WHERE P.PRODUCT_ID = 1 AND O.ORDER_ID=1 AND C.CART_ID=1
+    `;
+    const prod_result = await db_query(prod_query,[]);
+    // console.log(prod_result);
+    if (prod_result.length<1)
+    {
+        res.send(`<h1> Product with id ${productid} not found </h1>`);
+        return;
+    }
+    const order = {
+        ORDER_ID: prod_result[0].ORDER_ID,
+        PRODUCT_ID: prod_result[0].PRODUCT_ID,
+        PRODUCT_NAME: prod_result[0].PRODUCT_NAME,
+        PRODUCT_IMAGE: prod_result[0].PRODUCT_IMAGE,
+        CATAGORY_ID: prod_result[0].CATAGORY_ID,
+        STOCK_QUANTITY: prod_result[0].STOCK_QUANTITY,
+        DESCRIPTION: prod_result[0].DESCRIPTION,
+        TOTAL_PRICE: prod_result[0].TOTAL_PRICE,
+        SHOP_ID: prod_result[0].SHOP_ID,
+        SHOP_NAME: prod_result[0].SHOP_NAME,
+        QUANTITY: prod_result[0].QUANTITY,
+        ORDER_DATE: prod_result[0].CONFIRMATION_TIME
+    };
+    
+    const query= `SELECT * FROM REVIEWS R WHERE USER_ID = ${userid} AND PRODUCT_ID = ${productid} AND REVIEW_ID = ${orderid}`;
+    var result = await db_query(query,[]);
+    console.log(result);
+    if (result.length<1 ||result === [])
+    {
+        res.render('review', { userid : userid, order:order, orderid: orderid, productid: productid, rating: 0, review: ' '})
+        return;
+    }
+    console.log(result.length);
+    res.render ('review', { userid: userid, orderid: orderid, order: order,  productid: productid, rating: result[0].RATING, review: result[0].DESCRIPTION});
+    // res.json({ userid: userid, orderid: orderid, productid: productid});
+    
+    
+    
+    
+});
+
+app.get('/delete/review/:orderid', async (req, res) => {
+    console.log('Review Delete');
+    const token1= await req.cookies.token;
+    log(req.cookies);
+    log(getUserToken(token1))
+    const token = getUserToken(token1);
+    if (token1===undefined || token1===null  ||token==null)
+    {
+        res.redirect('/login');
+        return;
+    }
+    const userid= token.id;
+
+    console.log('Review Delete');
+    const orderid = req.params.orderid;
+    const productid = req.query.productid;
+
+    var query= `DELETE FROM REVIEWS WHERE USER_ID = ${userid} AND PRODUCT_ID = ${productid} AND REVIEW_ID = ${orderid}`;
+    var result = await db_query(query,[]);
+    res.redirect(`/user/${userid}/review/${orderid}?productid=${productid}`);
+    return;
+});
 
 
 app.get('/product/:id/review', async (req, res) => {
@@ -726,6 +799,36 @@ app.get('/product/:id/review', async (req, res) => {
     }
     res.json(reviews);
     return;
+}
+);
+
+app.post('/user/:userid/review/:orderid', async (req, res) => {
+    console.log('Review Post');
+    const { rating, review, productid, type} = req.body;
+    const userid= req.params.userid;
+    const orderid = req.params.orderid;
+    console.log(req.body);
+    var review1 = review.replace(/\n/g, ' ');
+
+    try{
+        if (type==1)
+            var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, DESCRIPTION, REVIEW_ID) 
+                        VALUES (${userid}, ${productid}, ${rating}, '${review1}', ${orderid})
+                        `;
+        else
+            var query= `UPDATE REVIEWS
+                SET RATING = ${rating}, DESCRIPTION = '${review1}'
+                WHERE USER_ID = ${userid} AND PRODUCT_ID = ${productid} AND REVIEW_ID = ${orderid}
+            `;
+        const params=[];
+        const result= await db_query(query,params);
+        res.json({ userid: userid, orderid: orderid, productid: productid, success : true });
+    }
+    catch (error) {
+        console.error('Error updating data:', error);
+        res.json({ userid: userid, orderid: orderid, productid: productid, success : false });
+    }
+
 }
 );
  
@@ -821,7 +924,7 @@ app.get('/order/:userid', async (req, res) => {
     const userid= (req.params.userid);
     const query= `SELECT 
     O.ORDER_ID, O.DELIVERY_STATUS,
-    P.PRODUCT_NAME,
+    P.PRODUCT_NAME, P.PRODUCT_ID,
     (
         SELECT 
             QUANTITY 
@@ -849,7 +952,7 @@ WHERE
     };
  
     const orderHistory = await db_query(query,params); 
-    console.log(orderHistory);
+    // console.log(orderHistory);
     res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
     return;
 }
@@ -1413,6 +1516,29 @@ app.get('/wishlist/:userid', async (req, res) => {
         res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
         return;
 });
+
+
+app.post('/user/:userid/wishlist', async (req, res) =>{
+    console.log('Wishlist Post');
+    var userid = req.params.userid;
+    var productid= req.body.productid ;
+    console.log(req.body);
+    var subquery= `SELECT COUNT(*) FROM WISHLIST WHERE USER_ID=${userid}  AND PRODUCT_ID= ${productid}
+        GROUP BY USER_ID, PRODUCT_ID` ;
+    console.log(subquery);
+    var subresult= await db_query(subquery, []);
+    console.log(subresult);
+    if (subresult.length>0 ) {
+        console.log('hihi');
+        res.json({ productid: productid, userid: userid, success: false });
+        return;
+    }
+    var query = `INSERT INTO WISHLIST VALUES(${userid} , ${productid})` ;
+    console.log(query);
+    var result = await db_query(query, []);
+    res.json({ productid: productid, userid: userid, success: true });
+});
+
 
 
 // pending orders route

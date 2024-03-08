@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My eCommerce Site - Product Review</title>
+
+  </head>
+<body>
+    <header class="site-header">
+        <img src="/../images/login/vmart_ventures_main_black_poster.jpeg" alt="Site Logo" class="logo">
+        
+      </header>
+      
+      <h1 style="text-align: center;">Review Your Product !</h1>
+      
+    <div class="product-review-container">
+        <h2>Product Review</h2>
+        <div class="product-details">
+            <p><strong>Product Name:</strong> <%= order.PRODUCT_NAME %></p>
+            <p><strong>Quantity:</strong> <%= order.QUANTITY %></p>
+            <p><strong>Order Date:</strong><span id="orderdate"> </span></p>
+            <script>
+                var confirmationDate = new Date("<%= order.ORDER_DATE %>");
+                var deliveryDate = new Date(confirmationDate);
+                deliveryDate.setDate(deliveryDate.getDate() );
+                document.getElementById('orderdate').innerHTML = deliveryDate.toDateString();
+            </script>
+            <p><strong>Shop Name:</strong> <%= order.SHOP_NAME %></p>
+            <p><strong>Price:</strong> <%= order.TOTAL_PRICE %></p>
+        </div>
+
+        
+            <div class="rating-container">
+                <label for="rating">Your Rating:</label>
+                <div id="rating" class="stars">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reviewText">Your Review:</label>
+                <textarea id="reviewText" name="reviewText" rows="4" required>
+                    
+                </textarea>
+            </div>
+            <% if (review==' ' ) { %>
+                <button type="submit" id="submit" class="submit-button" onclick="submitreview()">Submit Review</button>
+                <% } else { %>
+                    <button type="submit" id="update" style="margin-left: 50px;" onclick="updatereview()" >Update Review</button>
+            <% } %>
+            <% if (review==' ' ) { %>
+                <button type="cancel" id="cancel" style="margin-left: 50px;" onclick="cancelreview()" >Cancel</button>
+                <% } else { %>
+                    <button type="submit" id="delete" style="margin-left: 50px;" onclick="deletereview()" class="delete">
+                Delete
+            </button>
+            <% } %>
+            
+        </div>
+
+    <script >
+        var ratingStar = 0;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const starsContainer = document.getElementById('rating');
+    // const reviewForm = document.getElementById('reviewForm');
+    // reviewForm.preventDefault();
+    let ratingValue = 0;
+
+    function createStars() {
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            star.classList.add('star');
+            star.innerHTML = '&#9733;'; // Star character
+            star.addEventListener('click', () => setRating(i));
+            starsContainer.appendChild(star);
+        }
+    }
+
+    function setRating(rating) {
+        ratingValue = rating;
+        ratingStar = rating;
+        Array.from(starsContainer.children).forEach((star, index) => {
+            star.classList.toggle('selected', index < rating);
+        });
+
+    }
+    
+    createStars();
+    var rating = '<%= rating %>';
+    console.log(rating);
+        if(rating != 0){
+            setRating(rating);
+        }
+        var review = '<%= review %>';
+        console.log(review);
+        if(review != ""){
+            document.getElementById('reviewText').value = review;
+        }
+    });
+
+    async function submitreview(){
+        var reviewText = document.getElementById('reviewText').value;
+            var rating = document.getElementById('rating').value;
+            var orderid = '<%= order.ORDER_ID %>';
+            var productid = '<%= productid %>';
+            console.log(orderid);
+            console.log(productid);
+            console.log(reviewText);
+            console.log('rating is '+rating);
+            await fetch('/user/<%= userid %>/review/<%= orderid %>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    review : reviewText,
+                    rating : ratingStar,
+                    productid : productid,
+                    type : 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.success==true){
+                    window.alert('Review Submitted');
+                    window.location.href = '/order/<%= userid %>';
+                }
+                else{
+                    alert('Failed to submit review');
+                }
+            });
+
+        }
+
+        async function cancelreview(){
+            var orderid = '<%= order.ORDER_ID %>';
+            var productid = '<%= productid %>';
+            console.log(orderid);
+            console.log(productid);
+            url='/order/<%= userid %>';
+            console.log(url);
+            window.location.href = url;
+        }
+
+        async function deletereview(){
+            var orderid = '<%= order.ORDER_ID %>';
+            var productid = '<%= productid %>';
+            console.log(orderid);
+            console.log(productid);
+            url='/delete/review/<%= order.ORDER_ID %>?productid=<%= productid %>';
+            console.log(url);
+            window.location.href = url;
+        }
+
+        async function updatereview(){
+            var reviewText = document.getElementById('reviewText').value;
+            var rating = ratingStar;
+            var orderid = '<%= order.ORDER_ID %>';
+            var productid = '<%= productid %>';
+            console.log(orderid);
+            console.log(productid);
+            console.log(reviewText);
+            console.log(rating);
+            await fetch('/user/<%= userid %>/review/<%= orderid %>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    review : reviewText,
+                    rating : rating,
+                    productid : productid,
+                    type : 0
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.success==true){
+                    window.alert('Review Updated');
+                    window.location.href = '/order/<%= userid %>';
+                }
+                else{
+                    alert('Failed to update review');
+                }
+            });
+
+        }
+    </script>
+</body>
+
+<style>
+
+    button{
+        background-color: #8cb300;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    }
+    button:hover {
+        background-color: #945e00;
+    }
+
+    h1{
+        background-color: rgba(250, 235, 215, 0.384);
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-image: url('/../images/home/bg1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: 0;
+    }
+    
+    .site-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        background-color: rgb(0, 0, 0);
+    }
+    
+    .logo {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+        width: 450px; /* Adjust based on actual logo size */
+        height: auto;
+    }
+    
+    
+    .product-review-container {
+        background-color: white;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    
+    .product-details p {
+        margin: 10px 0;
+    }
+    
+    .form-group, .rating-container {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label, .rating-container label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    #reviewText {
+        width: 95%;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: vertical;
+
+    }
+    #reviewText:focus {
+        box-shadow: 0 0 5px #f5a623;
+    }
+    
+    .stars {
+        display: flex;
+        gap: 4px;
+        cursor: pointer;
+    }
+    
+    .star {
+        font-size: 35px;
+        color: #ccc;
+    }
+    
+    .star.selected {
+        color: #f5a623;
+    }
+    
+    
+    
+    </style>
+</html>

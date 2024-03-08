@@ -25,7 +25,7 @@
 -- INSERT --  5
 
 -- 1+1+1
--- COMPUOUND INSERT :  3 : 1+1+
+-- COMPUOUND INSERT :  3 : 1+1+1+
 
 -- DELETE --3  -- 
 --  1+1+
