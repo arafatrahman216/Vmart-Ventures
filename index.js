@@ -1130,7 +1130,6 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
 
     if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
     
-        console.log("Password Change Failed!");
         res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
     } 
         
@@ -1179,12 +1178,16 @@ app.get('/Password/:userId', async (req, res) => {
 
     const result = await db_query(query, params);
 
-    res.render('ChangePasswordCustomerProfile', { userID: userId  , PROFILE_PICTURE: result[0].PROFILE_PICTURE });
+    let messageType = "";
+
+    res.render('ChangePasswordCustomerProfile', { userID: userId  , PROFILE_PICTURE: result[0].PROFILE_PICTURE , messageType: messageType });
 });
 
 app.post('/Password/:userId', async (req,res) => {
     
     const userId = req.params.userId;
+
+    let messageType;
 
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
@@ -1206,7 +1209,10 @@ app.post('/Password/:userId', async (req,res) => {
     if(newPassword != confirmPassword || result1[0].PASSWORD != result2[0].PASSWORD) {
     
         console.log("Password Change Failed!");
-        res.render('ChangePasswordCustomerProfile', {PROFILE_PICTURE:r[0].PROFILE_PICTURE,  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+
+        messageType = "error";
+
+        res.render('ChangePasswordCustomerProfile', {PROFILE_PICTURE:r[0].PROFILE_PICTURE,  userID: userId  , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!" , messageType: messageType });
     } 
         
     else {
@@ -1221,8 +1227,10 @@ app.post('/Password/:userId', async (req,res) => {
         console.log("Password Changed Successfully!");
 
         console.log(r[0].PROFILE_PICTURE);
+
+        messageType = "success";
     
-        res.render('ChangePasswordCustomerProfile', { PROFILE_PICTURE:r[0].PROFILE_PICTURE, userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!"});
+        res.render('ChangePasswordCustomerProfile', { PROFILE_PICTURE:r[0].PROFILE_PICTURE, userID: userId  ,  PASSWORD: newPassword , message: "Password Changed Successfully!" , messageType: messageType });
     
     }
     
@@ -1355,16 +1363,24 @@ app.get('/OrderTrack/:userId', async (req, res) => {
         
         const userId = req.params.userId;
 
-        const query = `SELECT O.ORDER_ID , P.PRODUCT_NAME , (SELECT C.QUANTITY CART FROM CART C WHERE P.PRODUCT_ID=C.PRODUCT_ID AND C.USER_ID= :USER_ID ) QUANTITY ,O.TOTAL_PRICE , O.DELIVERY_STATUS , O.PAYMENT_TYPE , 
-        ( SELECT PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE CUS.USER_ID = O.USER_ID) PROFILE_PICTURE
-        FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
-        WHERE O.USER_ID= :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)`;
+        const query = `SELECT 
+        O.ORDER_ID,
+        P.PRODUCT_NAME,
+        (SELECT C.QUANTITY FROM CART C WHERE P.PRODUCT_ID = C.PRODUCT_ID AND C.CART_ID = O.ORDER_ID AND C.USER_ID = :USER_ID) AS QUANTITY,
+        O.TOTAL_PRICE,
+        O.DELIVERY_STATUS,
+        O.PAYMENT_TYPE,
+        (SELECT CUS.PROFILE_PICTURE FROM CUSTOMER_USER CUS WHERE CUS.USER_ID = O.USER_ID AND O.USER_ID = :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)) AS PROFILE_PICTURE
+    FROM 
+        ORDERS O 
+    JOIN 
+        PRODUCTS P ON O.PRODUCT_ID = P.PRODUCT_ID
+    WHERE 
+        O.USER_ID = :USER_ID AND O.ORDER_ID = (SELECT MAX(ORDER_ID) FROM ORDERS WHERE USER_ID = :USER_ID)`;
 
         const params = { USER_ID: userId };
 
         const lastOrderTrack = await db_query(query, params);
-
-        //console.log(lastOrderTrack); 
 
         res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
 });

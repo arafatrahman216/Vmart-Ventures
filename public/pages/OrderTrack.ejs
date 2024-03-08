@@ -15,7 +15,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white; /* Optional: Background color for the page */
+            background-image: url("../images/home/bg1.jpg");
+            background-size: cover;
+            font-family: Roboto;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
         .glass-box {
@@ -59,9 +63,14 @@
             color: blue;
         }
 
-        .HeadLine {
-            margin-left: 370px;
-            padding: 40px;
+        .HeadLine1 {
+            margin-left: 180px;
+            padding: 20px;
+        }
+
+        .HeadLine2 {
+            margin-left: 270px;
+            padding: 1px;
         }
 
         .sidebar-logo {
@@ -90,14 +99,14 @@
             <a class="sidebar-text" href="/user/<%= USER_ID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= USER_ID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= USER_ID %>">Wishlist Products</a>
-            <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Order</a>
+            <a class="sidebar-text" href="/OrderTrack/<%= USER_ID%>">Track Your Last Order</a>
             <a class="sidebar-text" href="/Password/<%= USER_ID%>">Change Password</a>
         </div>
 
         <!-- Order Table -->
         <div class="OrderTrack-table">
-            <h2 class="HeadLine">Track your Last Order</h2>
-            <h4 class="HeadLine">Order ID: </h4>
+            <h2 class="HeadLine1">Last Order Update</h2>
+            <h4 class="HeadLine2">Order ID: <%= OrderTrack[0].ORDER_ID%> </h4>
             <table class="table">
                 <thead>
                     <tr>
