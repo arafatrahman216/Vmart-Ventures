@@ -16,10 +16,11 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
     userId++;
     const query= `INSERT INTO CUSTOMER_USER (USER_ID, EMAIL, PHONE, NAME, PASSWORD, PROFILE_PICTURE, GENDER, DATE_JOINED, DATE_OF_BIRTH) VALUES (${userId}, \'${email}\', \'${phone}\', \'${name}\', ORA_HASH(\'${password}\'), 'profile.jpg', \'${gender}\', SYSDATE, TO_DATE(\'${dob}\', 'YYYY-MM-DD')) `;
     const query2= `INSERT INTO ADDRESS (USER_ID, STREET_NAME, POSTAL_CODE, CITY, DIVISION, COUNTRY) VALUES (${userId}, \'${street}\', \'${postal_code}\', \'${city}\', \'${division}\','Bangladesh')`;
+    const query3= `INSERT INTO E_WALLET (USER_ID, BALANCE) VALUES (${userId}, 0)`;
     OracleDB.autoCommit=true;
     const params=[];
-    db_query(query,params);
-    db_query(query2,params);
+    await db_query(query,params);
+    await db_query(query2,params);
     return userId;
     
 }
