@@ -683,6 +683,7 @@ app.post('/user/:userid/cart', async (req, res) => {
 //     console.log(userid);
 //     res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
 // });
+
 // app.post('/user/:userid/product/:id/review', async (req, res) => {
 //     console.log('Review Post');
 //     const { rating, review } = req.body;
@@ -697,7 +698,14 @@ app.post('/user/:userid/cart', async (req, res) => {
 // );
 // app.get('')
 
+
 app.get('/user/:userid/product/:id/review', async (req, res) => {
+
+});
+    
+
+
+app.get('/product/:id/review', async (req, res) => {
     console.log('get request review');
     const id= (req.params.id);
     const userid= (req.params.userid);
@@ -735,7 +743,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     })
     .catch(error => {
         console.log(error);
-        res.redirect('')
+        res.redirect('/home/'+userid);
     });
 });
 

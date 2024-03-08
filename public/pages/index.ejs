@@ -1,21 +1,19 @@
 @ -1,156 +1,112 @@
 <html>
-
 <head>
     <title>Login Page</title>
     <meta charset="utf-8">
     <!-- <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > -->
     <link rel="icon" type="image/x-icon" href="../images/login/login.png">
-
+    
     <link rel="stylesheet" href="../styles/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
+    
+    
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <div class="whole">
         <!-- <header>
@@ -23,162 +21,154 @@
                 <img src="images/vmart_ventures_main_black_poster.jpeg" style="width: 100%; height: 150px; position: sticky; top: 0px;" alt="logo" >
             </div>
         </header> -->
-        <div class="container">
-            <div>
-                <img src="../images/login/vmart_ventures_main_black_poster.jpeg" class="logo" alt="logo">
-            </div>
-            <!-- <label for="logo" style=" text-align: center; font-family: 'Teko', sans-serif; font-size: medium; color: #ffffff; ">Safe, Fast and Secure Shopping</label> -->
-            <hr>
-            <br>
-            <div>
-                <table id="buttontable">
-                    <tr>
-                        <td style="width: 50%; "><button type="button" style="border: 2px solid #ffffff;"
-                                onclick="onCustclick()" id="Customer" onmouseover="RedButton(Customer)"
-                                onmouseout="BlueButton(Customer)"> Customer </button></td>
-                        <td style="width: 50%;"><button type="button" onclick="onSellerclick()" id="Seller"
-                                onmouseover="RedButton(Seller)" onmouseout="BlueButton(Seller)"> Seller </button></td>
-                    </tr>
-
-                </table>
-            </div>
-            <div>
-
-
-                <img src="../images/login/login.png" class="images" width="100px" alt="Avatar">
-            </div>
-            <form name="myForm" id="myForm" action="/login" method="post">
-                <h2>Login as a Customer</h2>
-                <% if (ctoken==="blocked" ) { %>
-                    <div style="font-size: medium;" class="alert" role="alert">
-                        <strong>Wrong email or password !</strong> Access Blocked !
-                    </div>
-                    <% } %>
-
-                        <label for="Email"><b>Email id :</b></label>
-                        <br>
-                        <div id="InBox">
-                            <img src="../images/login/email.png" id="eye" alt="eye" class="icon">
-                            <input type="email" style="color: #ffffff; " id="username" name="username"
-                                placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required>
-                        </div>
-                        <label for="password"><b>Password:</b></label>
-                        <br>
-                        <div id="InBox">
-                            <img src="../images/login/password.png" id="eye" alt="eye" class="icon">
-                            <input type="password" style="color: white;" id="password" minlength="8" maxlength="32"
-                                name="password" placeholder="Enter your password" autocomplete="current-password"
-                                required>
-                            <!-- eye icon for password showing -->
-                            <i class="far fa-eye" id="togglePassword" onclick="eyeon(password,togglePassword)"
-                                style=" cursor: pointer;"></i>
-                        </div>
-                        <br>
-                        <div id="showInfo">
-                            <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a>
-                            <input type="checkbox" style="color: white; margin-left: 95px;">Remember me</input>
-                        </div>
-                        <div id="button-container">
-                            <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)"
-                                onclick="getinfo()">Login</button>
-                            <a href="/signup"><button type="button" id="button" onmouseover="mouseover(button)"
-                                    onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button></a>
-                        </div>
-            </form>
-            <form name="myForm2" style="display: none;" id="myForm2" action="/seller_authorize" method="post">
-                <h2>Login as a Seller</h2>
-                <% if (stoken==="blocked" ) { %>
-                    <div style="font-size: medium;" class="alert" role="alert">
-                        <strong>Wrong email or password !</strong> Access Blocked !
-                    </div>
-                    <% } %>
-                        <label for="Email"><b>Email id :</b></label>
-                        <br>
-                        <div id="InBox">
-                            <img src="../images/login/email.png" id="eye" alt="eye" class="icon">
-                            <input type="email" style="color: #ffffff; " id="username2" name="username2"
-                                placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required>
-                        </div>
-                        <label for="password"><b>Password:</b></label>
-                        <br>
-                        <div id="InBox">
-                            <img src="../images/login/password.png" id="eye2" alt="eye" class="icon">
-                            <input type="password" style="color: white;" id="password2" minlength="8" maxlength="32"
-                                name="password2" placeholder="Enter your password" autocomplete="current-password"
-                                required>
-                            <!-- eye icon for password showing -->
-                            <i class="far fa-eye" id="togglePassword2" onclick="eyeon(password2,togglePassword2)"
-                                style=" cursor: pointer;"></i>
-                        </div>
-                        <br>
-                        <div id="showInfo2"> <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a>
-                            <input type="checkbox" style="color: white; margin-left: 95px;">Remember me</input>
-                        </div>
-
-                        <div id="button-container">
-
-                            <button type="submit" id="login2" onmouseover="mouseover(login2)"
-                                onmouseout="mouseout(login2)" onclick="getinfo()">Login</button>
-                            <a href="/ShopOwnerSignup"><button type="button" id="button" onmouseover="mouseover(button)"
-                                    onmouseout="mouseout(button)" onclick="showInfos(showInfo)">Sign-Up</button></a>
-                        </div>
-            </form>
+    <div class="container">
+        <div >
+            <img  src="../images/login/vmart_ventures_main_black_poster.jpeg"  class="logo" alt="logo" >
         </div>
-        <%- include('./footer') %>
-            <script>
+        <!-- <label for="logo" style=" text-align: center; font-family: 'Teko', sans-serif; font-size: medium; color: #ffffff; ">Safe, Fast and Secure Shopping</label> -->
+        <hr>
+        <br>
+        <div>
+            <table id="buttontable">
+                <tr>
+                    <td style="width: 50%; "><button type="button" style="border: 2px solid #ffffff;" onclick="onCustclick()" id="Customer"  onmouseover="RedButton(Customer)" onmouseout="BlueButton(Customer)" > Customer </button></td>
+                    <td style="width: 50%;"><button type="button" onclick="onSellerclick()" id="Seller"  onmouseover="RedButton(Seller)" onmouseout="BlueButton(Seller)" > Seller </button></td>
+                </tr>
 
+            </table>
+        </div>
+        <div >
+            
+            
+            <img  src="../images/login/login.png" class="images"  width="100px" alt="Avatar" >
+        </div>
+        <form  name="myForm" id = "myForm" action="/login" method="post" >
+            <h2>Login as a Customer</h2>
+            <% if (ctoken==="blocked") { %>
+                <div style="font-size: medium;" class="alert" role="alert">
+                    <strong>Wrong email or password !</strong> Access Blocked !
+                </div>
+            <% } %>
+            
+            <label for="Email" ><b>Email id :</b></label>
+            <br>
+            <div id="InBox" >
+            <img src="../images/login/email.png" id="eye" alt="eye" class="icon" >
+            <input type="email" style="color: #ffffff; " id="username" name="username" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            </div>
+                <label for="password"><b>Password:</b></label>
+            <br>
+            <div id="InBox"  >
+                <img src="../images/login/password.png" id="eye" alt="eye" class="icon" >
+                <input type="password" style="color: white;"  id="password" minlength="8" maxlength="32" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                <!-- eye icon for password showing -->
+                <i class="far fa-eye" id="togglePassword" onclick="eyeon(password,togglePassword)" style=" cursor: pointer;"></i>
+            </div>
+            <br>
+            <div id="showInfo" >
+                 <a href="#" onclick="showInfos(showInfo)"> Forgot Password ?</a>
+                <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
+            </div>
+            <div id="button-container">
+                <button type="submit" id="login" onmouseover="mouseover(login)" onmouseout="mouseout(login)" onclick="getinfo()" >Login</button>
+                <a href = "/signup"><button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)" >Sign-Up</button></a>
+            </div>
+        </form>
+        <form  name="myForm2" style="display: none;"  id = "myForm2" action="/seller_authorize" method="post" >
+            <h2>Login as a Seller</h2>
+            <% if (stoken==="blocked") { %>
+                <div style="font-size: medium;" class="alert" role="alert">
+                    <strong>Wrong email or password !</strong> Access Blocked !
+                </div>
+            <% } %>
+            <label for="Email" ><b>Email id :</b></label>
+            <br>
+            <div id="InBox"  >
+                <img src="../images/login/email.png"  id="eye" alt="eye" class="icon" >
+                <input type="email" style="color: #ffffff; " id="username2" name="username2" placeholder="abc@xyz.com" autofocus="true" autocomplete="on" required >
+            </div>
+            <label for="password"><b>Password:</b></label>
+            <br>
+            <div id="InBox"  >
+                <img src="../images/login/password.png" id="eye2" alt="eye" class="icon" >
+                <input type="password" style="color: white;"  id="password2" minlength="8" maxlength="32"  name="password2" placeholder="Enter your password" autocomplete="current-password" required>
+                <!-- eye icon for password showing -->
+                <i class="far fa-eye" id="togglePassword2"onclick="eyeon(password2,togglePassword2)"   style=" cursor: pointer;"></i>
+            </div>
+            <br>
+            <div id="showInfo2" > <a href="#" onclick="showInfos(showInfo2)"> Forgot Password ?</a> 
+            <input type="checkbox" style="color: white; margin-left: 95px;" >Remember me</input>
+            </div>
+            
+            <div id="button-container">
+                    
+            <button type="submit" id="login2" onmouseover="mouseover(login2)" onmouseout="mouseout(login2)" onclick="getinfo()" >Login</button>
+            <a href = "/ShopOwnerSignup"><button type="button" id="button" onmouseover="mouseover(button)" onmouseout="mouseout(button)" onclick="showInfos(showInfo)" >Sign-Up</button></a>   
+            </div>
+        </form>
+    </div>
+    <%- include('./footer') %>
+    <script>
+    
 
-                const eyeon = (password, TogglePassword) => {
-                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                    password.setAttribute('type', type);
-                    // toggle the eye slash icon
-                    if (type === 'text') password.setAttribute('autocomplete', 'off');
-                    TogglePassword.classList.toggle('fa-eye-slash');
-                }
+        const eyeon= (password, TogglePassword)=>
+        {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            if (type==='text') password.setAttribute('autocomplete','off');
+            TogglePassword.classList.toggle('fa-eye-slash');
+        }
+    
+        const mouseover= (butt)=>
+        {
+            // var butt= document.getElementById("login");
+            butt.style.backgroundColor= "red";
+            // butt.style.width="45%"
+            // butt.style.height="40px"
+        }
+        const mouseout= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+        // butt.style.width="40%"
+        // butt.style.height="35px"
+    }
+    const onCustclick= ()=>
+    {
+        var Cform=document.getElementById("myForm");
+        if (!(Cform.style.display==="block")) document.getElementById("username").value= "";
+        Cform.style.display="block";
+        document.getElementById("myForm2").style.display="none";
+        document.getElementById("Customer").style.border="2px solid #ffffff";
+        document.getElementById("Seller").style.border="none";
 
-                const mouseover = (butt) => {
-                    // var butt= document.getElementById("login");
-                    butt.style.backgroundColor = "red";
-                    // butt.style.width="45%"
-                    // butt.style.height="40px"
-                }
-                const mouseout = (butt) => {
-                    // var butt= document.getElementById("login");
-                    butt.style.backgroundColor = "blue";
-                    // butt.style.width="40%"
-                    // butt.style.height="35px"
-                }
-                const onCustclick = () => {
-                    var Cform = document.getElementById("myForm");
-                    if (!(Cform.style.display === "block")) document.getElementById("username").value = "";
-                    Cform.style.display = "block";
-                    document.getElementById("myForm2").style.display = "none";
-                    document.getElementById("Customer").style.border = "2px solid #ffffff";
-                    document.getElementById("Seller").style.border = "none";
+        // document.getElementById("username").innerText= s;
 
-                    // document.getElementById("username").innerText= s;
+    }
+    const onSellerclick= ()=>
+    {
+        document.getElementById("myForm2").style.display="block";
+        document.getElementById("myForm").style.display="none";
+        document.getElementById("Seller").style.border="2px solid #ffffff";
+        document.getElementById("Customer").style.border="none";
+    }
+    const RedButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "red";
+        butt.style.boxShadow= "0px 0px 10px 5px yellow";
+        
+        
+    }
+    const BlueButton= (butt)=>
+    {
+        // var butt= document.getElementById("login");
+        butt.style.backgroundColor= "blue";
+        butt.style.boxShadow= "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
+    }
 
-                }
-                const onSellerclick = () => {
-                    document.getElementById("myForm2").style.display = "block";
-                    document.getElementById("myForm").style.display = "none";
-                    document.getElementById("Seller").style.border = "2px solid #ffffff";
-                    document.getElementById("Customer").style.border = "none";
-                }
-                const RedButton = (butt) => {
-                    // var butt= document.getElementById("login");
-                    butt.style.backgroundColor = "red";
-                    butt.style.boxShadow = "0px 0px 10px 5px yellow";
-
-
-                }
-                const BlueButton = (butt) => {
-                    // var butt= document.getElementById("login");
-                    butt.style.backgroundColor = "blue";
-                    butt.style.boxShadow = "3px 3px 5px 0px rgba(0,0,0,0.75),-3px -3px 5px 0px rgba(0,0,0,0.75),3px -3px 5px 0px rgba(0,0,0,0.75),-3px 3px 5px 0px rgba(0,0,0,0.75)";
-                }
-
-            </script>
+    </script>
 </body>
-
 </html>
+
