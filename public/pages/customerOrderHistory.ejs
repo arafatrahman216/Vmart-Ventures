@@ -30,7 +30,7 @@
             box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
             backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
             overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
-            border-radius: 15px;
+            border-radius: 50px;
             margin-top: 50px;
         }
 
@@ -126,7 +126,8 @@
                                 <td><%= order.PAYMENT_TYPE %></td>
                                 <td><%= order.DELIVERY_STATUS %></td>
                                 <% if (order.DELIVERY_STATUS == "DELIVERED") { %>
-                                    <td><a href="/review/<%= order.ORDER_ID %>">Review</a></td>
+                                    <td><a href="/user/<%= USER_ID %>/review/<%= order.ORDER_ID %>?productid=<%= order.PRODUCT_ID %>">
+                                        Review</a></td>
                                 <% } else { %>
                                     <td>Not Delivered</td>
                                 <% } %>
