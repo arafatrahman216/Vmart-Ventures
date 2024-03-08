@@ -7,10 +7,7 @@ async function setUserToken(id,name, email,phone)
 {
     const payload = {id, name, email, phone};
     
-    const token = await jwt.sign(payload, secret, {
-        expiresIn: '1h',
-        
-    });
+    const token = await jwt.sign(payload, secret);
     return token;
 }
 

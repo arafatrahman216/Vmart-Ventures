@@ -21,6 +21,7 @@ const addCustomer=async (name,email,phone,password,gender,dob, street, postal_co
     const params=[];
     await db_query(query,params);
     await db_query(query2,params);
+    await db_query(query3,params);
     return userId;
     
 }

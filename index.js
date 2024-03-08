@@ -1703,7 +1703,7 @@ app.get('/home/:userid', async (req, res) => {
     const params=[];
     const result= await db_query(query,params);
     const user_name=result[0].NAME;
-    console.log(user_name);
+    // console.log(user_name);
     const phone = result[0].PHONE;
     // console.log(phone);
     const token1= await req.cookies.token;
@@ -1754,7 +1754,7 @@ app.get('/products/:id', async (req, res) => {
         return;
     }
     const products = await set_products(result);
-    console.log(products);
+    // console.log(products);
     res.json(products);
     return;
 });
