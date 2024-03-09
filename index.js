@@ -1213,7 +1213,7 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
 
     const query = `
         SELECT * FROM PRODUCTS 
-        WHERE SHOP_ID =:shopid
+        WHERE SHOP_ID = :shopid AND STOCK_QUANTITY > 0
     `;
 
     const params = {
@@ -1279,10 +1279,39 @@ app.post('/product-details/:productid', async (req, res) => {
         productid: req.params.productid
     };
  
-    const productDetails = await db_query(query,params) ;
+    const result = await db_query(query,params) ;
+    
 
     res.redirect('/product-details/' + req.params.productid);
 
+});
+
+app.get('/delete/product/:productid', async (req, res) => {
+
+        console.log("Hello");
+    
+        const productid = req.params.productid;
+    
+        const query = `
+            UPDATE PRODUCTS
+            SET STOCK_QUANTITY = 0
+            WHERE PRODUCT_ID =:productid
+        `;
+    
+        const params = {
+            productid: req.params.productid
+        };
+    
+        const result = await db_query(query,params) ;
+
+        const query1 = 
+            `SELECT SHOP_ID , (SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID) SHOP_NAME
+            FROM PRODUCTS P
+            WHERE PRODUCT_ID = :productid`;
+
+        const r = await db_query(query1,params) ;
+    
+        res.redirect('/products/' + r[0].SHOP_NAME + '/' + r[0].SHOP_ID);
 });
 
 app.get('/password/:shopname/:shopid', async (req, res) => {
@@ -1786,12 +1815,6 @@ app.get('/products/:id', async (req, res) => {
 // });
 
 
-
-
-
-
-
-
 app.get('/login', async (req, res) => {
     console.log('get request');
     const token1= await req.cookies.token;
@@ -1802,17 +1825,6 @@ app.get('/login', async (req, res) => {
     
     res.render('NewLogin',)
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.post('/login', async (req, res) => {
@@ -1856,6 +1868,7 @@ app.post('/signup', async (req, res) => {
     // res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
     res.redirect('/home/'+userid);
 });
+
 
 
 

@@ -109,6 +109,8 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Promo Code</th>
+                        <th>    </th>
+                        <th>    </th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
@@ -122,6 +124,7 @@
                                 <td><%= product.STOCK_QUANTITY %></td>
                                 <td><%= product.PROMO_CODE %></td>
                                 <td><button class="btn btn-primary view-details-btn" onclick="redirectToDetails('<%= product.PRODUCT_ID %>')">View Details</button></td>
+                                <td><a href="/delete/product/<%= product.PRODUCT_ID %>"><button class="btn btn-primary view-details-btn" >Delete</button></a></td>
 
                                 <!-- Add more columns as needed -->
                             </tr>
