@@ -710,7 +710,7 @@ app.get('/user/:userid/review/:orderid', async (req, res) => {
     FROM ORDERS O JOIN
     PRODUCTS P ON O.PRODUCT_ID=P.PRODUCT_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID 
     JOIN CART C ON C.PRODUCT_ID= O.PRODUCT_ID
-    WHERE P.PRODUCT_ID = 1 AND O.ORDER_ID=1 AND C.CART_ID=1
+    WHERE P.PRODUCT_ID = ${productid} AND O.ORDER_ID=${orderid} AND C.CART_ID=${orderid}
     `;
     const prod_result = await db_query(prod_query,[]);
     // console.log(prod_result);
@@ -942,6 +942,7 @@ ON
     O.PRODUCT_ID = P.PRODUCT_ID
 WHERE 
      O.USER_ID = :userid
+     ORDER BY O.ORDER_ID DESC
 `; 
 
     const params = {
@@ -1234,7 +1235,7 @@ app.get('/product-details/:productid', async (req, res) => {
 
     const productid = req.params.productid;
 
-    const query = `SELECT P.PRODUCT_ID , P.PRODUCT_NAME, (SELECT CATAGORY_NAME FROM CATAGORY C WHERE C.CATAGORY_ID = P.CATAGORY_ID) CATEGORY_NAME, P.DESCRIPTION, P.PRODUCT_IMAGE, P.STOCK_QUANTITY, P.PRICE, P.PROMO_CODE , S.SHOP_ID , S.SHOP_NAME
+    const query = `SELECT P.PRODUCT_ID,S.SHOP_LOGO , P.PRODUCT_NAME, (SELECT CATAGORY_NAME FROM CATAGORY C WHERE C.CATAGORY_ID = P.CATAGORY_ID) CATEGORY_NAME, P.DESCRIPTION, P.PRODUCT_IMAGE, P.STOCK_QUANTITY, P.PRICE, P.PROMO_CODE , S.SHOP_ID , S.SHOP_NAME
     FROM PRODUCTS P JOIN SELLER_USER S ON P.SHOP_ID = S.SHOP_ID
     WHERE PRODUCT_ID = :productid
     `;
@@ -1245,7 +1246,7 @@ app.get('/product-details/:productid', async (req, res) => {
  
     const productDetails = await db_query(query,params) ;
 
-    console.log(productDetails[0].PRODUCT_ID);
+    console.log(productDetails[0]);
 
     res.render('productDetails', {
         PRODUCT_ID: productDetails[0].PRODUCT_ID,
@@ -1256,7 +1257,8 @@ app.get('/product-details/:productid', async (req, res) => {
         PRICE: productDetails[0].PRICE,
         PROMO_CODE: productDetails[0].PROMO_CODE,
         SHOP_ID: productDetails[0].SHOP_ID,
-        SHOP_NAME: productDetails[0].SHOP_NAME
+        SHOP_NAME: productDetails[0].SHOP_NAME,
+        SHOP_LOGO: productDetails[0].SHOP_LOGO
     });
 
 });

@@ -5,131 +5,174 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../styles/NewHome.css" type="text/css">
-  
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-      <!-- Bootstrap -->
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  
+
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-  
+
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <!-- Google Font -->
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  </head>
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
 
 
-  
-  
+
+
 
 <div id="name-logo" style="display: block;">
     <img src="../images/login/vmart_ventures_main_black_poster.jpeg" class="banner">
     <h1>A Revolution in E-commerce</h1>
-    <a href="/user/<%= userID %>/cart">
-    <img src="../images/home/cart-icon.png" style="width: 70px; height: 60px; margin-left: 80px;">
+    <a id="cart-icon" href="/user/<%= userID %>/cart">
+        <button id="cart">Cart</button>
     </a>
-    
-</div>
-        <script>
+    <style>
+        .cart-icon {
+            width: 40px;
+            height: 50px;
+            margin-left: 80px;
+            background-color: sandybrown;
+            box-sizing: border-box;
+            border-radius: 50%;
             
-            function toggleSubmenu() {
-                var submenu = document.getElementById("homeSubmenu");
-                if (submenu.style.display === 'none') {
-                    submenu.style.display = 'block';
-                } else {
-                    submenu.style.display = 'none';
-                }
-            }
-        
-        </script>
+            
+        }
+
+        #cart {
+            /* margin-left: 10vw; */
+            margin-top: 10px;
+            color: black;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius:40px ;
+        }
+
+        #cart:hover {
+            background-color: #555;
+            color: white;
+        }
+    </style>
+
+</div>
+<script>
+
+    function toggleSubmenu() {
+        var submenu = document.getElementById("homeSubmenu");
+        if (submenu.style.display === 'none') {
+            submenu.style.display = 'block';
+        } else {
+            submenu.style.display = 'none';
+        }
+    }
+
+</script>
 <div class="wrapper">
     <div class="left-side">
-     <div class="side-wrapper">
-      <div class="side-title">Apps</div>
-      <div class="side-menu">
-       <a href="/user/<%= userID %>">
-        <svg viewBox="0 0 512 512">
-            <g xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                <path d="M0 0h128v128H0zm0 0M192 0h128v128H192zm0 0M384 0h128v128H384zm0 0M0 192h128v128H0zm0 0" data-original="#bfc9d1" />
-            </g>
-         <path xmlns="http://www.w3.org/2000/svg" d="M192 192h128v128H192zm0 0" fill="currentColor" data-original="#82b1ff" />
-         <path xmlns="http://www.w3.org/2000/svg" d="M384 192h128v128H384zm0 0M0 384h128v128H0zm0 0M192 384h128v128H192zm0 0M384 384h128v128H384zm0 0" fill="currentColor" data-original="#bfc9d1" />
-        </svg>
-        Profile
-       </a>
-       <a href="#">
-        
-        Hello , <%= Name %>
-    </a>
-</div>
-</div>
-<div class="side-wrapper">
-    <div class="side-title" >Shopping</div>
-      <div class="side-menu">
-          <nav id="sidebar">
-              <li class="active" style="display: inline-block;">
-                <a href="/order/<%= userID %>">
-                    Orders
+        <div class="side-wrapper">
+            <div class="side-title">Apps</div>
+            <div class="side-menu">
+                <a href="/user/<%= userID %>">
+                    <svg viewBox="0 0 512 512">
+                        <g xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                            <path
+                                d="M0 0h128v128H0zm0 0M192 0h128v128H192zm0 0M384 0h128v128H384zm0 0M0 192h128v128H0zm0 0"
+                                data-original="#bfc9d1" />
+                        </g>
+                        <path xmlns="http://www.w3.org/2000/svg" d="M192 192h128v128H192zm0 0" fill="currentColor"
+                            data-original="#82b1ff" />
+                        <path xmlns="http://www.w3.org/2000/svg"
+                            d="M384 192h128v128H384zm0 0M0 384h128v128H0zm0 0M192 384h128v128H192zm0 0M384 384h128v128H384zm0 0"
+                            fill="currentColor" data-original="#bfc9d1" />
+                    </svg>
+                    Profile
                 </a>
-        <a onclick="toggleSubmenu()" aria-expanded="false" class="dropdown-toggle">
-            Catagories
-        </a>
-        <ul class="collapse list-unstyled" style="list-style: none; display: none;" id="homeSubmenu">
-            <% for (var i = 0; i < categories.length; i++) { %>
-            <li>
-                <a href="/user/<%= userID%>/catagory/<%= categories[i].CATEGORY_ID %>" style="font-size: small; color: rgb(131, 240, 254);"><%= categories[i].CATEGORY_NAME %></a>
-            </li>
-            <% } %>
+                <a href="#">
 
-            
-        </ul>
-    
-       <a href="/wishlist/<%= userID %>">
-        Wishlist
-       </a>
-       <a href="/user/<%= userID %>/cart">
-           Cart
-        </a>
-    </li>
-    </div>
-    </div>
-    <div class="side-wrapper">
-    <div class="side-title">You May Like</div>
-    <div class="side-menu">
-       <a href="/user/<%= userID %>/search?search=">
-        <svg viewBox="0 0 512 512" fill="currentColor">
-         <path d="M497 151H316c-8.401 0-15 6.599-15 15v300c0 8.401 6.599 15 15 15h181c8.401 0 15-6.599 15-15V166c0-8.401-6.599-15-15-15zm-76 270h-30c-8.401 0-15-6.599-15-15s6.599-15 15-15h30c8.401 0 15 6.599 15 15s-6.599 15-15 15zm0-180h-30c-8.401 0-15-6.599-15-15s6.599-15 15-15h30c8.401 0 15 6.599 15 15s-6.599 15-15 15z" />
-         <path d="M15 331h196v60h-75c-8.291 0-15 6.709-15 15s6.709 15 15 15h135v-30h-30v-60h30V166c0-24.814 20.186-45 45-45h135V46c0-8.284-6.716-15-15-15H15C6.716 31 0 37.716 0 46v270c0 8.284 6.716 15 15 15z" />
-        </svg>
-        Products
-       </a>
-       <a href="#">
-        <svg viewBox="0 0 512 512" fill="currentColor">
-         <path d="M0 331v112.295a14.996 14.996 0 007.559 13.023L106 512V391L0 331zM136 391v121l105-60V331zM271 331v121l105 60V391zM406 391v121l98.441-55.682A14.995 14.995 0 00512 443.296V331l-106 60zM391 241l-115.754 57.876L391 365.026l116.754-66.15zM262.709 1.583a15.006 15.006 0 00-13.418 0L140.246 57.876 256 124.026l115.754-66.151L262.709 1.583zM136 90v124.955l105 52.5V150zM121 241L4.246 298.876 121 365.026l115.754-66.15zM271 150v117.455l105-52.5V90z" />
-        </svg>
-        Shops
-       </a>
-       <a href="/wishlist/<%= userID %>">
-        <svg viewBox="0 0 332 332" fill="currentColor">
-         <path d="M282.341 8.283C275.765 2.705 266.211 0 253.103 0c-18.951 0-36.359 5.634-51.756 16.743-14.972 10.794-29.274 28.637-42.482 53.028-4.358 7.993-7.428 11.041-8.973 12.179h-26.255c-10.84 0-19.626 8.786-19.626 19.626 0 8.989 6.077 16.486 14.323 18.809l-.05.165h.589c1.531.385 3.109.651 4.757.651h18.833l-32.688 128.001c-7.208 27.848-10.323 37.782-11.666 41.24-1.445 3.711-3.266 7.062-5.542 10.135-.42-5.39-2.637-10.143-6.508-13.854-4.264-4.079-10.109-6.136-17.364-6.136-8.227 0-15.08 2.433-20.37 7.229-5.416 4.93-8.283 11.193-8.283 18.134 0 5.157 1.701 12.712 9.828 19.348 6.139 4.97 14.845 7.382 26.621 7.382 17.096 0 32.541-4.568 45.891-13.577 13.112-8.845 24.612-22.489 34.166-40.522 9.391-17.678 18.696-45.124 28.427-83.9l18.598-73.479h30.016c10.841 0 19.625-8.785 19.625-19.625s-8.784-19.626-19.625-19.626h-19.628c6.34-21.62 14.175-37.948 23.443-48.578 2.284-2.695 5.246-5.692 8.412-7.678-1.543 3.392-2.325 6.767-2.325 10.055 0 6.164 2.409 11.714 6.909 16.03 4.484 4.336 10.167 6.54 16.888 6.54 7.085 0 13.373-2.667 18.17-7.716 4.76-5.005 7.185-11.633 7.185-19.703.017-9.079-3.554-16.899-10.302-22.618z" />
-        </svg>
-        WishList
-       </a>
-      </div>
-     </div>
-     <div class="side-wrapper">
-      <div class="side-title">Resource Links</div>
-      <div class="side-menu">
-       <a href="/login">
-        <svg viewBox="0 0 512 512" fill="currentColor">
-         <path d="M467 0H45C20.186 0 0 20.186 0 45v422c0 24.814 20.186 45 45 45h422c24.814 0 45-20.186 45-45V45c0-24.814-20.186-45-45-45zM181 241c41.353 0 75 33.647 75 75s-33.647 75-75 75-75-33.647-75-75c0-8.291 6.709-15 15-15s15 6.709 15 15c0 24.814 20.186 45 45 45s45-20.186 45-45-20.186-45-45-45c-41.353 0-75-33.647-75-75s33.647-75 75-75 75 33.647 75 75c0 8.291-6.709 15-15 15s-15-6.709-15-15c0-24.814-20.186-45-45-45s-45 20.186-45 45 20.186 45 45 45zm180 120h30c8.291 0 15 6.709 15 15s-6.709 15-15 15h-30c-24.814 0-45-20.186-45-45V211h-15c-8.291 0-15-6.709-15-15s6.709-15 15-15h15v-45c0-8.291 6.709-15 15-15s15 6.709 15 15v45h45c8.291 0 15 6.709 15 15s-6.709 15-15 15h-45v135c0 8.276 6.724 15 15 15z" />
-        </svg>
-        Logout
-       </a>
-       <!-- <a href="#">
+                    Hello , <%= Name %>
+                </a>
+            </div>
+        </div>
+        <div class="side-wrapper">
+            <div class="side-title">Shopping</div>
+            <div class="side-menu">
+                <nav id="sidebar">
+                    <li class="active" style="display: inline-block;">
+                        <a href="/order/<%= userID %>">
+                            Orders
+                        </a>
+                        <a onclick="toggleSubmenu()" aria-expanded="false" class="dropdown-toggle">
+                            Catagories
+                        </a>
+                        <ul class="collapse list-unstyled" style="list-style: none; display: none;" id="homeSubmenu">
+                            <% for (var i=0; i < categories.length; i++) { %>
+                                <li>
+                                    <a href="/user/<%= userID%>/catagory/<%= categories[i].CATEGORY_ID %>"
+                                        style="font-size: small; color: rgb(131, 240, 254);">
+                                        <%= categories[i].CATEGORY_NAME %>
+                                    </a>
+                                </li>
+                                <% } %>
+
+
+                        </ul>
+
+                        <a href="/wishlist/<%= userID %>">
+                            Wishlist
+                        </a>
+                        <a href="/user/<%= userID %>/cart">
+                            Cart
+                        </a>
+                    </li>
+            </div>
+        </div>
+        <div class="side-wrapper">
+            <div class="side-title">You May Like</div>
+            <div class="side-menu">
+                <a href="/user/<%= userID %>/search?search=">
+                    <svg viewBox="0 0 512 512" fill="currentColor">
+                        <path
+                            d="M497 151H316c-8.401 0-15 6.599-15 15v300c0 8.401 6.599 15 15 15h181c8.401 0 15-6.599 15-15V166c0-8.401-6.599-15-15-15zm-76 270h-30c-8.401 0-15-6.599-15-15s6.599-15 15-15h30c8.401 0 15 6.599 15 15s-6.599 15-15 15zm0-180h-30c-8.401 0-15-6.599-15-15s6.599-15 15-15h30c8.401 0 15 6.599 15 15s-6.599 15-15 15z" />
+                        <path
+                            d="M15 331h196v60h-75c-8.291 0-15 6.709-15 15s6.709 15 15 15h135v-30h-30v-60h30V166c0-24.814 20.186-45 45-45h135V46c0-8.284-6.716-15-15-15H15C6.716 31 0 37.716 0 46v270c0 8.284 6.716 15 15 15z" />
+                    </svg>
+                    Products
+                </a>
+                <a href="#">
+                    <svg viewBox="0 0 512 512" fill="currentColor">
+                        <path
+                            d="M0 331v112.295a14.996 14.996 0 007.559 13.023L106 512V391L0 331zM136 391v121l105-60V331zM271 331v121l105 60V391zM406 391v121l98.441-55.682A14.995 14.995 0 00512 443.296V331l-106 60zM391 241l-115.754 57.876L391 365.026l116.754-66.15zM262.709 1.583a15.006 15.006 0 00-13.418 0L140.246 57.876 256 124.026l115.754-66.151L262.709 1.583zM136 90v124.955l105 52.5V150zM121 241L4.246 298.876 121 365.026l115.754-66.15zM271 150v117.455l105-52.5V90z" />
+                    </svg>
+                    Shops
+                </a>
+                <a href="/wishlist/<%= userID %>">
+                    <svg viewBox="0 0 332 332" fill="currentColor">
+                        <path
+                            d="M282.341 8.283C275.765 2.705 266.211 0 253.103 0c-18.951 0-36.359 5.634-51.756 16.743-14.972 10.794-29.274 28.637-42.482 53.028-4.358 7.993-7.428 11.041-8.973 12.179h-26.255c-10.84 0-19.626 8.786-19.626 19.626 0 8.989 6.077 16.486 14.323 18.809l-.05.165h.589c1.531.385 3.109.651 4.757.651h18.833l-32.688 128.001c-7.208 27.848-10.323 37.782-11.666 41.24-1.445 3.711-3.266 7.062-5.542 10.135-.42-5.39-2.637-10.143-6.508-13.854-4.264-4.079-10.109-6.136-17.364-6.136-8.227 0-15.08 2.433-20.37 7.229-5.416 4.93-8.283 11.193-8.283 18.134 0 5.157 1.701 12.712 9.828 19.348 6.139 4.97 14.845 7.382 26.621 7.382 17.096 0 32.541-4.568 45.891-13.577 13.112-8.845 24.612-22.489 34.166-40.522 9.391-17.678 18.696-45.124 28.427-83.9l18.598-73.479h30.016c10.841 0 19.625-8.785 19.625-19.625s-8.784-19.626-19.625-19.626h-19.628c6.34-21.62 14.175-37.948 23.443-48.578 2.284-2.695 5.246-5.692 8.412-7.678-1.543 3.392-2.325 6.767-2.325 10.055 0 6.164 2.409 11.714 6.909 16.03 4.484 4.336 10.167 6.54 16.888 6.54 7.085 0 13.373-2.667 18.17-7.716 4.76-5.005 7.185-11.633 7.185-19.703.017-9.079-3.554-16.899-10.302-22.618z" />
+                    </svg>
+                    WishList
+                </a>
+            </div>
+        </div>
+        <div class="side-wrapper">
+            <div class="side-title">Resource Links</div>
+            <div class="side-menu">
+                <a href="/login">
+                    <svg viewBox="0 0 512 512" fill="currentColor">
+                        <path
+                            d="M467 0H45C20.186 0 0 20.186 0 45v422c0 24.814 20.186 45 45 45h422c24.814 0 45-20.186 45-45V45c0-24.814-20.186-45-45-45zM181 241c41.353 0 75 33.647 75 75s-33.647 75-75 75-75-33.647-75-75c0-8.291 6.709-15 15-15s15 6.709 15 15c0 24.814 20.186 45 45 45s45-20.186 45-45-20.186-45-45-45c-41.353 0-75-33.647-75-75s33.647-75 75-75 75 33.647 75 75c0 8.291-6.709 15-15 15s-15-6.709-15-15c0-24.814-20.186-45-45-45s-45 20.186-45 45 20.186 45 45 45zm180 120h30c8.291 0 15 6.709 15 15s-6.709 15-15 15h-30c-24.814 0-45-20.186-45-45V211h-15c-8.291 0-15-6.709-15-15s6.709-15 15-15h15v-45c0-8.291 6.709-15 15-15s15 6.709 15 15v45h45c8.291 0 15 6.709 15 15s-6.709 15-15 15h-45v135c0 8.276 6.724 15 15 15z" />
+                    </svg>
+                    Logout
+                </a>
+                <!-- <a href="#">
         <svg viewBox="0 0 511.441 511.441" fill="currentColor">
          <path d="M255.721 347.484L90.22 266.751v106.57l165.51 73.503 165.509-73.503V266.742z" />
          <path d="M511.441 189.361L255.721 64.617 0 189.361l255.721 124.744 195.522-95.378v111.032h30V204.092z" />
@@ -157,8 +200,8 @@
         </svg>
         Social Forum
        </a> -->
-      </div>
-     </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="searching">
@@ -180,55 +223,55 @@
     </script>
 </div>
 
-<h2 id="filter-tag" >Filter</h2>
-    <label style="padding-left: 150px; color:cornsilk; font-size: medium; text-shadow: 2px black;">
-        Maximum Price :
-    </label>
-    <input type="number" id="filter_price" name="priceUnder" >
-    <label style="color: cornsilk; font-size: medium;"  for="categoryId">Select Category:</label>
-    <select name="categoryName" id="categoryId">
-        <% for (var i = 0; i < categories.length; i++) { %>
-            <option id="cat-option" value="<%= categories[i].CATEGORY_ID %>"><%= categories[i].CATEGORY_NAME %></option>
+<h2 id="filter-tag">Filter</h2>
+<label style="padding-left: 150px; color:cornsilk; font-size: medium; text-shadow: 2px black;">
+    Maximum Price :
+</label>
+<input type="number" id="filter_price" name="priceUnder">
+<label style="color: cornsilk; font-size: medium;" for="categoryId">Select Category:</label>
+<select name="categoryName" id="categoryId">
+    <% for (var i=0; i < categories.length; i++) { %>
+        <option id="cat-option" value="<%= categories[i].CATEGORY_ID %>">
+            <%= categories[i].CATEGORY_NAME %>
+        </option>
+        <% } %>
+</select>
+<button id="filter" type="submit">Filter</button>
+
+<div class="product-section">
+    <% for (var i=0; i < products.length; i++) { %>
+        <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE:
+            products[i].PRODUCT_PRICE, image : "../images/product/" +products[i].PRODUCT_IMAGE, STOCK :
+            products[i].PRODUCT_STOCK, id : products[i].PRODUCT_ID, userid : userID, link : link}) %>
+
             <% } %>
-        </select>
-        <button id="filter" type="submit">Filter</button>
-        
-    <div class="product-section">
-        <% for (var i = 0; i < products.length; i++) { %>
-            <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE: products[i].PRODUCT_PRICE, image : "../images/product/"+products[i].PRODUCT_IMAGE, STOCK : products[i].PRODUCT_STOCK, id : products[i].PRODUCT_ID, userid : userID, link : link}) %>
-            
-            <% } %>
-            <script>
-                var filter_price = document.getElementById('filter_price');
-                var categoryId = document.getElementById('categoryId');
-                var filter = document.getElementById('filter');
-                
-                filter.addEventListener('click', function () {
-                    var url = '/user/<%= userID %>/filter?';
-                    
-                    if (filter_price.value) {
-                        url += 'priceUnder=' + filter_price.value;
-                    }
-                    else 
-                    {
-                        url += 'priceUnder=0';
-                    }
-                    if (categoryId.value) {
-                        url += '&categoryId=' + categoryId.value;
-                    }
-                    // console.log(url);
-    
-                // Set the window location
-                window.location.href = url;
-            });
-    
-            // Get the product data from the server
-            </script>    
+                <script>
+                    var filter_price = document.getElementById('filter_price');
+                    var categoryId = document.getElementById('categoryId');
+                    var filter = document.getElementById('filter');
+
+                    filter.addEventListener('click', function () {
+                        var url = '/user/<%= userID %>/filter?';
+
+                        if (filter_price.value) {
+                            url += 'priceUnder=' + filter_price.value;
+                        }
+                        else {
+                            url += 'priceUnder=0';
+                        }
+                        if (categoryId.value) {
+                            url += '&categoryId=' + categoryId.value;
+                        }
+                        // console.log(url);
+
+                        // Set the window location
+                        window.location.href = url;
+                    });
+
+                    // Get the product data from the server
+                </script>
 
 </div>
 <br>
 
 <%- include("footer") %>
-
-
-
