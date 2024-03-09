@@ -27,7 +27,7 @@
             position: relative;
             width: 900px; /* Adjust the width as needed */
             height: 600px; /* Adjust the height as needed */
-            background-color: white;
+            background-color: rgb(207, 210, 211);
             box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
             backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
             overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
@@ -71,21 +71,25 @@
         .formContent {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 240px;
+            margin-left: 310px;
         }
 
         .FormAttribute {
             padding: 7px;
         }
 
-        .FormInputBox {
-            margin-left: 10px;
+        .container .formContent .FormAttribute .FormInputBox {
+            border-radius: 20px; /* Round the corners */
+            background-color: #f0f0f0; /* Set background color */
+            border: 1px solid #ccc; /* Add a border */
+            padding: 10px; 
+            width : 100%;
         }
 
         .btn-primary {
             padding: 10px;
             margin-top: 20px;
-            margin-left: 90px;
+            margin-left: 100px;
         }
 
         .btn-success {
@@ -98,6 +102,41 @@
             width: 100%; /* Make the image fill the entire width of the sidebar */
             max-height: 100px; /* Set a maximum height for the image */
             margin-bottom: 20px; /* Adjust as needed for spacing */
+        }
+
+        .marginleftname {
+            margin-left: 40px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftemail {
+            margin-left: 83px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftphone {
+            margin-left: 5px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftdescription {
+            margin-left: 40px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftrevenue {
+            margin-left: 20px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
     </style>
@@ -126,29 +165,29 @@
 
                 <div class="FormAttribute">
                     <label for="name"><strong>Shop Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="name" name = "shopname" value="<%= SHOP_NAME %>" readonly>
+                    <input type="text" class="marginleftname" class="FormInputBox" id="name" name = "shopname" value="<%= SHOP_NAME %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="email"><strong>Email:</strong></label>
-                    <input type="email" class="FormInputBox" id="email" name="email" value="<%= EMAIL %>" readonly>
+                    <input type="email" class="marginleftemail" class="FormInputBox" id="email" name="email" value="<%= EMAIL %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="phone"><strong>Contact Number:</strong></label>
-                    <input type="tel" class="FormInputBox"id="phone" name="phone" value="<%= PHONE %>" readonly>
+                    <input type="tel" class="marginleftphone" class="FormInputBox"id="phone" name="phone" value="<%= PHONE %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="description"><strong>Description:</strong></label>
-                    <input type="text" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
+                    <input type="text" class="marginleftdescription" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
                 </div>
 
                 <!-- updating shop logo info will be applied here -->
 
                 <div class="FormAttribute">
                     <label for="revenue"><strong>Total Revenue:</strong></label>
-                    <input type="text" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>" disabled>
+                    <input type="text" class="marginleftrevenue" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>" readonly>
                 </div>
 
                 <input type="hidden" name="shopId" value="<%= SHOP_ID %>">

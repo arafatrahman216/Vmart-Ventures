@@ -29,7 +29,7 @@
             /* Adjust the width as needed */
             height: 600px;
             /* Adjust the height as needed */
-            background-color: white;
+            background-color: rgb(207, 210, 211);
             box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
             /* Box shadow for the glass effect */
             backdrop-filter: blur(1000px);
@@ -77,7 +77,7 @@
         .formContent {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 240px;
+            margin-left: 290px;
         }
 
         .FormAttribute {
@@ -85,8 +85,12 @@
             margin-left: 300px;
         }
 
-        .FormInputBox {
-            margin-left: 10px;
+        .container .formContent .FormAttribute .FormInputBox {
+            border-radius: 20px; /* Round the corners */
+            background-color: #f0f0f0; /* Set background color */
+            border: 1px solid #ccc; /* Add a border */
+            padding: 10px; 
+            width : 100%;
         }
 
         .btn-primary {
@@ -104,6 +108,64 @@
             margin-bottom: 20px;
             /* Adjust as needed for spacing */
         }
+
+        .marginleftproductname {
+            margin-left: 10px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftdescription {
+            margin-left: 30px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftcategory {
+            margin-left: 48px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftprice {
+            margin-left: 73px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftquantity {
+            margin-left: 50px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftpromocode {
+            margin-left: 20px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftdiscount {
+            margin-left: 43px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftimage {
+            margin-left: 10px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+
     </style>
 </head>
 
@@ -129,18 +191,18 @@
 
                 <div class="FormAttribute">
                     <label for="productName">Product Name:- </label>
-                    <input type="text" class="FormInputBox" name="productname" id="productName" required>
+                    <input type="text" class="marginleftproductname" class="FormInputBox" name="productname" id="productName" required>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="productdescrip">Description:- </label>
-                    <input type="text" class="FormInputBox" id="productdescrip" name="productDescrip"
+                    <input type="text" class="marginleftdescription" class="FormInputBox" id="productdescrip" name="productDescrip"
                         required></textarea>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="category">Category:- </label>
-                    <select class="FormInputBox" id="category" name="Category" required>
+                    <select class="marginleftcategory" class="FormInputBox" id="category" name="Category" required>
                         <option value="" disabled selected>Select a category</option>
                         <option value="Electronics">Electronics</option>
                         <option value="Accessories">Accessories</option>
@@ -160,27 +222,27 @@
 
                 <div class="FormAttribute">
                     <label for="productprice">Price:- </label>
-                    <input type="number" class="FormInputBox" id="productprice" name="productPrice" required>
+                    <input type="number" class="marginleftprice" class="FormInputBox" id="productprice" name="productPrice" required>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="productquantity">Quantity:- </label>
-                    <input type="number" class="FormInputBox" id="productquantity" name="productQuantity" required>
+                    <input type="number" class="marginleftquantity" class="FormInputBox" id="productquantity" name="productQuantity" required>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="promocode">Promo Code:- </label>
-                    <input type="text" class="FormInputBox" id="promocode" name="promoCode">
+                    <input type="text" class="marginleftpromocode" class="FormInputBox" id="promocode" name="promoCode">
                 </div>
 
                 <div class="FormAttribute">
                     <label for="discount">Discount:- </label>
-                    <input type="number" class="FormInputBox" id="discount" name = "discount">
+                    <input type="number" class="marginleftdiscount" class="FormInputBox" id="discount" name = "discount">
                 </div>
 
                 <div class="FormAttribute">
                     <label for="productimage">Product Image:- </label>
-                    <input type="file" class="FormInputBox" id="productimage" name="productImage">
+                    <input type="file" class="marginleftimage" class="FormInputBox" id="productimage" name="productImage">
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Add Product</button>
