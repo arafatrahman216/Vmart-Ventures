@@ -229,16 +229,17 @@ app.post('/user/:userid', async (req, res) => {
         email: req.body.email,
         gender: req.body.gender,
         profilePic: req.body.profilePic,
-        userid : req.params.userid
-    };
+        userid : req.params.userid,
 
+    };
+    console.log(req.body);
  
     try {
         console.log("done1");
         const result = await db_query(query, params);
         console.log("donedone");
     } catch (error) {
-        console.error('Error updating data:', error);
+        console.log('Error updating data:', error);
     }
 
     const query1 = `
@@ -261,12 +262,30 @@ app.post('/user/:userid', async (req, res) => {
         console.log("done2");
         const result1 = await db_query(query1, params1);
     } catch (error) {
-        console.error('Error updating data:', error);
+        console.log('Error updating data:', error);
     }
 
+    const query2 = `
+        UPDATE E_WALLET
+        SET BALANCE = :balance
+        WHERE WALLET_ID =:userid
+    `;
+    const params2 = {
+        balance: req.body.ewallet,
+        userid : req.params.userid
+    };
+     
+    try {
+        console.log("done3");
+        const result2 = await db_query(query2, params2);
+    }
+    catch (error) {
+        console.log('Error updating data:', error);
+    }
+
+
     res.redirect('/user/'+req.params.userid);
-// app.use('/user', UserRoute);
-// app.use('/',router);
+
 
 });
 
