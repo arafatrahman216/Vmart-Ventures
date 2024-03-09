@@ -289,6 +289,8 @@ app.post('/user/:userid', async (req, res) => {
 
 });
 
+
+
 app.get('/user/:userid/search', async (req, res) => {
 
     const token1= await req.cookies.token;
@@ -1714,6 +1716,30 @@ WHERE
 
     
 });
+
+
+app.get('/cancelOrder/:orerid', async (req, res) => {
+    const orderid = req.params.orerid;
+
+    const query = `UPDATE ORDERS
+    SET DELIVERY_STATUS = 'CANCELLED'
+    WHERE ORDER_ID = :orderid`;
+
+    const params = {
+        orderid: orderid
+    };
+
+    const result = await db_query(query, params);
+    
+    var check_query= `SELECT COUNT(*) FROM ORDERS WHERE ORDER_ID=${orderid} AND DELIVERY_STATUS<>\'CANCELLED\' ` ;
+    if (await db_query(check_query,[]).length>0) {
+        res.json({ success: false });
+        return;
+    }
+    res.json({success : true});
+}
+);
+
 
 app.post('/updateDeliveryStatus', async (req, res) => {
     const { status, ORDER_ID, PRODUCT_ID, USER_ID } = req.body;

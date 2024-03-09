@@ -61,7 +61,7 @@
   </div>
   <% } %>
   <div class="card-bottom">
-    <button>✖ CANCEL ORDER</button>
+    <button id="cancelorder-btn" onclick="cancelorder()" >✖ CANCEL ORDER</button>
     <% var total = 0; for (let i=0; i<order.length; i++) { %>
     <% total += order[i].TOTAL_PRICE; %>
     <% } %>
@@ -80,7 +80,24 @@
     var deliveryDate = new Date(confirmationDate);
     deliveryDate.setDate(deliveryDate.getDate() + 7);
     document.getElementById('dl_date').innerHTML = deliveryDate.toDateString();
+
+    async function cancelorder(){
+      var orderid = '<%= order[0].ORDER_ID %>';
+      var userid = <%= userid %>;
+      var url = '/cancelorder/<%=order[0].ORDER_ID%>';
+      console.log(url);
+    //   var response = await fetch(url, {
+    //     method: 'GET'
+    // }).then(response => response.json()).then(data => {
+    //   if(data.status == 'success'){
+    //     alert('Order Cancelled');
+    //     window.location.href = '/home/<%= userid %>';
+    //   }
+    // });
+
   </script>
+
+
 </div>
 </body>
 </html>

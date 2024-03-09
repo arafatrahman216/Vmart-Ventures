@@ -119,38 +119,64 @@
 
         .marginleftName {
             margin-left: 23px;
-            border-radius: 40px; /* change here */
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftEmail {
             margin-left: 54px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftPhone {
             margin-left: 48px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftewallet {
             margin-left: 6px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftGender {
             margin-left: 43px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftStreet {
             margin-left: 5px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftPostCode {
             margin-left: 8px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
         .marginleftCity {
             margin-left: 67px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftDivCon {
             margin-left: 38px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
     </style>
@@ -162,7 +188,7 @@
 
         <div class="sidebar">
             <img src="../images/UserProfile/<%=PROFILE_PICTURE%>" alt="Your Image" class="sidebar-logo">
-            
+            <a class="sidebar-text" href="/home/<%= userID %>">Home</a>
             <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= userID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= userID%>">Wishlist Products</a>
@@ -201,7 +227,7 @@
 
                 <div class="FormAttribute">
                     <label for="phone"><strong>Gender:</strong></label>
-                    <input type="tel" class="marginleftGender" class="FormInputBox" id="gender" name="gender" value="<%= GENDER %>" readonly>
+                    <input type="tel" class="marginleftGender" class="FormInputBox" id="gender" name="gender" value="<%= GENDER %>" disabled>
                 </div>
 
                 <div class="FormAttribute">
