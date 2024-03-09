@@ -1,1009 +1,1574 @@
 <html>
+
 <head>
 
 </head>
 
 <body>
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-    </script>
+    <div id="wrapper">
 
-    <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
-        <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
-        <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-          <img
-               class="rounded-pill img-fluid"
-               width="65"
-               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-               alt="">
-          <div class="ms-2">
-            <h5 class="fs-6 mb-0">
-              <a class="text-decoration-none" href="#">Jone Doe</a>
-            </h5>
-            <p class="mt-1 mb-0">Lorem ipsum dolor sit amet consectetur.</p>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                      </button>
+            <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
           </div>
-        </div>
+          <!-- /.navbar-header -->
       
-        <div class="search position-relative text-center px-4 py-3 mt-2">
-          <input type="text" class="form-control w-100 border-0 bg-transparent" placeholder="Search here">
-          <i class="fa fa-search position-absolute d-block fs-6"></i>
-        </div>
-      
-        <ul class="categories list-unstyled">
-          <li class="has-dropdown">
-            <i class="uil-estate fa-fw"></i><a href="#"> Dashboard</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="">
-            <i class="uil-folder"></i><a href="#"> File manager</a>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-calendar-alt"></i><a href="#"> Calender</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-envelope-download fa-fw"></i><a href="#"> Mailbox</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-shopping-cart-alt"></i><a href="#"> Ecommerce</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-bag"></i><a href="#"> Projects</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="">
-            <i class="uil-setting"></i><a href="#"> Settings</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-chart-pie-alt"></i><a href="#"> Components</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <i class="uil-panel-add"></i><a href="#"> Charts</a>
-            <ul class="sidebar-dropdown list-unstyled">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">ipsum dolor</a></li>
-              <li><a href="#">dolor ipsum</a></li>
-              <li><a href="#">amet consectetur</a></li>
-              <li><a href="#">ipsum dolor sit</a></li>
-            </ul>
-          </li>
-          <li class="">
-            <i class="uil-map-marker"></i><a href="#"> Maps</a>
-          </li>
-        </ul>
-      </aside>
-      
-      <section id="wrapper">
-        <nav class="navbar navbar-expand-md">
-          <div class="container-fluid mx-2">
-            <div class="navbar-header">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="uil-bars text-white"></i>
-              </button>
-              <a class="navbar-brand" href="#">admin<span class="main-color">kit</span></a>
-            </div>
-            <div class="collapse navbar-collapse" id="toggle-navbar">
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Settings
+          <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-messages">
+                <li>
+                  <a href="#">
+                    <div>
+                      <strong>John Smith</strong>
+                      <span class="pull-right text-muted">
+                                              <em>Yesterday</em>
+                                          </span>
+                    </div>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                      <a class="dropdown-item" href="#">My account</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#">My inbox</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Help</a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Log out</a></li>
-                  </ul>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="uil-comments-alt"></i><span>23</span></a>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <strong>John Smith</strong>
+                      <span class="pull-right text-muted">
+                                              <em>Yesterday</em>
+                                          </span>
+                    </div>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                  </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="uil-bell"></i><span>98</span></a>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <strong>John Smith</strong>
+                      <span class="pull-right text-muted">
+                                              <em>Yesterday</em>
+                                          </span>
+                    </div>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                  </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <i data-show="show-side-navigation1" class="uil-bars show-side-btn"></i>
+                <li class="divider"></li>
+                <li>
+                  <a class="text-center" href="#">
+                    <strong>Read All Messages</strong>
+                    <i class="fa fa-angle-right"></i>
                   </a>
                 </li>
               </ul>
+              <!-- /.dropdown-messages -->
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-tasks">
+                <li>
+                  <a href="#">
+                    <div>
+                      <p>
+                        <strong>Task 1</strong>
+                        <span class="pull-right text-muted">40% Complete</span>
+                      </p>
+                      <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                          <span class="sr-only">40% Complete (success)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <p>
+                        <strong>Task 2</strong>
+                        <span class="pull-right text-muted">20% Complete</span>
+                      </p>
+                      <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                          <span class="sr-only">20% Complete</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <p>
+                        <strong>Task 3</strong>
+                        <span class="pull-right text-muted">60% Complete</span>
+                      </p>
+                      <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                          <span class="sr-only">60% Complete (warning)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <p>
+                        <strong>Task 4</strong>
+                        <span class="pull-right text-muted">80% Complete</span>
+                      </p>
+                      <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                          <span class="sr-only">80% Complete (danger)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a class="text-center" href="#">
+                    <strong>See All Tasks</strong>
+                    <i class="fa fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+              <!-- /.dropdown-tasks -->
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-alerts">
+                <li>
+                  <a href="#">
+                    <div>
+                      <i class="fa fa-comment fa-fw"></i> New Comment
+                      <span class="pull-right text-muted small">4 minutes ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                      <span class="pull-right text-muted small">12 minutes ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <i class="fa fa-envelope fa-fw"></i> Message Sent
+                      <span class="pull-right text-muted small">4 minutes ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <i class="fa fa-tasks fa-fw"></i> New Task
+                      <span class="pull-right text-muted small">4 minutes ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                      <span class="pull-right text-muted small">4 minutes ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a class="text-center" href="#">
+                    <strong>See All Alerts</strong>
+                    <i class="fa fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+              <!-- /.dropdown-alerts -->
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-user">
+                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                </li>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+              </ul>
+              <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+          </ul>
+          <!-- /.navbar-top-links -->
+      
+          <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+              <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                  <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button">
+                                          <i class="fa fa-search"></i>
+                                      </button>
+                                  </span>
+                  </div>
+                  <!-- /input-group -->
+                </li>
+                <li>
+                  <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                  <ul class="nav nav-second-level">
+                    <li>
+                      <a href="flot.html">Flot Charts</a>
+                    </li>
+                    <li>
+                      <a href="morris.html">Morris.js Charts</a>
+                    </li>
+                  </ul>
+                  <!-- /.nav-second-level -->
+                </li>
+                <li>
+                  <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                </li>
+                <li>
+                  <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                  <ul class="nav nav-second-level">
+                    <li>
+                      <a href="panels-wells.html">Panels and Wells</a>
+                    </li>
+                    <li>
+                      <a href="buttons.html">Buttons</a>
+                    </li>
+                    <li>
+                      <a href="notifications.html">Notifications</a>
+                    </li>
+                    <li>
+                      <a href="typography.html">Typography</a>
+                    </li>
+                    <li>
+                      <a href="icons.html"> Icons</a>
+                    </li>
+                    <li>
+                      <a href="grid.html">Grid</a>
+                    </li>
+                  </ul>
+                  <!-- /.nav-second-level -->
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                  <ul class="nav nav-second-level">
+                    <li>
+                      <a href="#">Second Level Item</a>
+                    </li>
+                    <li>
+                      <a href="#">Second Level Item</a>
+                    </li>
+                    <li>
+                      <a href="#">Third Level <span class="fa arrow"></span></a>
+                      <ul class="nav nav-third-level">
+                        <li>
+                          <a href="#">Third Level Item</a>
+                        </li>
+                        <li>
+                          <a href="#">Third Level Item</a>
+                        </li>
+                        <li>
+                          <a href="#">Third Level Item</a>
+                        </li>
+                        <li>
+                          <a href="#">Third Level Item</a>
+                        </li>
+                      </ul>
+                      <!-- /.nav-third-level -->
+                    </li>
+                  </ul>
+                  <!-- /.nav-second-level -->
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                  <ul class="nav nav-second-level">
+                    <li>
+                      <a href="blank.html">Blank Page</a>
+                    </li>
+                    <li>
+                      <a href="login.html">Login Page</a>
+                    </li>
+                  </ul>
+                  <!-- /.nav-second-level -->
+                </li>
+              </ul>
             </div>
+            <!-- /.sidebar-collapse -->
           </div>
+          <!-- /.navbar-static-side -->
         </nav>
       
-        <div class="p-4">
-          <div class="welcome">
-            <div class="content rounded-3 p-3">
-              <h1 class="fs-3">Welcome to Dashboard</h1>
-              <p class="mb-0">Hello Jone Doe, welcome to your awesome dashboard!</p>
+        <div id="page-wrapper">
+          <div class="row">
+            <div class="col-lg-12">
+              <h1 class="page-header">Dashboard</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+          </div>
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">26</div>
+                      <div>New Comments!</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-green">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">12</div>
+                      <div>New Tasks!</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-yellow">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">124</div>
+                      <div>New Orders!</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-red">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">13</div>
+                      <div>Support Tickets!</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                  <div class="pull-right">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                              Actions
+                                              <span class="caret"></span>
+                                          </button>
+                      <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="#">Action</a>
+                        </li>
+                        <li><a href="#">Another action</a>
+                        </li>
+                        <li><a href="#">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div id="morris-area-chart"></div>
+                </div>
+                <!-- /.panel-body -->
+              </div>
+              <!-- /.panel -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
+                  <div class="pull-right">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                              Actions
+                                              <span class="caret"></span>
+                                          </button>
+                      <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="#">Action</a>
+                        </li>
+                        <li><a href="#">Another action</a>
+                        </li>
+                        <li><a href="#">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div id="morris-table-left-div" class="table-responsive">
+                        <table id="first-morris-table" class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Date</th>
+                              <th>Time</th>
+                              <th>Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>3326</td>
+                              <td>10/21/2013</td>
+                              <td>3:29 PM</td>
+                              <td>$321.33</td>
+                            </tr>
+                            <tr>
+                              <td>3325</td>
+                              <td>10/21/2013</td>
+                              <td>3:20 PM</td>
+                              <td>$234.34</td>
+                            </tr>
+                            <tr>
+                              <td>3324</td>
+                              <td>10/21/2013</td>
+                              <td>3:03 PM</td>
+                              <td>$724.17</td>
+                            </tr>
+                            <tr>
+                              <td>3323</td>
+                              <td>10/21/2013</td>
+                              <td>3:00 PM</td>
+                              <td>$23.71</td>
+                            </tr>
+                            <tr>
+                              <td>3322</td>
+                              <td>10/21/2013</td>
+                              <td>2:49 PM</td>
+                              <td>$8345.23</td>
+                            </tr>
+                            <tr>
+                              <td>3321</td>
+                              <td>10/21/2013</td>
+                              <td>2:23 PM</td>
+                              <td>$245.12</td>
+                            </tr>
+                            <tr>
+                              <td>3320</td>
+                              <td>10/21/2013</td>
+                              <td>2:15 PM</td>
+                              <td>$5663.54</td>
+                            </tr>
+                            <tr>
+                              <td>3319</td>
+                              <td>10/21/2013</td>
+                              <td>2:13 PM</td>
+                              <td>$943.45</td>
+                            </tr>
+                          </tbody>
+                        </table>
       
-          <section class="statistics mt-4">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                  <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
-                  <div class="ms-3">
-                    <div class="d-flex align-items-center">
-                      <h3 class="mb-0">1,245</h3> <span class="d-block ms-2">Emails</span>
+                        
+                      </div>
+                      <!-- /.table-responsive -->
                     </div>
-                    <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                  <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
-                  <div class="ms-3">
-                    <div class="d-flex align-items-center">
-                      <h3 class="mb-0">34</h3> <span class="d-block ms-2">Projects</span>
+                    <!-- /.col-lg-4 (nested) -->
+                    <div class="col-lg-8">
+                      <form action="">
+                        <input type="radio" name="graphtype" value="AmountWorked" onclick="updateMorrisBar(1)"> Amount Worked &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="graphtype" value="FTE" onclick="updateMorrisBar(2)"> FTE &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="graphtype" value="ResourceCount" onclick="updateMorrisBar(3)"> Resource Count
+                      </form>
+                      <div id="morris-bar-chart"></div>
                     </div>
-                    <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
+                    <!-- /.col-lg-8 (nested) -->
                   </div>
+                  <!-- /.row -->
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="box d-flex rounded-2 align-items-center p-3">
-                  <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
-                  <div class="ms-3">
-                    <div class="d-flex align-items-center">
-                      <h3 class="mb-0">5,245</h3> <span class="d-block ms-2">Users</span>
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                      <div class="table-responsive">
+                        <table id="second-morris-table" class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Date</th>
+                              <th>Time</th>
+                              <th>Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>3326</td>
+                              <td>10/21/2013</td>
+                              <td>3:29 PM</td>
+                              <td>$321.33</td>
+                            </tr>
+                            <tr>
+                              <td>3325</td>
+                              <td>10/21/2013</td>
+                              <td>3:20 PM</td>
+                              <td>$234.34</td>
+                            </tr>
+                            <tr>
+                              <td>3324</td>
+                              <td>10/21/2013</td>
+                              <td>3:03 PM</td>
+                              <td>$724.17</td>
+                            </tr>
+                            <tr>
+                              <td>3323</td>
+                              <td>10/21/2013</td>
+                              <td>3:00 PM</td>
+                              <td>$23.71</td>
+                            </tr>
+                            <tr>
+                              <td>3322</td>
+                              <td>10/21/2013</td>
+                              <td>2:49 PM</td>
+                              <td>$8345.23</td>
+                            </tr>
+                            <tr>
+                              <td>3321</td>
+                              <td>10/21/2013</td>
+                              <td>2:23 PM</td>
+                              <td>$245.12</td>
+                            </tr>
+                            <tr>
+                              <td>3320</td>
+                              <td>10/21/2013</td>
+                              <td>2:15 PM</td>
+                              <td>$5663.54</td>
+                            </tr>
+                            <tr>
+                              <td>3319</td>
+                              <td>10/21/2013</td>
+                              <td>2:13 PM</td>
+                              <td>$943.45</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                      </div>
+                      <!-- /.table-responsive -->
                     </div>
-                    <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
+                  <!-- /.col-lg-12 -->
                   </div>
-                </div>
-              </div>
-            </div>
-          </section>
+                  <!-- /.row -->
       
-          <section class="charts mt-4">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="chart-container rounded-2 p-3">
-                  <h3 class="fs-6 mb-3">Chart title number one</h3>
-                  <canvas id="myChart"></canvas>
-                </div>
+                
+                <!-- /.panel-body -->
               </div>
-              <div class="col-lg-6">
-                <div class="chart-container rounded-2 p-3">
-                  <h3 class="fs-6 mb-3">Chart title number two</h3>
-                  <canvas id="myChart2"></canvas>
+              <!-- /.panel -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
                 </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <ul class="timeline">
+                    <li>
+                      <div class="timeline-badge"><i class="fa fa-check"></i>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                          <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small>
+                          </p>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero laboriosam dolor perspiciatis omnis exercitationem. Beatae, officia pariatur? Est cum veniam excepturi. Maiores praesentium, porro voluptas suscipit facere rem dicta,
+                            debitis.</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="timeline-inverted">
+                      <div class="timeline-badge warning"><i class="fa fa-credit-card"></i>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem quibusdam, tenetur commodi provident cumque magni voluptatem libero, quis rerum. Fugiat esse debitis optio, tempore. Animi officiis alias, officia repellendus.</p>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="timeline-badge danger"><i class="fa fa-bomb"></i>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus numquam facilis enim eaque, tenetur nam id qui vel velit similique nihil iure molestias aliquam, voluptatem totam quaerat, magni commodi quisquam.</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="timeline-inverted">
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates est quaerat asperiores sapiente, eligendi, nihil. Itaque quos, alias sapiente rerum quas odit! Aperiam officiis quidem delectus libero, omnis ut debitis!</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="timeline-badge info"><i class="fa fa-save"></i>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis minus modi quam ipsum alias at est molestiae excepturi delectus nesciunt, quibusdam debitis amet, beatae consequuntur impedit nulla qui! Laborum, atque.</p>
+                          <hr>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                          <i class="fa fa-gear"></i>  <span class="caret"></span>
+                                                      </button>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Action</a>
+                              </li>
+                              <li><a href="#">Another action</a>
+                              </li>
+                              <li><a href="#">Something else here</a>
+                              </li>
+                              <li class="divider"></li>
+                              <li><a href="#">Separated link</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi fuga odio quibusdam. Iure expedita, incidunt unde quis nam! Quod, quisquam. Officia quam qui adipisci quas consequuntur nostrum sequi. Consequuntur, commodi.</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="timeline-inverted">
+                      <div class="timeline-badge success"><i class="fa fa-graduation-cap"></i>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                        </div>
+                        <div class="timeline-body">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt obcaecati, quaerat tempore officia voluptas debitis consectetur culpa amet, accusamus dolorum fugiat, animi dicta aperiam, enim incidunt quisquam maxime neque eaque.</p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- /.panel-body -->
               </div>
+              <!-- /.panel -->
             </div>
-          </section>
-      
-          <section class="admins mt-4">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="box">
-                  <!-- <h4>Admins:</h4> -->
-                  <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div class="list-group-header">
+                    <div class="header-row">
+                      <div class="header-column">FactSheet Name</div>
+                      <div class="header-column">FTEs<br>Requested</div>
+                      <div class="header-column">Point<br>of Contact</div>
+                      <div class="header-column">Presenting</div>
                     </div>
                   </div>
-                  <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                    </div>
+                  <div class="list-group">
+                    <a href="#" class="list-group-item">
+                      <div class="list-group-row">
+                        <div class="list-group-column">PR Expansion for SBO</div>
+                        <div class="list-group-column">.60</div>
+                        <div class="list-group-column">Aneta Erdie</div>
+                        <div class="list-group-column">8/10/2016</div>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-comment fa-fw"></i> New Comment
+                      <span class="pull-right text-muted small"><em>4 minutes ago</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                      <span class="pull-right text-muted small"><em>12 minutes ago</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-envelope fa-fw"></i> Message Sent
+                      <span class="pull-right text-muted small"><em>27 minutes ago</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-tasks fa-fw"></i> New Task
+                      <span class="pull-right text-muted small"><em>43 minutes ago</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                      <span class="pull-right text-muted small"><em>11:32 AM</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-bolt fa-fw"></i> Server Crashed!
+                      <span class="pull-right text-muted small"><em>11:13 AM</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-warning fa-fw"></i> Server Not Responding
+                      <span class="pull-right text-muted small"><em>10:57 AM</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
+                      <span class="pull-right text-muted small"><em>9:49 AM</em>
+                                          </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-money fa-fw"></i> Payment Received
+                      <span class="pull-right text-muted small"><em>Yesterday</em>
+                                          </span>
+                    </a>
                   </div>
-                  <div class="admin d-flex align-items-center rounded-2 p-3">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                    </div>
+                  <!-- /.list-group -->
+                  <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+                </div>
+                <!-- /.panel-body -->
+              </div>
+              <!-- /.panel -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
+                </div>
+                <div class="panel-body">
+                  <div id="morris-donut-chart"></div>
+                  <a href="#" class="btn btn-default btn-block">View Details</a>
+                </div>
+                <!-- /.panel-body -->
+              </div>
+              <!-- /.panel -->
+              <div class="chat-panel panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-comments fa-fw"></i> Chat
+                  <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                          <i class="fa fa-chevron-down"></i>
+                                      </button>
+                    <ul class="dropdown-menu slidedown">
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-refresh fa-fw"></i> Refresh
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-check-circle fa-fw"></i> Available
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-times fa-fw"></i> Busy
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-clock-o fa-fw"></i> Away
+                        </a>
+                      </li>
+                      <li class="divider"></li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-sign-out fa-fw"></i> Sign Out
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="box">
-                  <!-- <h4>Moderators:</h4> -->
-                  <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                    </div>
-                  </div>
-                  <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                    </div>
-                  </div>
-                  <div class="admin d-flex align-items-center rounded-2 p-3">
-                    <div class="img">
-                      <img class="img-fluid rounded-pill"
-                           width="75" height="75"
-                           src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-                           alt="admin">
-                    </div>
-                    <div class="ms-3">
-                      <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                      <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                    </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <ul class="chat">
+                    <li class="left clearfix">
+                      <span class="chat-img pull-left">
+                                              <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                                          </span>
+                      <div class="chat-body clearfix">
+                        <div class="header">
+                          <strong class="primary-font">Jack Sparrow</strong>
+                          <small class="pull-right text-muted">
+                                                      <i class="fa fa-clock-o fa-fw"></i> 12 mins ago
+                                                  </small>
+                        </div>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="right clearfix">
+                      <span class="chat-img pull-right">
+                                              <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
+                                          </span>
+                      <div class="chat-body clearfix">
+                        <div class="header">
+                          <small class=" text-muted">
+                                                      <i class="fa fa-clock-o fa-fw"></i> 13 mins ago</small>
+                          <strong class="pull-right primary-font">Bhaumik Patel</strong>
+                        </div>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="left clearfix">
+                      <span class="chat-img pull-left">
+                                              <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                                          </span>
+                      <div class="chat-body clearfix">
+                        <div class="header">
+                          <strong class="primary-font">Jack Sparrow</strong>
+                          <small class="pull-right text-muted">
+                                                      <i class="fa fa-clock-o fa-fw"></i> 14 mins ago</small>
+                        </div>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="right clearfix">
+                      <span class="chat-img pull-right">
+                                              <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
+                                          </span>
+                      <div class="chat-body clearfix">
+                        <div class="header">
+                          <small class=" text-muted">
+                                                      <i class="fa fa-clock-o fa-fw"></i> 15 mins ago</small>
+                          <strong class="pull-right primary-font">Bhaumik Patel</strong>
+                        </div>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- /.panel-body -->
+                <div class="panel-footer">
+                  <div class="input-group">
+                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                    <span class="input-group-btn">
+                                          <button class="btn btn-warning btn-sm" id="btn-chat">
+                                              Send
+                                          </button>
+                                      </span>
                   </div>
                 </div>
+                <!-- /.panel-footer -->
               </div>
+              <!-- /.panel .chat-panel -->
             </div>
-          </section>
-      
-          <section class="statis mt-4 text-center">
-            <div class="row">
-              <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <div class="box bg-primary p-3">
-                  <i class="uil-eye"></i>
-                  <h3>5,154</h3>
-                  <p class="lead">Page views</p>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <div class="box bg-danger p-3">
-                  <i class="uil-user"></i>
-                  <h3>245</h3>
-                  <p class="lead">User registered</p>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                <div class="box bg-warning p-3">
-                  <i class="uil-shopping-cart"></i>
-                  <h3>5,154</h3>
-                  <p class="lead">Product sales</p>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3">
-                <div class="box bg-success p-3">
-                  <i class="uil-feedback"></i>
-                  <h3>5,154</h3>
-                  <p class="lead">Transactions</p>
-                </div>
-              </div>
-            </div>
-          </section>
-      
-          <section class="charts mt-4">
-            <div class="chart-container p-3">
-              <h3 class="fs-6 mb-3">Chart title number three</h3>
-              <div style="height: 300px">
-                <canvas id="chart3" width="100%"></canvas>
-              </div>
-            </div>
-          </section>
+            <!-- /.col-lg-4 -->
+          </div>
+          <!-- /.row -->
         </div>
-      </section>
+        <!-- /#page-wrapper -->
+      
+      </div>
+      <!-- /#wrapper -->
 </body>
 
+</html>
 
 <script>
 
-    // Other important pens.
-// Map: https://codepen.io/themustafaomar/pen/ZEGJeZq
-// Navbar: https://codepen.io/themustafaomar/pen/VKbQyZ
+var MorrisBarReturnObject;
+var MorrisDonutReturnObject;
 
-'use strict'
+$(function() {
 
-function $(selector) {
-  return document.querySelector(selector)
+  Morris.Area({
+    element: 'morris-area-chart',
+    data: [{
+      period: '2010 Q1',
+      iphone: 2666,
+      ipad: null,
+      itouch: 2647
+    }, {
+      period: '2010 Q2',
+      iphone: 2778,
+      ipad: 2294,
+      itouch: 2441
+    }, {
+      period: '2010 Q3',
+      iphone: 4912,
+      ipad: 1969,
+      itouch: 2501
+    }, {
+      period: '2010 Q4',
+      iphone: 3767,
+      ipad: 3597,
+      itouch: 5689
+    }, {
+      period: '2011 Q1',
+      iphone: 6810,
+      ipad: 1914,
+      itouch: 2293
+    }, {
+      period: '2011 Q2',
+      iphone: 5670,
+      ipad: 4293,
+      itouch: 1881
+    }, {
+      period: '2011 Q3',
+      iphone: 4820,
+      ipad: 3795,
+      itouch: 1588
+    }, {
+      period: '2011 Q4',
+      iphone: 15073,
+      ipad: 5967,
+      itouch: 5175
+    }, {
+      period: '2012 Q1',
+      iphone: 10687,
+      ipad: 4460,
+      itouch: 2028
+    }, {
+      period: '2012 Q2',
+      iphone: 8432,
+      ipad: 5713,
+      itouch: 1791
+    }],
+    xkey: 'period',
+    ykeys: ['iphone', 'ipad', 'itouch'],
+    labels: ['iPhone', 'iPad', 'iPod Touch'],
+    pointSize: 2,
+    hideHover: 'auto',
+    resize: true
+  });
+
+  MorrisDonutReturnObject = Morris.Donut({
+    element: 'morris-donut-chart',
+    data: [{
+      label: "Download Sales",
+      value: 12
+    }, {
+      label: "In-Store Sales",
+      value: 30
+    }, {
+      label: "Mail-Order Sales",
+      value: 20
+    }],
+    resize: true
+  });
+
+  MorrisBarReturnObject = Morris.Bar({
+    element: 'morris-bar-chart',
+    data: [{
+      y: 'ADEP',
+      a: 16361.8,
+    }, {
+      y: 'EAD',
+      a: 8205.05,
+    }, {
+      y: 'EID',
+      a: 137.5,
+    }, {
+      y: 'EMD',
+      a: 1296.05,
+    }, {
+      y: 'ESMD',
+      a: 514,
+    }, {
+      y: 'EWD',
+      a: 323.5,
+    }, {
+      y: 'ITMD',
+      a: 454.5,
+    }],
+    xkey: 'y',
+    ykeys: ['a'],
+    labels: ['Actual Work'],
+    hideHover: 'auto',
+    resize: true
+  });
+  
+  $('#morris-donut-chart cvg path').each(function(index) {
+    addEventListener('mouseout', showDefaultDonutData());
+  });
+
+  $("#morris-bar-chart svg rect").on('click', function() {
+    setFilterForBottomMorrisTable($(this));
+  });
+
+  $(window).resize(function() {
+    $("#morris-bar-chart svg rect").on('click', function() {
+      setFilterForBottomMorrisTable($(this));
+    });
+  });
+  
+});
+
+var tableDataJson = {
+  "headers": ["Directorate or Division", "Actual Work", "FTEs", "Resource Count"],
+  "data": [{
+    "Directorate or Division": "ADEP",
+    "Actual Work": 16361.8,
+    "FTEs": 32,
+    "Resource Count": 64
+  }, {
+    "Directorate or Division": "EAD",
+    "Actual Work": 8205.05,
+    "FTEs": 16,
+    "Resource Count": 25
+  }, {
+    "Directorate or Division": "EID",
+    "Actual Work": 137.5,
+    "FTEs": 0.27,
+    "Resource Count": 1
+  }, {
+    "Directorate or Division": "EMD",
+    "Actual Work": 1296.05,
+    "FTEs": 2.53,
+    "Resource Count": 8
+  }, {
+    "Directorate or Division": "ESMD",
+    "Actual Work": 514,
+    "FTEs": 1,
+    "Resource Count": 4
+  }, {
+    "Directorate or Division": "EWD",
+    "Actual Work": 323.5,
+    "FTEs": 0.63,
+    "Resource Count": 4
+  }, {
+    "Directorate or Division": "ITMD",
+    "Actual Work": 454.5,
+    "FTEs": 0.89,
+    "Resource Count": 2
+  }]
+};
+
+var allMorrisTableData = {
+  "headers": ["Enterprise Projects", "Directorate or Division", "Actual Work", "FTEs", "Resource Count"],
+  "data": [{
+    "Enterprise Projects": "2020 Census Program Management",
+    "Directorate or Division": "ITMD",
+    "Actual Work": 418.50,
+    "FTEs": 0.82,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "2020 Nonresponse Followup",
+    "Directorate or Division": "ESMD",
+    "Actual Work": 477.00,
+    "FTEs": 0.93,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "2020 Response Processing",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 277.50,
+    "FTEs": 0.54,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "AHS 2015 Revised v1",
+    "Directorate or Division": "ITMD",
+    "Actual Work": 36.00,
+    "FTEs": 0.07,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "CE Diary Survey 2016",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 3.00,
+    "FTEs": 0.01,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "CE Quarterly Survey 2016",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 4.00,
+    "FTEs": 0.01,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "CEDCaP-Electronic Correspondence Portal",
+    "Directorate or Division": "EAD",
+    "Actual Work": 1321.05,
+    "FTEs": 2.58,
+    "Resource Count": 9
+  }, {
+    "Enterprise Projects": "CEDCaP-Electronic Correspondence Portal",
+    "Directorate or Division": "EMD",
+    "Actual Work": 1294.05,
+    "FTEs": 2.53,
+    "Resource Count": 7
+  }, {
+    "Enterprise Projects": "CEDCaP-Questionnaire Design and Metadata-COMET",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 3916.50,
+    "FTEs": 7.65,
+    "Resource Count": 11
+  }, {
+    "Enterprise Projects": "CEDCaP-Questionnaire Design and Metadata-COMET",
+    "Directorate or Division": "EAD",
+    "Actual Work": 3670.50,
+    "FTEs": 7.17,
+    "Resource Count": 8
+  }, {
+    "Enterprise Projects": "CEDCaP-Scanning Data Capture from Paper-ICADE",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 7061.30,
+    "FTEs": 13.79,
+    "Resource Count": 27
+  }, {
+    "Enterprise Projects": "CEDCaP-Service Oriented Architecture-API",
+    "Directorate or Division": "EAD",
+    "Actual Work": 168.00,
+    "FTEs": 0.33,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "CEDCaP-Survey and Listing Interview Operational Control-MOJO",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 3768.25,
+    "FTEs": 7.36,
+    "Resource Count": 13
+  }, {
+    "Enterprise Projects": "CEDCaP-Survey and Listing Interview Operational Control-MOJO",
+    "Directorate or Division": "EAD",
+    "Actual Work": 3045.50,
+    "FTEs": 5.95,
+    "Resource Count": 7
+  }, {
+    "Enterprise Projects": "CEDCaP-Survey Response Processing-CARDS",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 381.00,
+    "FTEs": 0.74,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "CLMSO FY16 Education and Training",
+    "Directorate or Division": "EWD",
+    "Actual Work": 32.00,
+    "FTEs": 0.06,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "FY2015 CPS 2014-2016 DSMD",
+    "Directorate or Division": "ESMD",
+    "Actual Work": 9.00,
+    "FTEs": 0.02,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "HSDC2016",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 13.50,
+    "FTEs": 0.03,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "National Crime Victimization Survey SY 2015",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 228.00,
+    "FTEs": 0.45,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "National Crime Victimization Survey SY 2016",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 420.25,
+    "FTEs": 0.82,
+    "Resource Count": 2
+  }, {
+    "Enterprise Projects": "National Crime Victimization Survey SY 2016",
+    "Directorate or Division": "EID",
+    "Actual Work": 137.50,
+    "FTEs": 0.27,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "NHIS 2016",
+    "Directorate or Division": "ESMD",
+    "Actual Work": 18.00,
+    "FTEs": 0.04,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "NHIS Administrative Schedule",
+    "Directorate or Division": "ESMD",
+    "Actual Work": 10.00,
+    "FTEs": 0.02,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "NSCH 2016 Production",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 241.00,
+    "FTEs": 0.47,
+    "Resource Count": 3
+  }, {
+    "Enterprise Projects": "NTPS 2015-2016",
+    "Directorate or Division": "ADEP",
+    "Actual Work": 47.50,
+    "FTEs": 0.09,
+    "Resource Count": 2
+  }, {
+    "Enterprise Projects": "NTPS 2015-2016",
+    "Directorate or Division": "EMD",
+    "Actual Work": 2.00,
+    "FTEs": 0,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "z6385B10 CATI Response Data",
+    "Directorate or Division": "EWD",
+    "Actual Work": 153.00,
+    "FTEs": 0.3,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "z6385B20 CAPI Response Data",
+    "Directorate or Division": "EWD",
+    "Actual Work": 114.50,
+    "FTEs": 0.22,
+    "Resource Count": 1
+  }, {
+    "Enterprise Projects": "z6385B30 PR Data Collection Data",
+    "Directorate or Division": "EWD",
+    "Actual Work": 24.00,
+    "FTEs": 0.05,
+    "Resource Count": 1
+  }]
+};
+
+// This updates the data table beside the Morris.Bar 
+function buildTable(localTableDataJson, tagId) {
+  console.log('building table for ' + tagId);
+  var content = "";
+  var header = "<thead><tr>";
+  console.log(localTableDataJson.headers)
+  for (var index in localTableDataJson.headers) {
+    console.log('added header');
+    header += "<th>" + localTableDataJson.headers[index] + "</th>";
+  }
+  header += "</tr></thead>";
+  content += header + "<tbody>";
+
+  for (var index in localTableDataJson.data) {
+
+    content += "<tr>";
+    jQuery.each(localTableDataJson.data[index], function(index2, dataColumn) {
+      content += "<td>" + dataColumn + "</td>";
+    });
+    content += "</tr>";
+
+  }
+
+  content += "</tbody>"
+
+  $('#' + tagId).empty();
+  $('#' + tagId).append(content);
 }
 
-function find(el, selector) {
-  let finded
-  return (finded = el.querySelector(selector)) ? finded : null
-}
+buildTable(tableDataJson, 'first-morris-table');
+buildTable(allMorrisTableData, 'second-morris-table');
 
-function siblings(el) {
-  const siblings = []
-  for (let sibling of el.parentNode.children) {
-    if (sibling !== el) {
-      siblings.push(sibling)
+var previousTagSelected;
+
+function filterBottomMorrisTable(filterString, filterColumn) {
+  console.log('filtering bottom Morris table for ' + filterString + ' in ' + filterColumn);
+  console.log('previous tag: ' + previousTagSelected);
+  if (filterString != previousTagSelected) {
+    $('#second-morris-table > tbody > tr').each(function(index) {
+      console.log('showing row');
+      $(this).show();
+    });
+  }
+
+  $('#second-morris-table > tbody > tr').each(
+    function(index) {
+      //console.log('table index ' + index);
+      
+      $(this).find('td').each(
+        function(index2) {
+          //console.log('column index ' + index2);
+          var columnValue = $(this).text();
+          //console.log('columnValue: ' + columnValue);
+          var columnName = allMorrisTableData.headers[index2];
+          //console.log('column name : ' + columnName);
+
+          hideMorrisTable2Row($(this), columnName, columnValue, filterColumn, filterString);
+
+        });
+
     }
-  }
-  return siblings
+  );
 }
 
-const showAsideBtn = $('.show-side-btn')
-const sidebar = $('.sidebar')
-const wrapper = $('#wrapper')
-
-showAsideBtn.addEventListener('click', function () {
-  $(`#${this.dataset.show}`).classList.toggle('show-sidebar')
-  wrapper.classList.toggle('fullwidth')
-})
-
-if (window.innerWidth < 767) {
-  sidebar.classList.add('show-sidebar');
-}
-
-window.addEventListener('resize', function () {
-  if (window.innerWidth > 767) {
-    sidebar.classList.remove('show-sidebar')
+function hideMorrisTable2Row(selection, columnName, columnValue, filterColumn, filterString) {
+  console.log('checking for ' + columnName + ' matching ' + filterColumn);
+  if (columnName != filterColumn) {
+    console.log(columnName + ' does not match' + filterColumn);
+    return;
   }
-})
-
-// dropdown menu in the side nav
-var slideNavDropdown = $('.sidebar-dropdown');
-
-$('.sidebar .categories').addEventListener('click', function (event) {
-  event.preventDefault()
-
-  const item = event.target.closest('.has-dropdown')
-
-  if (! item) {
-    return
-  }
-
-  item.classList.toggle('opened')
-
-  siblings(item).forEach(sibling => {
-    sibling.classList.remove('opened')
-  })
-
-  if (item.classList.contains('opened')) {
-    const toOpen = find(item, '.sidebar-dropdown')
-
-    if (toOpen) {
-      toOpen.classList.add('active')
+  console.log(columnName + ' matches' + filterColumn);
+  if ((columnValue != filterString) || (columnValue == '')) {
+    console.log('toggle hiding table row for ' + columnValue);
+    if ($(selection).parent().css('display') == 'none') {
+      $(selection).parent().show();
+      previousTagSelected = filterString;
+    } else {
+      $(selection).parent().hide();
     }
-
-    siblings(item).forEach(sibling => {
-      const toClose = find(sibling, '.sidebar-dropdown')
-
-      if (toClose) {
-        toClose.classList.remove('active')
-      }
-    })
   } else {
-    find(item, '.sidebar-dropdown').classList.toggle('active')
+    $(selection).parent().show();
+    previousTagSelected = filterString;
   }
-})
+}
 
-$('.sidebar .close-aside').addEventListener('click', function () {
-  $(`#${this.dataset.close}`).classList.add('show-sidebar')
-  wrapper.classList.remove('margin')
-})
-
-
-// Global defaults
-Chart.defaults.global.animation.duration = 2000; // Animation duration
-Chart.defaults.global.title.display = false; // Remove title
-Chart.defaults.global.defaultFontColor = '#71748c'; // Font color
-Chart.defaults.global.defaultFontSize = 13; // Font size for every label
-
-// Tooltip global resets
-Chart.defaults.global.tooltips.backgroundColor = '#111827'
-Chart.defaults.global.tooltips.borderColor = 'blue'
-
-// Gridlines global resets
-Chart.defaults.scale.gridLines.zeroLineColor = '#3b3d56'
-Chart.defaults.scale.gridLines.color = '#3b3d56'
-Chart.defaults.scale.gridLines.drawBorder = false
-
-// Legend global resets
-Chart.defaults.global.legend.labels.padding = 0;
-Chart.defaults.global.legend.display = false;
-
-// Ticks global resets
-Chart.defaults.scale.ticks.fontSize = 12
-Chart.defaults.scale.ticks.fontColor = '#71748c'
-Chart.defaults.scale.ticks.beginAtZero = false
-Chart.defaults.scale.ticks.padding = 10
-
-// Elements globals
-Chart.defaults.global.elements.point.radius = 0
-
-// Responsivess
-Chart.defaults.global.responsive = true
-Chart.defaults.global.maintainAspectRatio = false
-
-// The bar chart
-var myChart = new Chart(document.getElementById('myChart'), {
-  type: 'bar',
-  data: {
-    labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-    datasets: [{
-      label: "Lost",
-      data: [45, 25, 40, 20, 60, 20, 35, 25],
-      backgroundColor: "#0d6efd",
-      borderColor: 'transparent',
-      borderWidth: 2.5,
-      barPercentage: 0.4,
+function updateMorrisBar(columnNumber) {
+  console.log("updating morris bar");
+  var newJSON = {
+    element: 'morris-bar-chart',
+    data: [{
+      y: 'ADEP',
+      a: 16361.8,
     }, {
-      label: "Succes",
-      startAngle: 2,
-      data: [20, 40, 20, 50, 25, 40, 25, 10],
-      backgroundColor: "#dc3545",
-      borderColor: 'transparent',
-      borderWidth: 2.5,
-      barPercentage: 0.4,
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {},
-        ticks: {
-          stepSize: 15,
-        },
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        }
-      }]
-    }
+      y: 'EAD',
+      a: 8205.05,
+    }, {
+      y: 'EID',
+      a: 137.5,
+    }, {
+      y: 'EMD',
+      a: 1296.05,
+    }, {
+      y: 'ESMD',
+      a: 514,
+    }, {
+      y: 'EWD',
+      a: 323.5,
+    }, {
+      y: 'ITMD',
+      a: 454.5,
+    }],
+    xkey: 'y',
+    ykeys: ['a'],
+    labels: ['Actual Work'],
+    hideHover: 'auto',
+    resize: true
+  };
+  switch (columnNumber) {
+    case 1:
+      for (var index in newJSON.data) {
+        newJSON.data[index].a = tableDataJson.data[index]["Actual Work"];
+      }
+      newJSON.labels = ['Actual Work'];
+      break;
+    case 2:
+      for (var index in newJSON.data) {
+        newJSON.data[index].a = tableDataJson.data[index]["FTEs"];
+      }
+      newJSON.labels = ['FTEs'];
+      break;
+    case 3:
+      for (var index in newJSON.data) {
+        newJSON.data[index].a = tableDataJson.data[index]["Resource Count"];
+      }
+      newJSON.labels = ['Resource Count'];
+      break;
   }
-})
 
-// The line chart
-var chart = new Chart(document.getElementById('myChart2'), {
-  type: 'line',
-  data: {
-    labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-    datasets: [{
-      label: "My First dataset",
-      data: [4, 20, 5, 20, 5, 25, 9, 18],
-      backgroundColor: 'transparent',
-      borderColor: '#0d6efd',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }, {
-      label: "Month",
-      data: [11, 25, 10, 25, 10, 30, 14, 23],
-      backgroundColor: 'transparent',
-      borderColor: '#dc3545',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }, {
-      label: "Month",
-      data: [16, 30, 16, 30, 16, 36, 21, 35],
-      backgroundColor: 'transparent',
-      borderColor: '#f0ad4e',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {
-          drawBorder: false
-        },
-        ticks: {
-          stepSize: 12,
-        }
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        },
-      }]
-    }
-  }
-})
+  $('#morris-bar-chart').empty();
+  Morris.Bar(newJSON);
+  //MorrisBarReturnObject.setData(newJSON);
+  MorrisBarReturnObject.setData(newJSON.data, true);
 
-var chart = document.getElementById('chart3');
-var myChart = new Chart(chart, {
-  type: 'line',
-  data: {
-    labels: ["One", "Two", "Three", "Four", "Five", 'Six', "Seven", "Eight"],
-    datasets: [{
-      label: "Lost",
-      lineTension: 0.2,
-      borderColor: '#d9534f',
-      borderWidth: 1.5,
-      showLine: true,
-      data: [3, 30, 16, 30, 16, 36, 21, 40, 20, 30],
-      backgroundColor: 'transparent'
-    }, {
-      label: "Lost",
-      lineTension: 0.2,
-      borderColor: '#5cb85c',
-      borderWidth: 1.5,
-      data: [6, 20, 5, 20, 5, 25, 9, 18, 20, 15],
-      backgroundColor: 'transparent'
-    },
-               {
-                 label: "Lost",
-                 lineTension: 0.2,
-                 borderColor: '#f0ad4e',
-                 borderWidth: 1.5,
-                 data: [12, 20, 15, 20, 5, 35, 10, 15, 35, 25],
-                 backgroundColor: 'transparent'
-               },
-               {
-                 label: "Lost",
-                 lineTension: 0.2,
-                 borderColor: '#337ab7',
-                 borderWidth: 1.5,
-                 data: [16, 25, 10, 25, 10, 30, 14, 23, 14, 29],
-                 backgroundColor: 'transparent'
-               }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {
-          drawBorder: false
-        },
-        ticks: {
-          stepSize: 12
-        }
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        },
-      }],
-    }
-  }
-})
+  $("#morris-bar-chart svg rect").on('click', function() {
+    //alert( "Handler for .on() called." );
+    setFilterForBottomMorrisTable($(this));
+  });
+}
 
+function setFilterForBottomMorrisTable(selectedTag) {
+  var tagIndex = $('#morris-bar-chart svg rect').index(selectedTag);
+  console.log('tag index: ' + tagIndex);
+  var name = tableDataJson.data[tagIndex]['Directorate or Division'];
+  console.log('Directorate or Division name: ' + name);
+  filterBottomMorrisTable(name, 'Directorate or Division');
+  showTotalFTEs();
+}
+
+// shows the total FTEs in the morris donut
+function showTotalFTEs() {
+  console.log('updating donut data');
+  var totalFTEs = 0;
+  var totalAmountWorked = 0;
+  var totalResourceCount = 0;
+  $('#second-morris-table > tbody > tr').each(
+    function(index) {
+      //console.log('table index ' + index);
+      $(this).find('td').each(
+        function(index2) {
+          if ($(this).parent().css('display') != 'none') {
+            if (allMorrisTableData.headers[index2] == 'FTEs') {
+              totalFTEs += parseFloat($(this).text());
+            }
+            if (allMorrisTableData.headers[index2] == 'Actual Work') {
+              totalAmountWorked += parseFloat($(this).text());
+            }
+            if (allMorrisTableData.headers[index2] == 'Resource Count') {
+              totalResourceCount += parseFloat($(this).text());
+            }
+          }
+        });
+    });
+  
+  var donutJSON = {
+    element: 'morris-donut-chart',
+    data: [{
+      label: "Total FTEs",
+      value: totalFTEs.toFixed(2)
+    }/*, {
+      label: "Total Amount Worked",
+      value: totalAmountWorked.toFixed(2)
+    }, {
+      label: "Total Resource Count",
+      value: totalResourceCount.toFixed(2)
+    }*/],
+    resize: true
+  };
+  
+  $('#morris-donut-chart').empty();
+  Morris.Donut(donutJSON);
+  //MorrisBarReturnObject.setData(newJSON);
+  MorrisDonutReturnObject.setData(donutJSON.data, true);
+}
+
+
+function showDefaultDonutData() {
+  console.log('leaving svg donut part');
+}
 </script>
 
 <style>
-    @import 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet';
-
-:root {
-	--dk-gray-100: #F3F4F6;
-	--dk-gray-200: #E5E7EB;
-	--dk-gray-300: #D1D5DB;
-	--dk-gray-400: #9CA3AF;
-	--dk-gray-500: #6B7280;
-	--dk-gray-600: #4B5563;
-	--dk-gray-700: #374151;
-	--dk-gray-800: #1F2937;
-	--dk-gray-900: #111827;
-	--dk-dark-bg: #313348;
-	--dk-darker-bg: #2a2b3d;
-	--navbar-bg-color: #6f6486;
-	--sidebar-bg-color: #252636;
-	--sidebar-width: 250px;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-body {
-	font-family: 'Inter', sans-serif;
-	background-color: var(--dk-darker-bg);
-	font-size: .925rem;
-}
-
-#wrapper {
-	margin-left: var(--sidebar-width);
-	transition: all .3s ease-in-out;
-}
-
-#wrapper.fullwidth {
-	margin-left: 0;
+    #morris-bar-chart {
+  -webkit-transition: all 2s; /* Safari */
+  transition: all 2s;
 }
 
 
-
-/** --------------------------------
- -- Sidebar
--------------------------------- */
-.sidebar {
-	background-color: var(--sidebar-bg-color);
-	width: var(--sidebar-width);
-	transition: all .3s ease-in-out;
-	transform: translateX(0);
-	z-index: 9999999
+.header-row {
+  padding: 0 18px;
 }
-
-.sidebar .close-aside {
-	position: absolute;
-	top: 7px;
-	right: 7px;
-	cursor: pointer;
-	color: #EEE;
+.header-column {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  display: inline-block;
+  font-weight: 300;
+  color: #555;
+  /*border: 1px solid grey;*/
+  padding: 0px;
+  width: 24%;
+  box-sizing: border-box; /*content-box|border-box|initial|inherit;*/
 }
-
-.sidebar .sidebar-header {
-	border-bottom: 1px solid #2a2b3c
+.list-group-column {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  display: inline-block;
+  font-weight: 300;
+  color: #555;
+  /*border: 1px solid grey;*/
+  padding: 0px;
+  width: 24%;
 }
-
-.sidebar .sidebar-header h5 a {
-	color: var(--dk-gray-300)
-}
-
-.sidebar .sidebar-header p {
-	color: var(--dk-gray-400);
-	font-size: .825rem;
-}
-
-.sidebar .search .form-control ~ i {
-	color: #2b2f3a;
-	right: 40px;
-	top: 22px;
-}
-
-.sidebar > ul > li {
-	padding: .7rem 1.75rem;
-}
-
-.sidebar ul > li > a {
-	color: var(--dk-gray-400);
-	text-decoration: none;
-}
-
-/* Start numbers */
-.sidebar ul > li > a > .num {
-	line-height: 0;
-	border-radius: 3px;
-	font-size: 14px;
-	padding: 0px 5px
-}
-
-.sidebar ul > li > i {
-	font-size: 18px;
-	margin-right: .7rem;
-	color: var(--dk-gray-500);
-}
-
-.sidebar ul > li.has-dropdown > a:after {
-	content: '\eb3a';
-	font-family: unicons-line;
-	font-size: 1rem;
-	line-height: 1.8;
-	float: right;
-	color: var(--dk-gray-500);
-	transition: all .3s ease-in-out;
-}
-
-.sidebar ul .opened > a:after {
-	transform: rotate(-90deg);
-}
-
-/* Start dropdown menu */
-.sidebar ul .sidebar-dropdown {
-	padding-top: 10px;
-	padding-left: 30px;
-	display: none;
-}
-.sidebar ul .sidebar-dropdown.active {
-	display: block;
-}
-
-.sidebar ul .sidebar-dropdown > li > a {
-  font-size: .85rem;
-	padding: .5rem 0;
-	display: block;
-}
-/* End dropdown menu */
-
-.show-sidebar {
-	transform: translateX(-270px);
-}
-
-@media (max-width: 767px) {
-	.sidebar ul > li {
-		padding-top: 12px;
-		padding-bottom: 12px;
-	}
-
-	.sidebar .search {
-		padding: 10px 0 10px 30px
-	}
-}
-
-
-
-
-/** --------------------------------
- -- welcome
--------------------------------- */
-.welcome {
-	color: var(--dk-gray-300);
-}
-
-.welcome .content {
-	background-color: var(--dk-dark-bg);
-}
-
-.welcome p {
-	color: var(--dk-gray-400);
-}
-
-
-
-
-/** --------------------------------
- -- Statistics
--------------------------------- */
-.statistics {
-	color: var(--dk-gray-200);
-}
-
-.statistics .box {
-	background-color: var(--dk-dark-bg);
-}
-
-.statistics .box i {
-	width: 60px;
-	height: 60px;
-	line-height: 60px;
-}
-
-.statistics .box p {
-	color: var(--dk-gray-400);
-}
-
-
-
-
-/** --------------------------------
- -- Charts
--------------------------------- */
-.charts .chart-container {
-	background-color: var(--dk-dark-bg);
-}
-
-.charts .chart-container h3 {
-	color: var(--dk-gray-400)
-}
-
-
-
-
-/** --------------------------------
- -- users
--------------------------------- */
-.admins .box .admin {
-	background-color: var(--dk-dark-bg);
-}
-
-.admins .box h3 {
-	color: var(--dk-gray-300);
-}
-
-.admins .box p {
-	color: var(--dk-gray-400)
-}
-
-
-
-
-/** --------------------------------
- -- statis
--------------------------------- */
-.statis {
-	color: var(--dk-gray-100);
-}
-
-.statis .box {
-	position: relative;
-	overflow: hidden;
-	border-radius: 3px;
-}
-
-.statis .box h3:after {
-	content: "";
-	height: 2px;
-	width: 70%;
-	margin: auto;
-	background-color: rgba(255, 255, 255, 0.12);
-	display: block;
-	margin-top: 10px;
-}
-
-.statis .box i {
-	position: absolute;
-	height: 70px;
-	width: 70px;
-	font-size: 22px;
-	padding: 15px;
-	top: -25px;
-	left: -25px;
-	background-color: rgba(255, 255, 255, 0.15);
-	line-height: 60px;
-	text-align: right;
-	border-radius: 50%;
-}
-
-
-
-
-
-.main-color {
-	color: #ffc107
-}
-
-/** --------------------------------
- -- Please don't do that in real-world projects!
- -- overwrite Bootstrap variables instead.
--------------------------------- */
-
-.navbar {
-	background-color: var(--navbar-bg-color) !important;
-	border: none !important;
-}
-.navbar .dropdown-menu {
-	right: auto !important;
-	left: 0 !important;
-}
-.navbar .navbar-nav>li>a {
-	color: #EEE !important;
-	line-height: 55px !important;
-	padding: 0 10px !important;
-}
-.navbar .navbar-brand {color:#FFF !important}
-.navbar .navbar-nav>li>a:focus,
-.navbar .navbar-nav>li>a:hover {color: #EEE !important}
-
-.navbar .navbar-nav>.open>a,
-.navbar .navbar-nav>.open>a:focus,
-.navbar .navbar-nav>.open>a:hover {background-color: transparent !important; color: #FFF !important}
-
-.navbar .navbar-brand {line-height: 55px !important; padding: 0 !important}
-.navbar .navbar-brand:focus,
-.navbar .navbar-brand:hover {color: #FFF !important}
-.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {margin: 0 !important}
-@media (max-width: 767px) {
-	.navbar>.container-fluid .navbar-brand {
-		margin-left: 15px !important;
-	}
-	.navbar .navbar-nav>li>a {
-		padding-left: 0 !important;
-	}
-	.navbar-nav {
-		margin: 0 !important;
-	}
-	.navbar .navbar-collapse,
-	.navbar .navbar-form {
-		border: none !important;
-	}
-}
-
-.navbar .navbar-nav>li>a {
-	float: left !important;
-}
-.navbar .navbar-nav>li>a>span:not(.caret) {
-	background-color: #e74c3c !important;
-	border-radius: 50% !important;
-	height: 25px !important;
-	width: 25px !important;
-	padding: 2px !important;
-	font-size: 11px !important;
-	position: relative !important;
-	top: -10px !important;
-	right: 5px !important
-}
-.dropdown-menu>li>a {
-	padding-top: 5px !important;
-	padding-right: 5px !important;
-}
-.navbar .navbar-nav>li>a>i {
-	font-size: 18px !important;
-}
-
-
-
-
-/* Start media query */
-
-@media (max-width: 767px) {
-	#wrapper {
-		margin: 0 !important
-	}
-	.statistics .box {
-		margin-bottom: 25px !important;
-	}
-	.navbar .navbar-nav .open .dropdown-menu>li>a {
-		color: #CCC !important
-	}
-	.navbar .navbar-nav .open .dropdown-menu>li>a:hover {
-		color: #FFF !important
-	}
-	.navbar .navbar-toggle{
-		border:none !important;
-		color: #EEE !important;
-		font-size: 18px !important;
-	}
-	.navbar .navbar-toggle:focus, .navbar .navbar-toggle:hover {background-color: transparent !important}
-}
-
-
-::-webkit-scrollbar {
-	background: transparent;
-	width: 5px;
-	height: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: #3c3f58;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background-color: rgba(0, 0, 0, 0.3);
-}
-
 </style>
-</html>
