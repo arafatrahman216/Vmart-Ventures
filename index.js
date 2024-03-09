@@ -1738,6 +1738,22 @@ app.get('/cancelOrder/:orderid', async (req, res) => {
 
     const result = await db_query(query, params);
 
+    var update_query = `DECLARE
+	R ORDERS%ROWTYPE;
+	SID NUMBER;
+    BEGIN
+	FOR R IN (SELECT * FROM ORDERS WHERE ORDER_ID=${orderid}) 
+	LOOP 
+		SELECT SHOP_ID INTO SID FROM PRODUCTS WHERE PRODUCT_ID = R.PRODUCT_ID;
+		IF R.DELIVERY_STATUS= 'CANCELLED' THEN
+			DBMS_OUTPUT.PUT_LINE('Order ID: ' || R.ORDER_ID || ' Product ID: ' || R.PRODUCT_ID || ' Shop ID: ' || SID);
+			UPDATE SELLER_USER SET TOTAL_REVENUE = TOTAL_REVENUE - R.TOTAL_PRICE WHERE SHOP_ID = SID;
+
+		END IF;
+	END LOOP;
+    END;`;
+    var r= await db_query(update_query,[]);
+
     var check_query= `SELECT COUNT(*) AS TOTAL FROM ORDERS WHERE ORDER_ID=${orderid} AND DELIVERY_STATUS<>\'CANCELLED\' ` ;
     var r= await db_query(check_query,[]);
     console.log(r[0].TOTAL);
