@@ -229,16 +229,17 @@ app.post('/user/:userid', async (req, res) => {
         email: req.body.email,
         gender: req.body.gender,
         profilePic: req.body.profilePic,
-        userid : req.params.userid
-    };
+        userid : req.params.userid,
 
+    };
+    console.log(req.body);
  
     try {
         console.log("done1");
         const result = await db_query(query, params);
         console.log("donedone");
     } catch (error) {
-        console.error('Error updating data:', error);
+        console.log('Error updating data:', error);
     }
 
     const query1 = `
@@ -261,14 +262,34 @@ app.post('/user/:userid', async (req, res) => {
         console.log("done2");
         const result1 = await db_query(query1, params1);
     } catch (error) {
-        console.error('Error updating data:', error);
+        console.log('Error updating data:', error);
     }
 
+    const query2 = `
+        UPDATE E_WALLET
+        SET BALANCE = :balance
+        WHERE WALLET_ID =:userid
+    `;
+    const params2 = {
+        balance: req.body.ewallet,
+        userid : req.params.userid
+    };
+     
+    try {
+        console.log("done3");
+        const result2 = await db_query(query2, params2);
+    }
+    catch (error) {
+        console.log('Error updating data:', error);
+    }
+
+
     res.redirect('/user/'+req.params.userid);
-// app.use('/user', UserRoute);
-// app.use('/',router);
+
 
 });
+
+
 
 app.get('/user/:userid/search', async (req, res) => {
 
@@ -948,13 +969,87 @@ WHERE
     const params = {
         userid: req.params.userid
     };
+
+    const user_info= await db_query(`SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = :userid`,params);
  
     const orderHistory = await db_query(query,params); 
     // console.log(orderHistory);
-    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
+    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory, PROFILE_PICTURE: user_info[0].PROFILE_PICTURE});
     return;
-}
-);
+});
+
+app.get('/forgetPassword/user', async (req, res) => {
+    res.render('ForgetPassword', {type: 'user'});
+});
+app.get('/forgetPassword/seller', async (req, res) => {
+    res.render('ForgetPassword' , {type: 'seller'});
+});
+
+
+app.post('/forgetPassword/user', async (req, res) => {
+    var {name, email, number, password}= req.body;
+    if (name=='' || (email=='' && number=='') || password=='')
+    {
+        res.json({ success: false });
+        return;
+    }
+    console.log(req.body);
+    if (email=='') email='*';
+    if (number=='') number='*';
+
+    var query = `
+        SELECT USER_ID FROM CUSTOMER_USER WHERE LOWER(NAME) = LOWER(\'${name}\') AND EMAIL = \'${email}\' 
+        UNION 
+        SELECT USER_ID FROM CUSTOMER_USER WHERE LOWER(NAME) = LOWER(\'${name}\') AND (PHONE = \'${number}\' OR PHONE = \'+88${number}\')`;
+    console.log(query);
+    var result = await db_query(query,[]);
+    if (result.length<1)
+    {
+        res.json({ success: false });
+        return;
+    }
+    var userid= result[0].USER_ID;
+    console.log(userid);
+    console.log(result);
+
+    query = `UPDATE CUSTOMER_USER SET PASSWORD = ORA_HASH(\'${password}\') WHERE USER_ID = ${userid}`;
+    result = await db_query(query,[]);
+    res.json({ success: true });
+});
+
+
+
+
+app.post('/forgetPassword/seller', async (req, res) => {
+    var {name, email, number, password}= req.body;
+    if (name=='' || (email=='' && number=='') || password=='')
+    {
+        res.json({ success: false });
+        return;
+    }
+    console.log(req.body);
+    if (email=='') email='*';
+    if (number=='') number='*';
+
+    var query = `
+        SELECT SHOP_ID FROM SELLER_USER WHERE LOWER(SHOP_NAME) =LOWER(\'${name}\') AND EMAIL = \'${email}\' 
+        UNION 
+        SELECT SHOP_ID FROM SELLER_USER WHERE LOWER(SHOP_NAME) =LOWER(\'${name}\') AND (PHONE = \'${number}\' OR PHONE = \'+88${number}\')`;
+    console.log(query);
+    var result = await db_query(query,[]);
+    if (result.length<1)
+    {
+        res.json({ success: false });
+        return;
+    }
+    var userid= result[0].SHOP_ID;
+    console.log(userid);
+    console.log(result);
+
+    query = `UPDATE SELLER_USER SET PASSWORD = \'${password}\' WHERE SHOP_ID = ${userid}`;
+    result = await db_query(query,[]);
+    res.json({ success: true });
+});
 
 
 app.get('/user/seller/:sellerid', async (req, res) => {
@@ -1622,6 +1717,30 @@ WHERE
     
 });
 
+
+app.get('/cancelOrder/:orerid', async (req, res) => {
+    const orderid = req.params.orerid;
+
+    const query = `UPDATE ORDERS
+    SET DELIVERY_STATUS = 'CANCELLED'
+    WHERE ORDER_ID = :orderid`;
+
+    const params = {
+        orderid: orderid
+    };
+
+    const result = await db_query(query, params);
+    
+    var check_query= `SELECT COUNT(*) FROM ORDERS WHERE ORDER_ID=${orderid} AND DELIVERY_STATUS<>\'CANCELLED\' ` ;
+    if (await db_query(check_query,[]).length>0) {
+        res.json({ success: false });
+        return;
+    }
+    res.json({success : true});
+}
+);
+
+
 app.post('/updateDeliveryStatus', async (req, res) => {
     const { status, ORDER_ID, PRODUCT_ID, USER_ID } = req.body;
     console.log(req.body);
@@ -1673,7 +1792,14 @@ app.get('/OrderTrack/:userId', async (req, res) => {
 
         const lastOrderTrack = await db_query(query, params);
 
-        res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
+        const query1 = `SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = :userId`;
+        const params1 = {
+            userId: userId
+        };
+        const r = await db_query(query1,params1) ;
+
+
+        res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId, PROFILE_PICTURE: r[0].PROFILE_PICTURE });
 });
 
 app.get('/removeWishlist/:userId/:productId', async (req, res) => {
