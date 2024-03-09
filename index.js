@@ -70,11 +70,7 @@ const {authorize, Seller_authorize,
     setUserToken,
     getUserToken} = require('./database/Query/LoginAuthorization');
  
- 
-app.get('/login', async (req, res) => {
-    res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
-}
-);
+
  
 // omi's code
 
@@ -99,6 +95,7 @@ app.get('/seller_authorize/:shopname/:shopid', async (req, res)=>
     res.render('newShopOwnerProfile', { PROFILE_PICTURE: r[0].SHOP_LOGO , SHOP_ID: r[0].SHOP_ID, PHONE : r[0].PHONE, EMAIL : r[0].EMAIL , SHOP_NAME: r[0].SHOP_NAME , DESCRIPTION: r[0].DESCRIPTION ,TOTAL_REVENUE : r[0].TOTAL_REVENUE});
 }
 );
+
  
 app.post('/seller_authorize', async (req, res)=>
 {
@@ -123,7 +120,7 @@ app.post('/seller_authorize', async (req, res)=>
             return;
         }
  
-        else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
+        else res.render('NewLogin', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
         console.log('not ok');
     }
 
@@ -1710,6 +1707,7 @@ app.get('/home/:userid', async (req, res) => {
     log(req.cookies);
     log(getUserToken(token1))
     const token = getUserToken(token1);
+    console.log(token);
 
     if (token1===undefined || token1===null  ||token==null || token.id!=id )
     {
@@ -1798,32 +1796,12 @@ app.get('/login', async (req, res) => {
     log(req.cookies);
     res.clearCookie('token');
     res.clearCookie('loggedin');
-
     res.clearCookie('userid');
-
-    res.render('index', { ctoken : 'unauthorized', stoken : 'unauthorized' })
+    
+    res.render('NewLogin',)
 });
 
 
-// app.post('/seller_authorize', async (req, res)=>
-// {
-//     console.log('post request');
-
-//         var email=req.body.username2;
-//         var password=req.body.password2;
-//         var r = await Seller_authorize(email,password);
-//         if (r.length>0) 
-//         {
-//             console.log('OK');
-//             var linkurl='/user/seller/'+r[0].SHOP_ID;
-
-//             res.redirect(linkurl);
-//             return;
-//         }
-//         else res.render('index', { ctoken : 'unauthorized', stoken : 'blocked' }) ;
-//         console.log('not ok');
-//     }
-// );
 
 
 
@@ -1852,12 +1830,12 @@ app.post('/login', async (req, res) => {
         res.cookie('loggedin', true);
         console.log('OK');
         var homeurl='/home/'+r[0].USER_ID;
-        res.redirect(homeurl);
+        res.json({ link: homeurl, success: true, userid: r[0].USER_ID});
         return;
 
 
     }
-    else res.render('index', { ctoken : 'blocked', stoken : 'unauthorized' }) ;
+    else res.json({ success: false});
     console.log('not ok');
 });
 
