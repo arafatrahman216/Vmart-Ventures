@@ -822,7 +822,7 @@ app.get('/product/:id/review', async (req, res) => {
 
 app.post('/user/:userid/review/:orderid', async (req, res) => {
     console.log('Review Post');
-    const { rating, review, productid, type} = req.body;
+    const { rating, review, productid, type, image} = req.body;
     const userid= req.params.userid;
     const orderid = req.params.orderid;
     console.log(req.body);
@@ -830,12 +830,12 @@ app.post('/user/:userid/review/:orderid', async (req, res) => {
 
     try{
         if (type==1)
-            var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, DESCRIPTION, REVIEW_ID) 
-                        VALUES (${userid}, ${productid}, ${rating}, '${review1}', ${orderid})
+            var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, DESCRIPTION, REVIEW_ID, REVIEW_IMAGE) 
+                        VALUES (${userid}, ${productid}, ${rating}, '${review1}', ${orderid}, '${image}')
                         `;
         else
             var query= `UPDATE REVIEWS
-                SET RATING = ${rating}, DESCRIPTION = '${review1}'
+                SET RATING = ${rating}, DESCRIPTION = '${review1}', REVIEW_IMAGE = '${image}'
                 WHERE USER_ID = ${userid} AND PRODUCT_ID = ${productid} AND REVIEW_ID = ${orderid}
             `;
         const params=[];
@@ -860,9 +860,13 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     const result = await axios.get(`http://localhost:5000/products/${id}`).then( async response =>{
         const product=response.data;
         var reviewquery= `SELECT * FROM REVIEWS R JOIN CUSTOMER_USER C ON R.USER_ID=C.USER_ID WHERE PRODUCT_ID = ${id}`;
+        var reviewavgquery = `SELECT AVG(RATING) AS AVERAGE FROM REVIEWS WHERE PRODUCT_ID = ${id}`;
+        var reviewavgresult= await db_query(reviewavgquery,[]);
+        console.log(reviewavgresult);
+        var rating= reviewavgresult[0].AVERAGE;
         var reviewresult= await db_query(reviewquery,[]);
         console.log(reviewresult);
-        res.render('product', { product: product , userid: userid, reviews: reviewresult});
+        res.render('product', { product: product , userid: userid, reviews: reviewresult, rating: rating.toFixed(2)});
         return;
     })
     .catch(error => {

@@ -85,7 +85,8 @@
             <% if (reviews.length == 0) { %>
                 <p>No reviews yet</p>
             <% } else { %>
-
+                <h1 style="margin-top: 20px;">Rating : <%= rating %>
+                </h1>
             <% for (var i = 0; i < reviews.length; i++) { %>
                 <div class="review">
                     <table class="table table-striped">
