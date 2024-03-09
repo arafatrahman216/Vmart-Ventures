@@ -156,8 +156,8 @@ app.post('/seller_authorize', async (req, res)=>
  
 app.get('/user/:userid', async (req, res) => {
  
-    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY
-    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = : userid)
+    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY , (SELECT BALANCE FROM E_WALLET WHERE WALLET_ID = :userid) EWALLET
+    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = :userid)
     `; 
 
     const params = {
@@ -166,7 +166,7 @@ app.get('/user/:userid', async (req, res) => {
  
     const result= await db_query(query,params); 
     console.log(result);
-    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
+    res.render('newCustomerProfile', { EWALLET:result[0].EWALLET, NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
 );   
