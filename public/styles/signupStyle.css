@@ -83,8 +83,11 @@
 }
 
 body{
-    background: linear-gradient(90deg , rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35% , rgba(0,212,255,1) 100%);
-    font-family: 'Roboto' , 'sans-serif';
+    background-image: url("../images/home/bg1.jpg");
+    background-size: cover;
+    font-family: Roboto;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 h4{
@@ -107,7 +110,7 @@ h4{
 form{
     width: 500px;
     height: 840px;
-    background: #fff;
+    background: linear-gradient(90deg , rgba(0,212,255,1) 0%, rgba(75,14,154,1) 65%, rgba(2,0,36,1) 100%);
     padding: 45px;
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
