@@ -2000,6 +2000,28 @@ app.post('/signup', async (req, res) => {
     res.redirect('/home/'+userid);
 });
 
+app.get('/admin/login', async (req, res) => {
+    console.log('get request');
+    res.render('ForgetPassword', { type: 'admin' });
+});
+
+app.post('/admin/login', async (req, res) => {
+    var email=req.body.name;
+    var password=req.body.password;
+    console.log(req.body);
+    if (email=='admin' && password=='admin')
+    {
+        res.json({ success: true });
+        return;
+    }
+    res.json({ success: false});
+    console.log('not ok');
+});
+
+app.get('/admin/home', async (req, res) => {
+    console.log('get request');
+    res.render('AdminHome');
+});
 
 
 
