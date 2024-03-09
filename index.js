@@ -1507,12 +1507,15 @@ app.get('/wishlist/:userid', async (req, res) => {
         const params = {
             userid: req.params.userid
         };
+        const user_query= `SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = ${req.params.userid}`;
+        const user_result = await db_query(user_query,[]);
+
      
         const wishlist = await db_query(query,params); 
 
         console.log(wishlist);
      
-        res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist });
+        res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist, PROFILE_PICTURE: user_result[0].PROFILE_PICTURE });
         return;
 });
 
