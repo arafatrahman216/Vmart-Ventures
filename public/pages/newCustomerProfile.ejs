@@ -154,7 +154,7 @@
 
         <div class="sidebar">
             <img src="../images/UserProfile/<%=PROFILE_PICTURE%>" alt="Your Image" class="sidebar-logo">
-
+            
             <a class="sidebar-text" href="/user/<%= userID %>">Your Profile</a>
             <a class="sidebar-text" href="/order/<%= userID %>">Order History</a>
             <a class="sidebar-text" href="/wishlist/<%= userID%>">Wishlist Products</a>
@@ -173,6 +173,8 @@
                     <label for="name"><strong>Full Name:</strong></label>
                     <input type="text" class="marginleftName" class="FormInputBox" id="name" name="name" value="<%=NAME%>" readonly>
                 </div>
+                
+                <input style="display: none;" type="text" class="marginleftName" class="FormInputBox" id="profilePic" name="profilePic" value="<%=PROFILE_PICTURE%>" readonly>
 
                 <div class="FormAttribute">
                     <label for="email"><strong>Email:</strong></label>

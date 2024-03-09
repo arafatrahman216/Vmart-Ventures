@@ -165,7 +165,7 @@ app.get('/user/:userid', async (req, res) => {
     } ;
  
     const result= await db_query(query,params); 
- 
+    console.log(result);
     res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
@@ -942,7 +942,7 @@ ON
     O.PRODUCT_ID = P.PRODUCT_ID
 WHERE 
      O.USER_ID = :userid
-     ORDER BY O.ORDER_ID DESC
+     ORDER BY O.DELIVERY_STATUS ASC, O.ORDER_ID DESC
 `; 
 
     const params = {
