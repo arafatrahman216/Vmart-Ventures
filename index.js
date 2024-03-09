@@ -948,13 +948,87 @@ WHERE
     const params = {
         userid: req.params.userid
     };
+
+    const user_info= await db_query(`SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = :userid`,params);
  
     const orderHistory = await db_query(query,params); 
     // console.log(orderHistory);
-    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory });
+    res.render('customerOrderHistory', { USER_ID: req.params.userid , orderHistory: orderHistory, PROFILE_PICTURE: user_info[0].PROFILE_PICTURE});
     return;
-}
-);
+});
+
+app.get('/forgetPassword/user', async (req, res) => {
+    res.render('ForgetPassword', {type: 'user'});
+});
+app.get('/forgetPassword/seller', async (req, res) => {
+    res.render('ForgetPassword' , {type: 'seller'});
+});
+
+
+app.post('/forgetPassword/user', async (req, res) => {
+    var {name, email, number, password}= req.body;
+    if (name=='' || (email=='' && number=='') || password=='')
+    {
+        res.json({ success: false });
+        return;
+    }
+    console.log(req.body);
+    if (email=='') email='*';
+    if (number=='') number='*';
+
+    var query = `
+        SELECT USER_ID FROM CUSTOMER_USER WHERE LOWER(NAME) = LOWER(\'${name}\') AND EMAIL = \'${email}\' 
+        UNION 
+        SELECT USER_ID FROM CUSTOMER_USER WHERE LOWER(NAME) = LOWER(\'${name}\') AND (PHONE = \'${number}\' OR PHONE = \'+88${number}\')`;
+    console.log(query);
+    var result = await db_query(query,[]);
+    if (result.length<1)
+    {
+        res.json({ success: false });
+        return;
+    }
+    var userid= result[0].USER_ID;
+    console.log(userid);
+    console.log(result);
+
+    query = `UPDATE CUSTOMER_USER SET PASSWORD = ORA_HASH(\'${password}\') WHERE USER_ID = ${userid}`;
+    result = await db_query(query,[]);
+    res.json({ success: true });
+});
+
+
+
+
+app.post('/forgetPassword/seller', async (req, res) => {
+    var {name, email, number, password}= req.body;
+    if (name=='' || (email=='' && number=='') || password=='')
+    {
+        res.json({ success: false });
+        return;
+    }
+    console.log(req.body);
+    if (email=='') email='*';
+    if (number=='') number='*';
+
+    var query = `
+        SELECT SHOP_ID FROM SELLER_USER WHERE LOWER(SHOP_NAME) =LOWER(\'${name}\') AND EMAIL = \'${email}\' 
+        UNION 
+        SELECT SHOP_ID FROM SELLER_USER WHERE LOWER(SHOP_NAME) =LOWER(\'${name}\') AND (PHONE = \'${number}\' OR PHONE = \'+88${number}\')`;
+    console.log(query);
+    var result = await db_query(query,[]);
+    if (result.length<1)
+    {
+        res.json({ success: false });
+        return;
+    }
+    var userid= result[0].SHOP_ID;
+    console.log(userid);
+    console.log(result);
+
+    query = `UPDATE SELLER_USER SET PASSWORD = \'${password}\' WHERE SHOP_ID = ${userid}`;
+    result = await db_query(query,[]);
+    res.json({ success: true });
+});
 
 
 app.get('/user/seller/:sellerid', async (req, res) => {
@@ -1644,7 +1718,14 @@ app.get('/OrderTrack/:userId', async (req, res) => {
 
         const lastOrderTrack = await db_query(query, params);
 
-        res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId });
+        const query1 = `SELECT PROFILE_PICTURE FROM CUSTOMER_USER WHERE USER_ID = :userId`;
+        const params1 = {
+            userId: userId
+        };
+        const r = await db_query(query1,params1) ;
+
+
+        res.render('OrderTrack', { OrderTrack: lastOrderTrack, USER_ID: userId, PROFILE_PICTURE: r[0].PROFILE_PICTURE });
 });
 
 app.get('/removeWishlist/:userId/:productId', async (req, res) => {
