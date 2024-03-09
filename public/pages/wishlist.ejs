@@ -23,15 +23,20 @@
         }
 
         .glass-box {
-            margin-top: 150px;
+            margin-top: 10px;
             display: flex;
             position: relative;
-            width: 900px; /* Adjust the width as needed */
-            min-height: 600px; /* Adjust the height as needed */
-            background-color: white;
-            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
-            backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
-            overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
+            width: 900px;
+            /* Adjust the width as needed */
+            min-height: 600px;
+            /* Adjust the height as needed */
+            background-color: rgb(207, 210, 211);
+            box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1);
+            /* Box shadow for the glass effect */
+            backdrop-filter: blur(1000px);
+            /* Blur for the frosted glass effect */
+            overflow: hidden;
+            /* Ensure the content does not overflow outside the glass-box */
             border-radius: 50px;
         }
 
@@ -45,7 +50,8 @@
             background-color: black;
             color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1; /* Ensure the sidebar is above the glass-box content */
+            z-index: 1;
+            /* Ensure the sidebar is above the glass-box content */
         }
 
         .sidebar-text {
@@ -70,19 +76,22 @@
         }
 
         .sidebar-logo {
-            width: 100%; /* Make the image fill the entire width of the sidebar */
-            max-height: 130px; /* Set a maximum height for the image */
-            margin-bottom: 20px; /* Adjust as needed for spacing */
+            width: 100%;
+            /* Make the image fill the entire width of the sidebar */
+            max-height: 130px;
+            /* Set a maximum height for the image */
+            margin-bottom: 20px;
+            /* Adjust as needed for spacing */
             border-radius: 50%;
         }
 
         /* Add additional styles for the table */
         .Wishlist-table {
-            flex: 1; /* Fill remaining space beside the sidebar */
+            flex: 1;
+            /* Fill remaining space beside the sidebar */
             padding: 10px;
             margin-left: 185px;
         }
-
     </style>
 </head>
 
@@ -109,29 +118,36 @@
                         <th>Product Name</th>
                         <th>Category Name</th>
                         <th>Price</th>
-                        <th>    </th>
-                        <th>    </th>
+                        <th> </th>
+                        <th> </th>
                         <!-- Add more column headers as needed -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Loop through products to generate table rows -->
-                    <% if (wishlist.length > 0) { %>
-                        <% wishlist.forEach(product => { %>
+                    <% if (wishlist.length> 0) { %>
+                        <% wishlist.forEach(product=> { %>
                             <tr>
-                                <td><%= product.PRODUCT_NAME %></td>
-                                <td><%= product.CATAGORY %></td>
-                                <td><%= product.PRICE %></td>
-                                <td><a href="/user/<%= USER_ID%>/product/<%= product.PRODUCT_ID %>">View & Order</a></td>
+                                <td>
+                                    <%= product.PRODUCT_NAME %>
+                                </td>
+                                <td>
+                                    <%= product.CATAGORY %>
+                                </td>
+                                <td>
+                                    <%= product.PRICE %>
+                                </td>
+                                <td><a href="/user/<%= USER_ID%>/product/<%= product.PRODUCT_ID %>">View & Order</a>
+                                </td>
                                 <td><a href="/removeWishlist/<%= USER_ID %>/<%= product.PRODUCT_ID%>">Remove</a></td>
                                 <!-- Add more columns as needed -->
                             </tr>
-                        <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="5">No Wishlist Products.</td>
-                        </tr>
-                    <% } %>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5">No Wishlist Products.</td>
+                                    </tr>
+                                    <% } %>
                 <tbody>
             </table>
         </div>
