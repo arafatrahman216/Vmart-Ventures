@@ -10,7 +10,11 @@
 
 
 body {
-  background: whitesmoke;
+  /* background: whitesmoke; */
+  background-image: url("../images/home/bg1.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   overflow-x: hidden;
   -ms-overflow-style: none;
   max-width: 100%;
@@ -38,6 +42,7 @@ header h1 {
   text-align: center;
   padding: 10px 10px 10px 40px;
   vertical-align: middle;
+  color: white;
 }
 header h3 {
     font-size: 36px;

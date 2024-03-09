@@ -28,25 +28,30 @@
 <div id="name-logo" style="display: block;">
     <img src="../images/login/vmart_ventures_main_black_poster.jpeg" class="banner">
     <h1>A Revolution in E-commerce</h1>
-    <a id="cart-icon" href="/user/<%= userID %>/cart">
-        <button id="cart">Cart</button>
+    <a class="class-link" href="/user/<%= userID %>/cart">
+    <div class="cart-icon">
+            <img src="../images/home/cart-icon.png" alt="cart" style="width: 40px; height: 40px; margin-bottom: 10px;">
+            <button id="cart-btn">Cart</button>
+        </div>
     </a>
     <style>
         .cart-icon {
-            width: 40px;
-            height: 50px;
-            margin-left: 80px;
-            background-color: sandybrown;
+            width: 100px;
+            height: 40px;
+            margin-left: 20vw;
+            
+            background-color: rgba(156, 56, 6, 0.652);
             box-sizing: border-box;
-            border-radius: 50%;
-            
-            
+            border-radius: 10px;
+            display: inline-block;
+            justify-content: center;
+            align-content: center;
         }
 
-        #cart {
+        #cart-btn {
             /* margin-left: 10vw; */
             margin-top: 10px;
-            color: black;
+            color: rgb(255, 255, 255);
             border: none;
             text-align: center;
             text-decoration: none;
@@ -54,11 +59,15 @@
             font-size: 16px;
             cursor: pointer;
             border-radius:40px ;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: transparent;
+            font-weight:600;
         }
 
-        #cart:hover {
-            background-color: #555;
-            color: white;
+        .cart-icon:hover {
+            background-color: sandybrown;
+            
         }
     </style>
 
