@@ -254,7 +254,7 @@ header p {
   bottom: 8px;
   padding-top: 10px;
   transform: translateX(-50%);
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .card-bottom button {
@@ -343,3 +343,28 @@ header p {
     margin-top: 70px;
   }
 }
+
+
+#cancelorder-btn{
+  background-color: #f44336;
+  color: white;
+  padding: 10px 10px;
+  margin-top: 100px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  border-radius: 20px;
+}
+
+#total{
+  background-color: #4CAF50;
+  color: rgb(10, 0, 0);
+  padding: 20px 25px;
+  margin-top: 100px;
+  border: none;
+  cursor:pointer;
+  width: 100%;
+  opacity: 0.8;
+  border-radius: 15px;
+  display: block;
+  }

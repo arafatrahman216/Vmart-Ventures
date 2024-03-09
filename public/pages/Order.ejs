@@ -60,16 +60,16 @@
     <hr>
   </div>
   <% } %>
+  <button onclick="cancelorder()" id="cancelorder-btn">Cancel Order</button>
   <div class="card-bottom">
-    <button id="cancelorder-btn" onclick="cancelorder()" >✖ CANCEL ORDER</button>
     <% var total = 0; for (let i=0; i<order.length; i++) { %>
-    <% total += order[i].TOTAL_PRICE; %>
-    <% } %>
-    <div class="total">
-      <p>Total</p>
-      <h1>$ <%= total %></h1>
+      <% total += order[i].TOTAL_PRICE; %>
+      <% } %>
+      <div class="total">
+        <p>Total</p>
+        <h1>$ <%= total %></h1>
+      </div>
     </div>
-  </div>
   <script>
     $(document).ready(function () {
       $(".card").click(function () {
@@ -83,17 +83,27 @@
 
     async function cancelorder(){
       var orderid = '<%= order[0].ORDER_ID %>';
-      var userid = <%= userid %>;
-      var url = '/cancelorder/<%=order[0].ORDER_ID%>';
+      var userid = '<%= userid %>';
+      var url = '/cancelOrder/<%=order[0].ORDER_ID%>';
       console.log(url);
-    //   var response = await fetch(url, {
-    //     method: 'GET'
-    // }).then(response => response.json()).then(data => {
-    //   if(data.status == 'success'){
-    //     alert('Order Cancelled');
-    //     window.location.href = '/home/<%= userid %>';
-    //   }
-    // });
+      var response = await fetch(url, {
+        method: 'GET'
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      if (data.success == true) {
+        window.location.href = "/order/<%= userid %>";
+      }
+      else {
+        alert('Order cannot be cancelled');
+        window.location.href = "/home/<%= userid %>";
+      }
+
+    })
+    }
+
+    var canclbtn= document.getElementById('cancelorder-btn');
+    canclbtn.addEventListener('click',cancelorder);
+
 
   </script>
 

@@ -61,10 +61,11 @@ const set_products= async (result) =>
             PRODUCT_CATAGORY : result[i].CATAGORY_NAME,
             SHOP_NAME: result[i].SHOP_NAME,
             PRODUCT_SHOP_ID : result[i].SHOP_ID,
-            // DISCOUNT : result[i].DISCOUNT_AMOUNT
+            DISCOUNT : result[i].DISCOUNT_AMOUNT
         };
         products.push(product);
     }
+    console.log(products);
     return products;
 }
 

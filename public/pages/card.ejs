@@ -31,10 +31,12 @@
                             <% } %>
                             <p style="display: block;" class="card-text"><%= SHOP_NAME %></p> 
                             <s class="striked" style="margin-left: 8px; font-size: small;" ><%= PRODUCT_PRICE %> ৳ </s> 
-                            <span class="badge bg-success" id="disc" style=" font-size: small; margin-left: 50px;">10% off</span>
+                            <% if (DISCOUNT > 0) { %>
+                            <span class="badge bg-success" id="disc" style=" font-size: small; margin-left: 50px;"><%= DISCOUNT %> % off</span>
+                            <% } %>
                         </div>
                             <div class="mb-5 d-flex justify-content-around">
-                                <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * 0.1) %> ৳</b>
+                                <b class = "price"><%= PRODUCT_PRICE - (PRODUCT_PRICE * DISCOUNT/100) %> ৳</b>
                             </a>
                             <br>
                             <% if (STOCK > 0) { %>

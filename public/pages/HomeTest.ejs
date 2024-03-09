@@ -251,7 +251,8 @@
     <% for (var i=0; i < products.length; i++) { %>
         <%- include("card", {PRODUCT_NAME: products[i].PRODUCT_NAME, SHOP_NAME: products[i].SHOP_NAME, PRODUCT_PRICE:
             products[i].PRODUCT_PRICE, image : "../images/product/" +products[i].PRODUCT_IMAGE, STOCK :
-            products[i].PRODUCT_STOCK, id : products[i].PRODUCT_ID, userid : userID, link : link}) %>
+            products[i].PRODUCT_STOCK, id : products[i].PRODUCT_ID, userid : userID, link : link,
+        DISCOUNT :products[i].DISCOUNT}) %>
 
             <% } %>
                 <script>

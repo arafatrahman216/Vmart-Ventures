@@ -1718,9 +1718,10 @@ WHERE
 });
 
 
-app.get('/cancelOrder/:orerid', async (req, res) => {
-    const orderid = req.params.orerid;
-
+app.get('/cancelOrder/:orderid', async (req, res) => {
+    const orderid = req.params.orderid;
+    console.log('cancel order');
+    console.log(req.params.orderid);
     const query = `UPDATE ORDERS
     SET DELIVERY_STATUS = 'CANCELLED'
     WHERE ORDER_ID = :orderid`;
@@ -1730,15 +1731,16 @@ app.get('/cancelOrder/:orerid', async (req, res) => {
     };
 
     const result = await db_query(query, params);
-    
-    var check_query= `SELECT COUNT(*) FROM ORDERS WHERE ORDER_ID=${orderid} AND DELIVERY_STATUS<>\'CANCELLED\' ` ;
-    if (await db_query(check_query,[]).length>0) {
+
+    var check_query= `SELECT COUNT(*) AS TOTAL FROM ORDERS WHERE ORDER_ID=${orderid} AND DELIVERY_STATUS<>\'CANCELLED\' ` ;
+    var r= await db_query(check_query,[]);
+    console.log(r[0].TOTAL);
+    if ( r[0].TOTAL >0) {
         res.json({ success: false });
         return;
     }
     res.json({success : true});
-}
-);
+});
 
 
 app.post('/updateDeliveryStatus', async (req, res) => {
