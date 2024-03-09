@@ -860,7 +860,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     const result = await axios.get(`http://localhost:5000/products/${id}`).then( async response =>{
         const product=response.data;
         var reviewquery= `SELECT * FROM REVIEWS R JOIN CUSTOMER_USER C ON R.USER_ID=C.USER_ID WHERE PRODUCT_ID = ${id}`;
-        var reviewavgquery = `SELECT AVG(RATING) AS AVERAGE FROM REVIEWS WHERE PRODUCT_ID = ${id}`;
+        var reviewavgquery = `SELECT NVL(AVG(RATING),0) AS AVERAGE FROM REVIEWS WHERE PRODUCT_ID = ${id}`;
         var reviewavgresult= await db_query(reviewavgquery,[]);
         console.log(reviewavgresult);
         var rating= reviewavgresult[0].AVERAGE;
@@ -871,7 +871,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     })
     .catch(error => {
         console.log(error);
-        res.redirect('/home/'+userid);
+        res.redirect('/user/'+userid+'/product/'+id);
     });
     
 });
