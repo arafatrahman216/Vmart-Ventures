@@ -156,8 +156,8 @@ app.post('/seller_authorize', async (req, res)=>
  
 app.get('/user/:userid', async (req, res) => {
  
-    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY
-    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = : userid)
+    const query= `SELECT C.*, A.STREET_NAME, A.POSTAL_CODE , A.CITY, A.DIVISION, A.COUNTRY , (SELECT BALANCE FROM E_WALLET WHERE WALLET_ID = :userid) EWALLET
+    FROM CUSTOMER_USER C JOIN ADDRESS A ON (C.USER_ID = A.USER_ID AND C.USER_ID = :userid)
     `; 
 
     const params = {
@@ -166,7 +166,7 @@ app.get('/user/:userid', async (req, res) => {
  
     const result= await db_query(query,params); 
     console.log(result);
-    res.render('newCustomerProfile', { NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
+    res.render('newCustomerProfile', { EWALLET:result[0].EWALLET, NAME: result[0].NAME , PHONE : result[0].PHONE  , EMAIL : result[0].EMAIL , userID : result[0].USER_ID ,  DOB : result[0].DATE_OF_BIRTH , GENDER: result[0].GENDER , PROFILE_PICTURE: result[0].PROFILE_PICTURE , STREET: result[0].STREET_NAME , POSTCODE: result[0].POSTAL_CODE , CITY: result[0].CITY , DIVISION: result[0].DIVISION , COUNTRY: result[0].COUNTRY});
     return;
 }
 );   
@@ -1287,7 +1287,7 @@ app.get('/products/:shopname/:shopid', async (req, res) => {
 
     const query = `
         SELECT * FROM PRODUCTS 
-        WHERE SHOP_ID =:shopid
+        WHERE SHOP_ID = :shopid AND STOCK_QUANTITY > 0
     `;
 
     const params = {
@@ -1353,10 +1353,39 @@ app.post('/product-details/:productid', async (req, res) => {
         productid: req.params.productid
     };
  
-    const productDetails = await db_query(query,params) ;
+    const result = await db_query(query,params) ;
+    
 
     res.redirect('/product-details/' + req.params.productid);
 
+});
+
+app.get('/delete/product/:productid', async (req, res) => {
+
+        console.log("Hello");
+    
+        const productid = req.params.productid;
+    
+        const query = `
+            UPDATE PRODUCTS
+            SET STOCK_QUANTITY = 0
+            WHERE PRODUCT_ID =:productid
+        `;
+    
+        const params = {
+            productid: req.params.productid
+        };
+    
+        const result = await db_query(query,params) ;
+
+        const query1 = 
+            `SELECT SHOP_ID , (SELECT SHOP_NAME FROM SELLER_USER S WHERE S.SHOP_ID = P.SHOP_ID) SHOP_NAME
+            FROM PRODUCTS P
+            WHERE PRODUCT_ID = :productid`;
+
+        const r = await db_query(query1,params) ;
+    
+        res.redirect('/products/' + r[0].SHOP_NAME + '/' + r[0].SHOP_ID);
 });
 
 app.get('/password/:shopname/:shopid', async (req, res) => {
@@ -1870,12 +1899,6 @@ app.get('/products/:id', async (req, res) => {
 // });
 
 
-
-
-
-
-
-
 app.get('/login', async (req, res) => {
     console.log('get request');
     const token1= await req.cookies.token;
@@ -1886,17 +1909,6 @@ app.get('/login', async (req, res) => {
     
     res.render('NewLogin',)
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.post('/login', async (req, res) => {
@@ -1940,6 +1952,7 @@ app.post('/signup', async (req, res) => {
     // res.render('home', { Name: req.body.name, Phone : req.body.phone , userID: req.body.userid, link: '/user/'+userid});
     res.redirect('/home/'+userid);
 });
+
 
 
 
