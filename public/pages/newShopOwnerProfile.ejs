@@ -71,15 +71,19 @@
         .formContent {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 340px;
+            margin-left: 310px;
         }
 
         .FormAttribute {
             padding: 7px;
         }
 
-        .FormInputBox {
-            margin-left: 10px;
+        .container .formContent .FormAttribute .FormInputBox {
+            border-radius: 20px; /* Round the corners */
+            background-color: #f0f0f0; /* Set background color */
+            border: 1px solid #ccc; /* Add a border */
+            padding: 10px; 
+            width : 100%;
         }
 
         .btn-primary {
@@ -102,22 +106,37 @@
 
         .marginleftname {
             margin-left: 40px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftemail {
             margin-left: 83px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftphone {
             margin-left: 5px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftdescription {
             margin-left: 40px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
         .marginleftrevenue {
             margin-left: 20px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
         }
 
     </style>
@@ -168,7 +187,7 @@
 
                 <div class="FormAttribute">
                     <label for="revenue"><strong>Total Revenue:</strong></label>
-                    <input type="text" class="marginleftrevenue" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>" disabled>
+                    <input type="text" class="marginleftrevenue" class="FormInputBox" id="revenue" name="revenue" value="<%= TOTAL_REVENUE %>" readonly>
                 </div>
 
                 <input type="hidden" name="shopId" value="<%= SHOP_ID %>">

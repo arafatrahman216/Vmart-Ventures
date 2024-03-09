@@ -1441,8 +1441,10 @@ app.get('/password/:shopname/:shopid', async (req, res) => {
     };
 
     const r = await db_query(query1,params1) ;
+
+    messageType = "";
         
-    res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE:r[0].SHOP_LOGO ,SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params.password });
+    res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE:r[0].SHOP_LOGO ,SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: params.password , messageType: messageType});
 });
 
 app.post('/password/:shopname/:shopid', async (req,res) => {
@@ -1473,8 +1475,10 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
     console.log(result1);
 
     if(newPassword != confirmPassword || oldPassword != result1[0].PASSWORD) {
+
+        messageType = "error";
     
-        res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!"});
+        res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid , PASSWORD: oldPassword , message: "Password changed Failed!.Review your input!" , messageType: messageType});
     } 
         
     else {
@@ -1500,8 +1504,10 @@ app.post('/password/:shopname/:shopid', async (req,res) => {
         const result = await db_query(query, params);
     
         console.log("Password Changed Successfully!");
+
+        messageType = "success";
     
-        res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid ,  PASSWORD: params.newPassword , message: "Password Changed Successfully!"});
+        res.render('ChangePasswordSellerProfile', { PROFILE_PICTURE: r[0].PROFILE_PICTURE , SHOP_NAME: shopname, SHOP_ID: shopid ,  PASSWORD: params.newPassword , message: "Password Changed Successfully!" , messageType: messageType });
     
     }
     
