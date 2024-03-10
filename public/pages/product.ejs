@@ -79,6 +79,41 @@
         </div>
     </div>
 
+    <div class="show-review-container">
+        <h1>Reviews</h1>
+        <div class="show-review">
+            <% if (reviews.length == 0) { %>
+                <p>No reviews yet</p>
+            <% } else { %>
+                <h1 style="margin-top: 20px;">Rating : <%= rating %>
+                </h1>
+            <% for (var i = 0; i < reviews.length; i++) { %>
+                <div class="review">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Review</th>
+                                <th>Rating</th>
+                                <th> Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><%= reviews[i].NAME %></td>
+                                <td><%= reviews[i].DESCRIPTION %></td>
+                                <td><%= reviews[i].RATING %></td>
+                                <td><img src="/images/product/<%= reviews[i].REVIEW_IMAGE %>" alt="Product Image" style="width: 100px; height: 100px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            <% } %>
+            <% } %>
+        </div>
+        </div>
+
     <script>
         async function addtocart(id){
             // var form = await document.createElement('form');
@@ -137,8 +172,23 @@
         }
     </script>
 
-    <!-- Bootstrap JS and additional scripts here -->
+    <style>
+        .show-review-container{
+            margin-top: 50px;
+        }
+        .show-review{
+            display: flex;
+            flex-direction: column;
+        }
+        .review{
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+        }
 
+
+
+    </style>
 </body>
 
 </html>

@@ -822,7 +822,7 @@ app.get('/product/:id/review', async (req, res) => {
 
 app.post('/user/:userid/review/:orderid', async (req, res) => {
     console.log('Review Post');
-    const { rating, review, productid, type} = req.body;
+    const { rating, review, productid, type, image} = req.body;
     const userid= req.params.userid;
     const orderid = req.params.orderid;
     console.log(req.body);
@@ -830,12 +830,12 @@ app.post('/user/:userid/review/:orderid', async (req, res) => {
 
     try{
         if (type==1)
-            var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, DESCRIPTION, REVIEW_ID) 
-                        VALUES (${userid}, ${productid}, ${rating}, '${review1}', ${orderid})
+            var query= `INSERT INTO REVIEWS (USER_ID, PRODUCT_ID, RATING, DESCRIPTION, REVIEW_ID, REVIEW_IMAGE) 
+                        VALUES (${userid}, ${productid}, ${rating}, '${review1}', ${orderid}, '${image}')
                         `;
         else
             var query= `UPDATE REVIEWS
-                SET RATING = ${rating}, DESCRIPTION = '${review1}'
+                SET RATING = ${rating}, DESCRIPTION = '${review1}', REVIEW_IMAGE = '${image}'
                 WHERE USER_ID = ${userid} AND PRODUCT_ID = ${productid} AND REVIEW_ID = ${orderid}
             `;
         const params=[];
@@ -857,15 +857,23 @@ app.get('/user/:userid/product/:id', async (req, res) => {
     const id= (req.params.id);
     const userid= (req.params.userid);
     
-    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
+    const result = await axios.get(`http://localhost:5000/products/${id}`).then( async response =>{
         const product=response.data;
-        res.render('product', { product: product , userid: userid});
+        var reviewquery= `SELECT * FROM REVIEWS R JOIN CUSTOMER_USER C ON R.USER_ID=C.USER_ID WHERE PRODUCT_ID = ${id}`;
+        var reviewavgquery = `SELECT NVL(AVG(RATING),0) AS AVERAGE FROM REVIEWS WHERE PRODUCT_ID = ${id}`;
+        var reviewavgresult= await db_query(reviewavgquery,[]);
+        console.log(reviewavgresult);
+        var rating= reviewavgresult[0].AVERAGE;
+        var reviewresult= await db_query(reviewquery,[]);
+        console.log(reviewresult);
+        res.render('product', { product: product , userid: userid, reviews: reviewresult, rating: rating.toFixed(2)});
         return;
     })
     .catch(error => {
         console.log(error);
-        res.redirect('/home/'+userid);
+        res.redirect('/user/'+userid+'/product/'+id);
     });
+    
 });
 
 app.get('/user/:userid/search/product/:name', async (req, res) => {
@@ -2042,7 +2050,45 @@ app.post('/admin/login', async (req, res) => {
 
 app.get('/admin/home', async (req, res) => {
     console.log('get request');
-    res.render('AdminHome');
+    var query = `SELECT COUNT(*) AS TOTAL_SELLER FROM SELLER_USER`;
+    var result = await db_query(query,[]);
+    var total_seller= result[0].TOTAL_SELLER;
+    query = `SELECT COUNT(*) AS TOTAL_CUSTOMER FROM CUSTOMER_USER`;
+    result = await db_query(query,[]);
+    var total_customer= result[0].TOTAL_CUSTOMER;
+    query = `SELECT COUNT(*) AS TOTAL_PRODUCT FROM PRODUCTS`;
+    result = await db_query(query,[]);
+    var total_product= result[0].TOTAL_PRODUCT;
+    query = `SELECT COUNT(*) AS TOTAL_ORDER FROM ORDERS`;
+    result = await db_query(query,[]);
+    var total_order= result[0].TOTAL_ORDER;
+    query = `SELECT P.PRODUCT_ID , P.PRODUCT_NAME , C.CATAGORY_NAME , P.PRICE , P.STOCK_QUANTITY , S.SHOP_NAME , P.PRODUCT_IMAGE,P.PROMO_CODE
+    FROM PRODUCTS P JOIN CATAGORY C ON P.CATAGORY_ID = C.CATAGORY_ID JOIN SELLER_USER S ON P.SHOP_ID = S.SHOP_ID ORDER BY P.PRODUCT_ID`;
+    result = await db_query(query,[]);
+    var products = result;
+    // console.log(products);
+    query = `SELECT * FROM CUSTOMER_USER ORDER BY USER_ID`;
+    result = await db_query(query,[]);
+    var customers = result;
+    query = `SELECT * FROM SELLER_USER ORDER BY SHOP_ID`;
+    result = await db_query(query,[]);
+    var sellers = result;
+    query = `SELECT * FROM ORDERS ORDER BY ORDER_ID`;
+    result = await db_query(query,[]);
+    var orders = result;
+    query = `SELECT * FROM LOG_TABLE ORDER BY CALL_TIME DESC`;
+    result = await db_query(query,[]);
+    var logs = result;
+    query= `SELECT COUNT(*) AS LOGTOTAL FROM LOG_TABLE`;
+    result = await db_query(query,[]);
+    var logtotal= result[0].LOGTOTAL;
+
+
+
+
+    res.render('AdminHome', { sellerno : total_seller, customerno: total_customer, productno: total_product, 
+        orderno: total_order, products: products , 
+        customers: customers, sellers: sellers , orders: orders, logs: logs, logno: logtotal});
 });
 
 
