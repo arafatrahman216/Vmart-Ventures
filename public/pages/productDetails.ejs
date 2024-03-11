@@ -15,7 +15,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: white; /* Optional: Background color for the page */
+            background-image: url("/../images/home/bg1.jpg");
+            background-size: cover;
+            font-family: Roboto;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
         .glass-box {
@@ -23,7 +27,7 @@
             position: relative;
             width: 900px; /* Adjust the width as needed */
             height: 600px; /* Adjust the height as needed */
-            background-color: white;
+            background-color: rgb(207, 210, 211);
             box-shadow: 5px 5px 5px 3px rgba(2, 4, 0, 0.1); /* Box shadow for the glass effect */
             backdrop-filter: blur(1000px); /* Blur for the frosted glass effect */
             overflow: hidden; /* Ensure the content does not overflow outside the glass-box */
@@ -67,7 +71,7 @@
         .formContent {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 240px;
+            margin-left: 340px;
         }
 
         .FormAttribute {
@@ -96,6 +100,49 @@
             margin-bottom: 20px; /* Adjust as needed for spacing */
         }
 
+        .marginleftname {
+            margin-left: 18px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftcategory {
+            margin-left: 13px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftdescription {
+            margin-left: 40px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftquantity {
+            margin-left: 15px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftprice {
+            margin-left: 85px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+        .marginleftpromocode {
+            margin-left: 30px;
+            border-radius: 25px; /* change here */
+            width: 15vw;
+            text-align: center;
+        }
+
+
     </style>
 </head>
 
@@ -122,32 +169,32 @@
                 
                 <div class="FormAttribute">
                     <label for="productname"><strong>Product Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="productname" name = "productname" value="<%= PRODUCT_NAME %>" readonly>
+                    <input type="text" class="marginleftname" class="FormInputBox" id="productname" name = "productname" value="<%= PRODUCT_NAME %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="category"><strong>Category Name:</strong></label>
-                    <input type="text" class="FormInputBox" id="category" name="category" value="<%= CATEGORY_NAME %>">
+                    <input type="text" class = "marginleftcategory" class="FormInputBox" id="category" name="category" value="<%= CATEGORY_NAME %>">
                 </div>
 
                 <div class="FormAttribute">
                     <label for="description"><strong>Description:</strong></label>
-                    <input type="text" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
+                    <input type="text" class="marginleftdescription" class="FormInputBox" id="description" name="description" value="<%= DESCRIPTION %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="quantity"><strong>Stock Quantity:</strong></label>
-                    <input type="number" class="FormInputBox" id="quantity" name="qunatity" value="<%= STOCK_QUANTITY %>" readonly>
+                    <input type="number" class="marginleftquantity" class="FormInputBox" id="quantity" name="qunatity" value="<%= STOCK_QUANTITY %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="price"><strong>Price:</strong></label>
-                    <input type="number" class="FormInputBox" id="price" name="price" value="<%= PRICE %>" readonly>
+                    <input type="number" class="marginleftprice" class="FormInputBox" id="price" name="price" value="<%= PRICE %>" readonly>
                 </div>
 
                 <div class="FormAttribute">
                     <label for="promocode"><strong>Promo Code:</strong></label>
-                    <input type="text" class="FormInputBox" id="promocode" name="promocode" value="<%= PROMO_CODE %>" readonly>
+                    <input type="text" class="marginleftpromocode" class="FormInputBox" id="promocode" name="promocode" value="<%= PROMO_CODE %>" readonly>
                 </div>
 
                 <!-- updating shop logo info will be applied here -->
