@@ -73,7 +73,7 @@
                 <% } else { %>
                     <p><strong>Stock:</strong> Out of Stock</p>
                 <% } %>
-                <button class="btn btn-primary" onclick="addtowishlist('<%=product[0].PRODUCT_ID%>')" >Add to WishList</button>
+                <button class="btn btn-primary" id="wl-btn" onclick="addtowishlist('<%=product[0].PRODUCT_ID%>')" >Add to WishList</button>
                 
             </div>
         </div>
@@ -140,6 +140,27 @@
                 }
             });
         }
+        
+        var wl_link= '/user/<%= userid %>/wishlist';
+        fetch('/user/<%= userid %>/wishlistCount/<%= product[0].PRODUCT_ID %>', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            wl_btn= document.getElementById('wl-btn');
+            if(data.WISHLIST_COUNT>0){
+                wl_btn.innerHTML= 'Remove from wishlist';
+                wl_link= '/removeWishlist/<%= userid %>/<%= product[0].PRODUCT_ID %>';
+            }
+            else{
+                wl_btn.innerHTML= 'Add to Wishlist';
+                wl_link= '/user/<%= userid %>/wishlist';
+            }
+        });
+
 
 
         async function addtowishlist(id){
@@ -149,7 +170,7 @@
             
             // document.body.appendChild(form);
             // form.submit();
-            await fetch('/user/<%= userid %>/wishlist', {
+            await fetch(wl_link, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -163,10 +184,19 @@
             .then(data => {
                 console.log(data);
                 if(data.success==true){
-                    alert('Added to wishlist');
+                    var wl_btn= document.getElementById('wl-btn');
+                    wl_btn.innerHTML= 'Add to Wishlist';
+                    wl_link= '/user/<%= userid %>/wishlist';
+                    console.log('Added to wishlist');
                 }
                 else{
-                    alert('Already in wishlist');
+                    var wl_btn= document.getElementById('wl-btn');
+                    wl_btn.innerHTML= 'Remove from wishlist';
+                    wl_link= '/removeWishlist/<%= userid %>/'+id;
+                    console.log('Removed from wishlist');
+
+
+
                 }
             });
         }

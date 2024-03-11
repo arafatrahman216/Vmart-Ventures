@@ -354,6 +354,7 @@ CREATE OR REPLACE PROCEDURE SignupInsertion(
 ) IS
     shopid NUMBER;
 BEGIN
+	insert into LOG_TABLE values('SIGNUPINSERTION',USER,SYSDATE);
     SELECT NVL(MAX(SHOP_ID), 0) + 1 INTO shopid FROM SELLER_USER;
 
     INSERT INTO SELLER_USER VALUES(shopid, email, phone, shopname, password, shoplogo, description, SYSDATE, 0);

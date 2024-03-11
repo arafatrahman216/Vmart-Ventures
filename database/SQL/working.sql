@@ -5,13 +5,12 @@
 
 
 
--- FUNCTION :2
+-- FUNCTION :3
 -- 1) CONFIRM_ORDER
 -- 2) SHOWCART
 -- 3) ADDPRODUCT
 
-
--- TRIGGER :3
+-- TRIGGER :7
 -- 1) UPDATE_PROMO_CODE
 -- 2) CONFIRM_ORDER
 -- 3) CHECKCART 
@@ -20,43 +19,33 @@
 -- 6) REVENUE
 -- 7) CANCELORDER
 
-
-
--- INSERT --  5
-
+-- INSERT --  6
 -- 1+1+1=3
 -- COMPUOUND INSERT :  3 : 1+1+1=3
 
--- DELETE --3  -- 
+-- DELETE --3  
 --  1+1+1=3
 
--- CASCADE DELETE = 1
 
--- UPDATE-- 3
-
+-- UPDATE-- 11
 --1+1+1+1+1+1+1+1+1=9
-
 --COMPOUND UPDATE 2
 --1+1=2
 
 -- BASIC
 -- 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1=17
 
--- ADVANCE QUERY : 5 TOTAL
+-- ADVANCE QUERY : 19
 --JOIN 2 (3 TABLES) : 1+1+1+1+1+1+1+1=8
 --JOIN (4 TABLE) : 1+1=2
 -- JOIN (2 TABLE) : 1+1+1+1+1+1+1+1+1=9
 
--- SUBQUERY
+-- SUBQUERY -- 6
 --  1+1+1+1+1+1=6
 
---SET
+--SET--2
 -- 1+1=2
 
---PL SQL
-
+--PL SQL--4
 -- 1+1+1+1=4
 
-
-
--------------------

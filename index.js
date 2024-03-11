@@ -493,7 +493,7 @@ app.get('/user/:userid/confirmation', async (req, res) => {
         console.log('Confirmation Get');
         const orderid = req.query.orderid;
 
-        const query= `SELECT 
+    const query = `SELECT 
         O.ORDER_ID, 
         O.TOTAL_PRICE,
         O.PAYMENT_TYPE,
@@ -505,7 +505,6 @@ app.get('/user/:userid/confirmation', async (req, res) => {
         S.SHOP_ID,
         O.CONFIRMATION_TIME,
         O.USER_ID
-
         FROM ORDERS O JOIN PRODUCTS P ON O.PRODUCT_ID=P.PRODUCT_ID JOIN SELLER_USER S ON S.SHOP_ID= P.SHOP_ID WHERE O.ORDER_ID = ${orderid}`;
         const params=[];
         const result= await db_query(query,params);
@@ -866,6 +865,7 @@ app.get('/user/:userid/product/:id', async (req, res) => {
         var rating= reviewavgresult[0].AVERAGE;
         var reviewresult= await db_query(reviewquery,[]);
         console.log(reviewresult);
+
         res.render('product', { product: product , userid: userid, reviews: reviewresult, rating: rating.toFixed(2)});
         return;
     })
@@ -1652,6 +1652,7 @@ app.get('/wishlist/:userid', async (req, res) => {
         const wishlist = await db_query(query,params); 
 
         console.log(wishlist);
+        
      
         res.render('wishlist', { USER_ID: req.params.userid , wishlist: wishlist, PROFILE_PICTURE: user_result[0].PROFILE_PICTURE });
         return;
@@ -1676,7 +1677,9 @@ app.post('/user/:userid/wishlist', async (req, res) =>{
     var query = `INSERT INTO WISHLIST VALUES(${userid} , ${productid})` ;
     console.log(query);
     var result = await db_query(query, []);
-    res.json({ productid: productid, userid: userid, success: true });
+    
+
+    res.json({ productid: productid, userid: userid, success: false });
 });
 
 
@@ -1853,25 +1856,47 @@ app.get('/removeWishlist/:userId/:productId', async (req, res) => {
 
 });
 
+app.post('/removeWishlist/:userId/:productId', async (req, res) => {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
 
+    const query = `DELETE FROM WISHLIST
+    WHERE USER_ID = :userId AND PRODUCT_ID = :productId`;
 
-app.get('/user/:userid/product/:id', async (req, res) => {
-    // console.log('get request');
-    const id= (req.params.id);
-    const userid= (req.params.userid);
-    
-    const result = await axios.get(`http://localhost:5000/products/${id}`).then(response => {
-        const product=response.data;
-        res.render('product', { product: product , userid: userid});
-        return;
-    })
+    const params = {
+        userId: userId,
+        productId: productId
+    };
 
-    .catch(error => {
-        console.log(error);
-        res.redirect(`/home/`+id);
-    });
+    const result = await db_query(query, params);
+
+    // app.get('/wishlist/:userid', async (req, res) => {
+    res.json({ success: true });
 
 });
+
+app.get('/user/:userid/wishlistCount/:productid', async (req, res) => {
+    const userId = req.params.userid;
+
+    const query = `SELECT COUNT(*) AS WISHLIST_COUNT
+    FROM WISHLIST
+    WHERE USER_ID = :userId AND PRODUCT_ID = :productId`;
+
+    const params = {
+        userId: userId,
+        productId: req.params.productid
+    };
+
+    const result = await db_query(query, params);
+
+    res.json(result[0]);
+
+}
+);
+
+
+
+
 // app.post('/addproducts/:shopname/:shopid', async (req, res) => {
 
 //       const { productname, productDescrip, productPrice, productQuantity, promoCode } = req.body;

@@ -106,7 +106,7 @@
             var rating = document.getElementById('rating').value;
             var orderid = '<%= order.ORDER_ID %>';
             var productid = '<%= productid %>';
-            var image = document.getElementById('file').files[0];
+            var image = document.getElementById('file').files[0].name;
             console.log(image);
             console.log(orderid);
             console.log(productid);
